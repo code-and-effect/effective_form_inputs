@@ -1,5 +1,7 @@
 # Effective Form Inputs
 
+This gem is in active development and should be considered BETA
+
 The purpose of this gem is to house a whole bunch of Javascript form inputs that can then be all at once brought into a Rails app
 
 Each form input will be a Rails FormBuilder and a simple_form input
