@@ -20,17 +20,11 @@ module Inputs
         end
       end
 
-      private
-
       def options
-        (@opts || {}).tap do |options|
-
-          unless (options['data-input-js-options'][:format].present? rescue false)
+        super do |options|
+          unless options['data-input-js-options'][:format].present?
             options[:pattern] = '\d{4}-\d{2}-\d{2} \d+:\d{2} [A-Z]{2}'
           end
-
-          merge_class_options!(options)
-          merge_input_js_options!(options)
         end
       end
 
