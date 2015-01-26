@@ -11,7 +11,7 @@ module Inputs
         @opts = opts
       end
 
-      def default_input_js_options
+      def default_js_options
         {:format => 'YYYY-MM-DD h:mm A', :sideBySide => true}
       end
 
@@ -36,9 +36,8 @@ module Inputs
         @object.send(@method)
       end
 
-
       def options
-        (opts || {}).tap do |options|
+        @field_options ||= (@opts || {}).tap do |options|
 
           # Add appropriate classes
           [:effective_date_time_picker, :datetime].each do |c|
@@ -55,10 +54,22 @@ module Inputs
             options[:pattern] = '\d{4}-\d{2}-\d{2} \d+:\d{2} [A-Z]{2}'
           end
 
-          # JSify the options
-          options['data-input-js-options'] = (JSON.generate(options['data-input-js-options']) rescue {}) if options['data-input-js-options']
+          merged_input_js_options(options)
         end
       end
+
+      def merged_class_options(*classes)
+
+      end
+
+      def merged_input_js_options(opts)
+        (opts || {}).tap do |options|
+          options['data-input-js-options'] = (
+            JSON.generate((default_js_options || {}).merge(options['data-input-js-options'] || {})) rescue {}
+          )
+        end
+      end
+
     end
   end
 end
