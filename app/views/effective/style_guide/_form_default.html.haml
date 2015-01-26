@@ -1,0 +1,4 @@
+/ this gives me a mechanism to test the inputs easily on a site with effective style_guide installed
+
+= form_for Effective::StyleGuide.new(), :url => '/' do |f|
+  = f.effective_date_time_picker :updated_at

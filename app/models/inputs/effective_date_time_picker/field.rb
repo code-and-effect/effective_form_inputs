@@ -1,0 +1,58 @@
+module Inputs
+  module EffectiveDateTimePicker
+    class Field
+      delegate :content_tag, :text_field_tag, :to => :@template
+
+      def initialize(object, object_name, template, method, opts)
+        @object = object
+        @object_name = object_name
+        @template = template
+        @method = method
+        @opts = opts
+      end
+
+      def to_html
+        content_tag(:div, :class => 'input-group') do
+          content_tag(:span, :class => 'input-group-addon') do
+            content_tag(:i, '', :class => 'glyphicon glyphicon-calendar').html_safe
+          end +
+          text_field_tag(field_name, value, options)
+        end
+      end
+
+      private
+
+      # These two are for the text field
+
+      def field_name
+        @object_name + "[#{@method}]"
+      end
+
+      def value
+        val = @object.send(@method)
+      end
+
+      def options
+        (@opts || {}).tap do |options|
+
+          [:effective_date_time_picker, :datetime].each do |c|
+            if options[:class].blank?
+              options[:class] = c.to_s
+            elsif options[:class].kind_of?(Array)
+              options[:class] << c unless options[:class].include?(c)
+            elsif options[:class].kind_of?(String)
+              options[:class] << (' ' + c.to_s) unless options[:class].include?(c.to_s)
+            end
+          end
+
+          unless (options['data-input-js-options'][:format].present? rescue false)
+            options[:pattern] = '\d{4}-\d{2}-\d{2} \d+:\d{2} [A-Z]{2}'
+          end
+
+          options['data-input-js-options'] = (JSON.generate(options['data-input-js-options']) rescue {}) if options['data-input-js-options']
+        end
+      end
+    end
+  end
+end
+
