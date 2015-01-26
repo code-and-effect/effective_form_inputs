@@ -1,5 +1,5 @@
 module Effective
-  class FormField
+  class FormInputField
 
     def initialize(object, object_name, template, method, opts)
       @object = object

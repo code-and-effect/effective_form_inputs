@@ -1,6 +1,6 @@
 module Inputs
   module EffectiveDateTimePicker
-    class Field < Effective::FormField
+    class Field < Effective::FormInputField
       delegate :content_tag, :text_field_tag, :to => :@template
 
       def default_input_js_options
