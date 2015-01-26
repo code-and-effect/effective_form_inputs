@@ -11,6 +11,10 @@ module Inputs
         @opts = opts
       end
 
+      def default_input_js_options
+        {:format => 'YYYY-MM-DD h:mm A', :sideBySide => true}
+      end
+
       def to_html
         content_tag(:div, :class => 'input-group') do
           content_tag(:span, :class => 'input-group-addon') do
@@ -29,12 +33,14 @@ module Inputs
       end
 
       def value
-        val = @object.send(@method)
+        @object.send(@method)
       end
 
-      def options
-        (@opts || {}).tap do |options|
 
+      def options
+        (opts || {}).tap do |options|
+
+          # Add appropriate classes
           [:effective_date_time_picker, :datetime].each do |c|
             if options[:class].blank?
               options[:class] = c.to_s
@@ -49,6 +55,7 @@ module Inputs
             options[:pattern] = '\d{4}-\d{2}-\d{2} \d+:\d{2} [A-Z]{2}'
           end
 
+          # JSify the options
           options['data-input-js-options'] = (JSON.generate(options['data-input-js-options']) rescue {}) if options['data-input-js-options']
         end
       end
