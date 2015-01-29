@@ -1,44 +1,104 @@
 # Effective Form Inputs
 
-This gem is in active development and should be considered BETA
+Multiple custom Rails Form Helper and SimpleForm inputs in one Rails engine.
 
-The purpose of this gem is to house a whole bunch of Javascript form inputs that can then be all at once brought into a Rails app
+This gem contains numerous custom form inputs along with their Javascript/CSS assets.
 
-Each form input will be a Rails FormBuilder and a simple_form input
+Each included form input is available to both the default Rails Form Helper and SimpleForm.
 
-Right now there's just one form input -- the bootstrap3 datepicker
+Rails 3.2.x and 4.x
 
-## Installation
+Right now there's just one form input.  This will grow.
 
-bundle install the gem
+## Getting Started
 
-No rails generater to run
+Add to your Gemfile:
 
-If you want to use all inputs:
+```ruby
+gem 'effective_form_inputs'
+```
 
+Run the bundle command to install it:
+
+```console
+bundle install
+```
+
+### Install All Form Inputs
+
+This gem packages the javascript/css assets for numerous form inputs.
+
+The assets for these inputs may be included all at once or individually.
+
+To install all available inputs, add the following to your application.js:
+
+```ruby
 //= require effective_form_inputs
-@import 'effective_form_inputs';
+```
 
-Or just one:
+and add the following to your application.css:
 
+```ruby
+*= require effective_form_inputs
+```
+
+All of the included form inputs will now be available with no additional installation tasks.
+
+
+## Bootstrap3 DateTimePicker
+
+This custom form input is based on the following awesome project:
+
+Bootstrap 3 Datepicker (https://github.com/Eonasdan/bootstrap-datetimepicker)
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
 //= require effective_date_time_picker/input
-@import 'effective_date_time_picker/input';
+```
 
-## Bootstrap3 Datepicker
+and add the following to your application.css:
 
-https://github.com/Eonasdan/bootstrap-datetimepicker
+```ruby
+*= require effective_date_time_picker/input
+```
 
-As a rails FormBuilder
+### Usage
 
-= f.effective_date_time_picker :updated_at
+As a Rails Form Helper input:
 
-As a SimpleForm input
+```ruby
+= form_for @user do |f|
+  = f.effective_date_time_picker :updated_at
+```
 
-= f.input :updated_at, :as => :effective_date_time_picker
+and as a SimpleForm input:
 
-## TODO
+```ruby
+= simple_form_for @user do |f|
+  = f.input :updated_at, :as => :effective_date_time_picker
+```
 
-Write a proper README.
+### Passing Options to JavaScript
+
+Any options passed to the form input will be used to initialize the Bootstrap3 DateTimePicker
+
+For example (and this works just the same with the SimpleForm input):
+
+```ruby
+= form_for @user do |f|
+  = f.effective_date_time_picker :updated_at, :format => 'YYYY-MM-DD', :showTodayButton => true
+```
+
+For a full list of options, please refer to:
+
+http://eonasdan.github.io/bootstrap-datetimepicker/Options/
+
 
 ## License
 
@@ -49,16 +109,9 @@ Code and Effect is the product arm of [AgileStyle](http://www.agilestyle.com/), 
 
 ## Credits
 
+The authors of this gem are not associated with any of the awesome projects used in this gem.
 
-## Testing
-
-The test suite for this gem is unfortunately not yet complete.
-
-Run tests by:
-
-```ruby
-rake spec
-```
+We are just extending these existing community projects for ease of use with Rails Form Helper and SimpleForm
 
 
 ## Contributing
