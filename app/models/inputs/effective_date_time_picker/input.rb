@@ -1,14 +1,14 @@
 module Inputs
-  module EffectiveDatePicker
-    class Field < Effective::FormInputField
+  module EffectiveDateTimePicker
+    class Input < Effective::FormInput
       delegate :content_tag, :text_field_tag, :to => :@template
 
       def default_input_js_options
-        {:format => 'YYYY-MM-DD'}
+        {:format => 'YYYY-MM-DD h:mm A', :sideBySide => true}
       end
 
       def default_input_classes
-        [:effective_date_picker, :date]
+        [:effective_date_time_picker, :datetime]
       end
 
       def to_html
@@ -23,7 +23,7 @@ module Inputs
       def options
         super do |options|
           unless options['data-input-js-options'][:format].present?
-            options[:pattern] = '\d{4}-\d{2}-\d{2}'
+            options[:pattern] = '\d{4}-\d{2}-\d{2} \d+:\d{2} [A-Z]{2}'
           end
         end
       end

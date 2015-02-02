@@ -8,7 +8,7 @@ if defined?(SimpleForm)
       options = merge_wrapper_options(input_html_options, wrapper_options) || {}
       options['data-input-js-options'] = input_options.reject { |k, _| EffectiveFormInputs::REJECTED_INPUT_JS_OPTIONS.include?(k) }
 
-      Inputs::EffectiveDateTimePicker::Field.new(object, object_name, template, attribute_name, options).to_html
+      Inputs::EffectiveDateTimePicker::Input.new(object, object_name, template, attribute_name, options).to_html
     end
   end
 

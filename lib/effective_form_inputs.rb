@@ -1,4 +1,3 @@
-require "effective_form_inputs/form_inputs"
 require "effective_form_inputs/engine"
 require "effective_form_inputs/version"
 

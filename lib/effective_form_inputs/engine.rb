@@ -6,7 +6,7 @@ module EffectiveFormInputs
 
     initializer 'effective_orders.action_view' do |app|
       ActiveSupport.on_load :action_view do
-        ActionView::Helpers::FormBuilder.send(:include, EffectiveFormInputs::FormInputs)
+        ActionView::Helpers::FormBuilder.send(:include, Effective::FormBuilderInputs)
       end
     end
 

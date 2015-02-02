@@ -1,11 +1,11 @@
-module EffectiveFormInputs
-  module FormInputs
+module Effective
+  module FormBuilderInputs
     def effective_date_time_picker(method, options = {})
-      Inputs::EffectiveDateTimePicker::Field.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
+      Inputs::EffectiveDateTimePicker::Input.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
     end
 
     def effective_date_picker(method, options = {})
-      Inputs::EffectiveDatePicker::Field.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
+      Inputs::EffectiveDatePicker::Input.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
     end
 
     private
