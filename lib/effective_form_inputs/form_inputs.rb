@@ -4,6 +4,10 @@ module EffectiveFormInputs
       Inputs::EffectiveDateTimePicker::Field.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
     end
 
+    def effective_date_picker(method, options = {})
+      Inputs::EffectiveDatePicker::Field.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
+    end
+
     private
 
     def merged_input_js_options(options)
