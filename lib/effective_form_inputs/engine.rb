@@ -7,14 +7,6 @@ module EffectiveFormInputs
     initializer 'effective_orders.action_view' do |app|
       ActiveSupport.on_load :action_view do
         ActionView::Helpers::FormBuilder.send(:include, EffectiveFormInputs::FormInputs)
-
-        # Going to have to add each custom namespace to SimpleForm
-        if defined?(SimpleForm)
-          SimpleForm.setup do |config|
-            config.custom_inputs_namespaces << 'EffectiveDateTimePicker'
-          end
-        end
-
       end
     end
 

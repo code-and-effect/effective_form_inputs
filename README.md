@@ -84,21 +84,98 @@ and as a SimpleForm input:
   = f.input :updated_at, :as => :effective_date_time_picker
 ```
 
-### Passing Options to JavaScript
+### Options
 
-Any options passed to the form input will be used to initialize the Bootstrap3 DateTimePicker
-
-For example (and this works just the same with the SimpleForm input):
+The default options used to initialize this form input are as follows:
 
 ```ruby
-= form_for @user do |f|
-  = f.effective_date_time_picker :updated_at, :format => 'YYYY-MM-DD', :showTodayButton => true
+:format => 'YYYY-MM-DD h:mm A', :sideBySide => true
 ```
 
 For a full list of options, please refer to:
 
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
+
+## Bootstrap3 DatePicker
+
+This custom form input is based on the following awesome project:
+
+Bootstrap 3 Datepicker (https://github.com/Eonasdan/bootstrap-datetimepicker)
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_date_picker/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_date_picker/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_date_picker :started_on
+```
+
+and as a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :started_on, :as => :effective_date_picker
+```
+
+### Options
+
+The default options used to initialize this form input are as follows:
+
+```ruby
+:format => 'YYYY-MM-DD'
+```
+
+For a full list of options, please refer to:
+
+http://eonasdan.github.io/bootstrap-datetimepicker/Options/
+
+
+## Passing Options to JavaScript
+
+All appropriate options passed to any effective_form_input will be used to initialize the Javascript library
+
+For example:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_date_time_picker :updated_at, :format => 'dddd, MMMM Do YYYY', :showTodayButton => true
+```
+
+or
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :updated_at, :as => :effective_date_time_picker, :format => 'dddd, MMMM Do YYYY', :showTodayButton => true
+```
+
+will result in the following call to the Javascript library:
+
+```coffee
+$('input.effective_date_time_picker').datetimepicker
+  format: 'dddd, MMMM Do YYYY',
+  showTodayButton: true
+```
+
+Any option not recognized as a Rails Form Helper or SimpleForm option will be passed in this way to Javascript.
 
 ## License
 
