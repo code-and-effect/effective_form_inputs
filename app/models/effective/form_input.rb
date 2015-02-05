@@ -14,7 +14,7 @@ module Effective
     end
 
     def value
-      @object.send(@method)
+      options[:value] || @object.send(@method)
     end
 
     def default_input_js_options; {} end
@@ -29,6 +29,7 @@ module Effective
 
           merge_class_options!(options)
           merge_input_js_options!(options)
+          options.delete('data-input-js-options') if options['data-input-js-options'] == '{}'
         end
       )
     end
