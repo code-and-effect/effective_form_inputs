@@ -149,6 +149,37 @@ For a full list of options, please refer to:
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
 
+## Static Control
+
+A bootstrap3 Static control input
+
+Renders `<p class='form-control-static'>value</p>` with the appropriate SimpleForm wrappings.
+
+### Installation
+
+There are no installation steps required for this form input
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_static_control :member_id
+```
+
+and as a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :member_id, :as => :effective_static_control
+```
+
+### Options
+
+There are no options for this form input
+
+
 ## Passing Options to JavaScript
 
 All appropriate options passed to any effective_form_input will be used to initialize the Javascript library
