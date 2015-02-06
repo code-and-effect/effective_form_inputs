@@ -24,10 +24,10 @@ module Effective
       @form_field_options ||= (
         (@opts || {}).tap do |options|
           options['data-input-js-options'] = {} unless options['data-input-js-options'].kind_of?(Hash)
+          merge_class_options!(options)
 
           yield(options) if block_given?
 
-          merge_class_options!(options)
           merge_input_js_options!(options)
           options.delete('data-input-js-options') if options['data-input-js-options'] == '{}'
         end

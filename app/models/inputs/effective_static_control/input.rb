@@ -8,13 +8,14 @@ module Inputs
       end
 
       def to_html
-        if options[:class].kind_of?(Array)
-          options[:class].delete('form-control')
-        elsif options[:class].kind_of?(String)
-          options[:class].gsub!('form-control', '')
-        end
-
         content_tag(:p, value, options)
+      end
+
+      def options
+        super do |options|
+          options[:class].delete('form-control') if options[:class].kind_of?(Array)
+          options[:class].delete!('form-control') if options[:class].kind_of?(String)
+        end
       end
 
     end
