@@ -10,11 +10,11 @@ module Effective
     end
 
     def field_name
-      @object_name + "[#{@method}]"
+      "#{@object_name}[#{@method}]"
     end
 
     def value
-      options[:value] || @object.send(@method)
+      options[:value] || (@object.send(@method) if @object.respond_to?(@method))
     end
 
     def default_input_js_options; {} end
