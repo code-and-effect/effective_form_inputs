@@ -5,8 +5,10 @@ module EffectiveFormInputs
     config.autoload_paths += Dir["#{config.root}/app/models/**/"]
 
     initializer 'effective_orders.action_view' do |app|
-      ActiveSupport.on_load :action_view do
-        ActionView::Helpers::FormBuilder.send(:include, Effective::FormBuilderInputs)
+      Rails.application.config.to_prepare do
+        ActiveSupport.on_load :action_view do
+          ActionView::Helpers::FormBuilder.send(:include, Effective::FormBuilderInputs)
+        end
       end
     end
 

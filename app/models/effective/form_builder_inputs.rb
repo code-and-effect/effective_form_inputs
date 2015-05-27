@@ -12,6 +12,13 @@ module Effective
       Inputs::EffectiveStaticControl::Input.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
     end
 
+    def effective_select(method, options_tag = nil, options = {})
+      options[:collection] = options_tag
+      options[:label_method] = :to_s
+      options[:value_method] = :to_s
+      Inputs::EffectiveSelect::Input.new(@object, @object_name, @template, method, merged_input_js_options(options)).to_html
+    end
+
     private
 
     def merged_input_js_options(options)
