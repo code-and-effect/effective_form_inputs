@@ -45,7 +45,7 @@ and add the following to your application.css:
 All of the included form inputs will now be available with no additional installation tasks.
 
 
-## Bootstrap3 DateTimePicker
+## Effective Date Time Picker
 
 This custom form input is based on the following awesome project:
 
@@ -97,7 +97,7 @@ For a full list of options, please refer to:
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
 
-## Bootstrap3 DatePicker
+## Effective Date Picker
 
 This custom form input is based on the following awesome project:
 
@@ -149,7 +149,7 @@ For a full list of options, please refer to:
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
 
-## Static Control
+## Effective Static Control
 
 A bootstrap3 Static control input
 
@@ -178,6 +178,77 @@ and as a SimpleForm input:
 ### Options
 
 There are no options for this form input
+
+
+
+## Effective Select
+
+This custom form input is based on the following awesome project:
+
+Select2 (https://select2.github.io/)
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_select/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_select/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_select :category, 10.times.map { |x| "Category #{x}"}
+  = f.effective_select :categories, 10.times.map { |x| "Category #{x}"}, :multiple => true
+  = f.effective_select :categories, 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
+```
+
+and as a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :category, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}
+  = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true
+  = f.input :categores, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
+```
+
+### Modes
+
+The standard mode is equivelant to `:multiple => false` and is a replacement for the default single select box.
+
+Passing `:multiple => true` will allow multiple selections to be made.
+
+Passing `:multiple => true, :tags => true` will allow multiple selections to be made, and new value options to be created.  This will allow you to select one or more tags and create tags in the same form control.
+
+
+### Options
+
+The default options used to initialize this form input are as follows:
+
+```ruby
+:allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
+```
+
+For a full list of options, please refer to:
+
+https://select2.github.io/options.html
+
+
+### AJAX Support
+
+There is currently no support for using AJAX to load remote data.  This feature is supported by the underlying select2 library and will be implemented here at a future point.
 
 
 ## Passing Options to JavaScript
