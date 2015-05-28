@@ -241,6 +241,20 @@ The default options used to initialize this form input are as follows:
 :allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
 ```
 
+### Interesting Available Options
+
+To limit the number of items that can be selected in a multiple select box:
+
+```ruby
+:maximumSelectionLength => 2
+```
+
+To hide the search box:
+
+```ruby
+:minimumResultsForSearch => 'Infinity'
+```
+
 For a full list of options, please refer to:
 
 https://select2.github.io/options.html
