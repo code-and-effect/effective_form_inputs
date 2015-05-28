@@ -221,12 +221,12 @@ and as a SimpleForm input:
 = simple_form_for @user do |f|
   = f.input :category, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}
   = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true
-  = f.input :categores, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
+  = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
 ```
 
 ### Modes
 
-The standard mode is equivelant to `:multiple => false` and is a replacement for the default single select box.
+The standard mode is a replacement for the default single select box.
 
 Passing `:multiple => true` will allow multiple selections to be made.
 
@@ -239,6 +239,7 @@ The default options used to initialize this form input are as follows:
 
 ```ruby
 :allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
+:tokenSeparators => [',', ' ']
 ```
 
 ### Interesting Available Options
