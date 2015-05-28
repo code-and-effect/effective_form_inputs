@@ -8,6 +8,10 @@ if defined?(SimpleForm)
       label_method, value_method = detect_collection_methods
 
       options = merge_wrapper_options(input_html_options, wrapper_options) || {}
+
+      # This gives us multiple and include_blank properly
+      options.merge!(input_options.select { |k, _| EffectiveFormInputs::REJECTED_INPUT_JS_OPTIONS.include?(k) })
+
       options['data-input-js-options'] = input_options.reject { |k, _| EffectiveFormInputs::REJECTED_INPUT_JS_OPTIONS.include?(k) }
 
       options[:collection] = collection
