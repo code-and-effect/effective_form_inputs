@@ -4,7 +4,7 @@ module Inputs
       delegate :collection_select, :to => :@template
 
       def default_input_js_options
-        {:minimumResultsForSearch => 6, :tokenSeparators => [',', ' '], :width => 'style'}
+        {:theme => 'bootstrap', :minimumResultsForSearch => 6, :tokenSeparators => [',', ' '], :width => 'style'}
       end
 
       def default_input_classes

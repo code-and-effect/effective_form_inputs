@@ -1,3 +1,12 @@
-.select2-container {
-  display: block;
+// These are overrides from the bootstrap-theme
+
+.select2-container--bootstrap .select2-selection--single span.select2-selection__clear {
+  margin-top: -1px;
+  margin-right: 0px;
+}
+
+.form-group {
+  .select2-container--bootstrap {
+    min-width: 178px;
+  }
 }
