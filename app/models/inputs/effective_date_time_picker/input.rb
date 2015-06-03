@@ -12,6 +12,10 @@ module Inputs
       end
 
       def to_html
+        if options.delete(:input_group) == false
+          return text_field_tag(field_name, value, options)
+        end
+
         content_tag(:div, :class => 'input-group') do
           content_tag(:span, :class => 'input-group-addon') do
             content_tag(:i, '', :class => 'glyphicon glyphicon-calendar').html_safe
