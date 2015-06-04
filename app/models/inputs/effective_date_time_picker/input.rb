@@ -16,9 +16,9 @@ module Inputs
           return text_field_tag(field_name, value, tag_options)
         end
 
-        content_tag(:div, :class => 'input-group') do
-          content_tag(:span, :class => 'input-group-addon') do
-            content_tag(:i, '', :class => 'glyphicon glyphicon-calendar').html_safe
+        content_tag(:div, class: 'input-group') do
+          content_tag(:span, class: 'input-group-addon') do
+            content_tag(:i, '', class: 'glyphicon glyphicon-calendar').html_safe
           end +
           text_field_tag(field_name, value, tag_options)
         end

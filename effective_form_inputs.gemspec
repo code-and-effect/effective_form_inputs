@@ -19,7 +19,4 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", [">= 3.2.0"]
   s.add_dependency "simple_form", [">= 3.1.0"]
-
-  # s.add_development_dependency "rspec-rails"
-  # s.add_development_dependency "sqlite3"
 end

@@ -14,8 +14,6 @@ module Effective
 
     def effective_select(method, options_tag = nil, options = {}, html_options = {})
       options[:collection] = options_tag
-      options[:label_method] = :to_s if options[:label_method].nil?
-      options[:value_method] = :to_s if options[:value_method].nil?
       Inputs::EffectiveSelect::Input.new(@object, @object_name, @template, method, options, html_options).to_html
     end
   end
