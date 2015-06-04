@@ -8,8 +8,6 @@ Each included form input is available to both the default Rails Form Helper and 
 
 Rails 3.2.x and 4.x
 
-Right now there's just one form input.  This will grow.
-
 ## Getting Started
 
 Add to your Gemfile:
@@ -93,7 +91,7 @@ As a SimpleForm input without the input group (calendar glyphicon)
 
 ### Options
 
-The default options used to initialize this form input are as follows:
+The default `:input_js => options` used to initialize this form input are as follows:
 
 ```ruby
 :input_js => {:format => 'YYYY-MM-DD h:mm A', :sideBySide => true}
@@ -152,7 +150,7 @@ As a SimpleForm input without the input group (calendar glyphicon)
 
 ### Options
 
-The default options used to initialize this form input are as follows:
+The default `:input_js => options` used to initialize this form input are as follows:
 
 ```ruby
 :input_js => {:format => 'YYYY-MM-DD'}
@@ -191,7 +189,7 @@ As a SimpleForm input:
 
 ### Options
 
-There are no options for this form input
+There are no default options for this form input
 
 
 ## Effective Select
@@ -243,7 +241,7 @@ The standard mode is a replacement for the default single select box.
 
 Passing `:multiple => true` will allow multiple selections to be made.
 
-Passing `:multiple => true, :tags => true` will allow multiple selections to be made, and new value options to be created.  This will allow you to select one or more tags and create tags in the same form control.
+Passing `:multiple => true, :tags => true` will allow multiple selections to be made, and new value options to be created.  This will allow you to both select existing tags and create new tags in the same form control.
 
 
 ### Options
@@ -251,12 +249,14 @@ Passing `:multiple => true, :tags => true` will allow multiple selections to be 
 The default `:input_js => options` used to initialize this form input are as follows:
 
 ```ruby
-:theme => 'bootstrap'
-:minimumResultsForSearch => 6
-:tokenSeparators => [',', ' ']
-:width => 'style'
-:placeholder => 'Please choose'
-:allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
+{
+  :theme => 'bootstrap',
+  :minimumResultsForSearch => 6,
+  :tokenSeparators => [',', ' '],
+  :width => 'style',
+  :placeholder => 'Please choose',
+  :allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
+}
 ```
 
 ### Interesting Available Options
@@ -309,8 +309,6 @@ $('input.effective_date_time_picker').datetimepicker
   showTodayButton: true
 ```
 
-Any option not recognized as a Rails Form Helper or SimpleForm option will be passed in this way to Javascript.
-
 ## License
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
@@ -320,9 +318,9 @@ Code and Effect is the product arm of [AgileStyle](http://www.agilestyle.com/), 
 
 ## Credits
 
-The authors of this gem are not associated with any of the awesome projects used in this gem.
+The authors of this gem are not associated with any of the awesome projects used by this gem.
 
-We are just extending these existing community projects for ease of use with Rails Form Helper and SimpleForm
+We are just extending these existing community projects for ease of use with Rails Form Helper and SimpleForm.
 
 
 ## Contributing
@@ -333,4 +331,3 @@ We are just extending these existing community projects for ease of use with Rai
 4. Push to the branch (`git push origin my-new-feature`)
 5. Bonus points for test coverage
 6. Create new Pull Request
-
