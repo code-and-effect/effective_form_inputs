@@ -1,16 +1,19 @@
 / this gives me a mechanism to test the inputs easily on a site with effective style_guide installed
 
 = form_for Effective::StyleGuide.new(:category => 'Category 2'), :url => '/' do |f|
-  = f.date_field :updated_at, :class => 'my-class'
-  = f.effective_date_picker :updated_at, :class => 'my-class'
-  %hr
-  = f.datetime_field :updated_at
-  = f.effective_date_time_picker :updated_at
-  %hr
-  = f.select :category, 10.times.map { |x| "Category #{x}"}, {:include_blank => true}, {:class => 'my-class'}
-  = f.effective_select :category, 10.times.map { |x| "Category #{x}"}, {:include_blank => true}, {:class => 'my-class'}
-  %hr
-  = f.effective_static_control :static_text, :value => 'this is static control value', :class => 'my-class'
+  / = f.date_field :updated_at, :class => 'my-class'
+  / = f.effective_date_picker :updated_at, :class => 'my-class'
+  / %hr
+  / = f.datetime_field :updated_at
+  / = f.effective_date_time_picker :updated_at
+  / %hr
+  / = f.select :category, 10.times.map { |x| "Category #{x}"}, {:include_blank => true}, {:class => 'my-class'}
+  / = f.effective_select :category, 10.times.map { |x| "Category #{x}"}, {:include_blank => true}, {:class => 'my-class'}
+  / %hr
+  / = f.select :category, 10.times.map { |x| "Category #{x}"}, {:multiple => true}, {:class => 'my-class'}
+  / = f.effective_select :category, 10.times.map { |x| "Category #{x}"}, {:multiple => true}, {:class => 'my-class'}
+  / %hr
+  / = f.effective_static_control :static_text, :value => 'this is static control value', :class => 'my-class'
 
 
   /= f.text_field :title, :class => 'my-text-field'

@@ -10,6 +10,7 @@ if defined?(SimpleForm)
       options[:collection] = collection
       options[:label_method] = label_method
       options[:value_method] = value_method
+
       Inputs::EffectiveSelect::Input.new(object, object_name, template, attribute_name, input_options, (merge_wrapper_options(input_html_options, wrapper_options) || {})).to_html
     end
   end

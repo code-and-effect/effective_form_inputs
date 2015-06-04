@@ -12,16 +12,12 @@ module Effective
       @html_opts = html_opts.presence || opts.delete(:input_html) || {}
       @opts = opts.presence || {}
 
-      Rails.logger.info "=================================="
-      Rails.logger.info "STEP A FORM INPUT"
-      Rails.logger.info "OPTIONS: #{@opts}"
-      Rails.logger.info "HTML_OPTS: #{@html_opts}"
-      Rails.logger.info "JS_OPTS: #{@js_opts}"
-      Rails.logger.info "==============="
-
-      # convenience method: if @opts has a :class option, put it on html_opts
-      if !@html_opts.key?(:class) && @opts.key?(:class)
-        @html_opts[:class] = @opts.delete(:class)
+      # Copy the following keys from options to html_options
+      # To deal with SimpleForm being simple
+      [:class, :readonly, :pattern, :disabled, :maxlength].each do |key|
+        if !html_opts.key?(key) && @opts.key?(key)
+          @html_opts[key] = @opts[:key] if @opts[:key]
+        end
       end
 
       # Reverse merge in the defaults, so the current values take precedence over defaults
@@ -31,12 +27,6 @@ module Effective
 
       # Take special procedure to ensure that @html_opts[:class] is an Array, and the proper merged values
       @html_opts[:class] = (arrayize_html_class_key(@html_opts[:class]) + arrayize_html_class_key(default_input_html)).compact.uniq
-
-      Rails.logger.info "STEP B FORM INPUT"
-      Rails.logger.info "OPTIONS: #{@opts}"
-      Rails.logger.info "HTML_OPTS: #{@html_opts}"
-      Rails.logger.info "JS_OPTS: #{@js_opts}"
-      Rails.logger.info "=================================="
 
       # Set the value to avoid options craziness
       @value = (@opts.delete(:value) || @html_opts.delete(:value) || (@object.send(@method) if @object.respond_to?(@method)))
@@ -84,42 +74,12 @@ module Effective
         something.compact.map(&:to_s)
       when String
         something.split(' ')
+      when Symbol
+        [something.to_s]
       else
         []
       end
     end
-
-    # def options(&block)
-    #   @form_field_options ||= (
-    #     (@opts || {}).tap do |options|
-    #       options['data-input-js-options'] = {} unless options['data-input-js-options'].kind_of?(Hash)
-    #       merge_class_options!(options)
-
-    #       yield(options) if block_given?
-
-    #       merge_input_js_options!(options)
-    #       options.delete('data-input-js-options') if options['data-input-js-options'] == '{}'
-    #     end
-    #   )
-    # end
-
-    # private
-
-    # def merge_class_options!(options)
-    #   (default_input_classes || []).each do |c|
-    #     if options[:class].blank?
-    #       options[:class] = c.to_s
-    #     elsif options[:class].kind_of?(Array)
-    #       options[:class] << c unless options[:class].include?(c)
-    #     elsif options[:class].kind_of?(String)
-    #       options[:class] << (' ' + c.to_s) unless options[:class].include?(c.to_s)
-    #     end
-    #   end
-    # end
-
-    # def merge_input_js_options!(options)
-    #   options['data-input-js-options'] = JSON.generate((default_input_js_options || {}).merge(options['data-input-js-options'] || {})) rescue {}
-    # end
 
   end
 end

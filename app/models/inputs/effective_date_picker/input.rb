@@ -24,22 +24,13 @@ module Inputs
         end
       end
 
-      def options
-        super.tap do |options|
-          unless js_options[:format].present?
-            options[:pattern] = '\d{4}-\d{2}-\d{2}' # Match default pattern defined above
+      def html_options
+        super.tap do |html_options|
+          if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
+            html_options[:pattern] = '\d{4}-\d{2}-\d{2}' # Match default pattern defined above
           end
         end
       end
-
-      # def options
-      #   super do |options|
-      #     unless options['data-input-js-options'][:format].present?
-      #       options[:pattern] = '\d{4}-\d{2}-\d{2}'
-      #     end
-      #   end
-      # end
-
     end
   end
 end
