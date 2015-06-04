@@ -77,11 +77,18 @@ As a Rails Form Helper input:
   = f.effective_date_time_picker :updated_at
 ```
 
-and as a SimpleForm input:
+As a SimpleForm input:
 
 ```ruby
 = simple_form_for @user do |f|
   = f.input :updated_at, :as => :effective_date_time_picker
+```
+
+As a SimpleForm input without the input group (calendar glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :updated_at, :as => :effective_date_time_picker, :input_group => false
 ```
 
 ### Options
@@ -129,11 +136,18 @@ As a Rails Form Helper input:
   = f.effective_date_picker :started_on
 ```
 
-and as a SimpleForm input:
+As a SimpleForm input:
 
 ```ruby
 = simple_form_for @user do |f|
   = f.input :started_on, :as => :effective_date_picker
+```
+
+As a SimpleForm input without the input group (calendar glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :updated_at, :as => :effective_date_picker, :input_group => false
 ```
 
 ### Options
@@ -168,7 +182,7 @@ As a Rails Form Helper input:
   = f.effective_static_control :member_id
 ```
 
-and as a SimpleForm input:
+As a SimpleForm input:
 
 ```ruby
 = simple_form_for @user do |f|
@@ -211,7 +225,7 @@ As a Rails Form Helper input:
 = form_for @user do |f|
   = f.effective_select :category, 10.times.map { |x| "Category #{x}"}
   = f.effective_select :categories, 10.times.map { |x| "Category #{x}"}, :multiple => true
-  = f.effective_select :categories, 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
+  = f.effective_select :categories, 10.times.map { |x| "Category #{x}"}, :tags => true
 ```
 
 and as a SimpleForm input:
@@ -220,7 +234,7 @@ and as a SimpleForm input:
 = simple_form_for @user do |f|
   = f.input :category, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}
   = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true
-  = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :multiple => true, :tags => true
+  = f.input :categories, :as => :effective_select, :collection => 10.times.map { |x| "Category #{x}"}, :tags => true
 ```
 
 ### Modes
