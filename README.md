@@ -89,7 +89,7 @@ and as a SimpleForm input:
 The default options used to initialize this form input are as follows:
 
 ```ruby
-:format => 'YYYY-MM-DD h:mm A', :sideBySide => true
+:input_js => {:format => 'YYYY-MM-DD h:mm A', :sideBySide => true}
 ```
 
 For a full list of options, please refer to:
@@ -141,7 +141,7 @@ and as a SimpleForm input:
 The default options used to initialize this form input are as follows:
 
 ```ruby
-:format => 'YYYY-MM-DD'
+:input_js => {:format => 'YYYY-MM-DD'}
 ```
 
 For a full list of options, please refer to:
@@ -178,7 +178,6 @@ and as a SimpleForm input:
 ### Options
 
 There are no options for this form input
-
 
 
 ## Effective Select
@@ -235,11 +234,15 @@ Passing `:multiple => true, :tags => true` will allow multiple selections to be 
 
 ### Options
 
-The default options used to initialize this form input are as follows:
+The default `:input_js => options` used to initialize this form input are as follows:
 
 ```ruby
-:allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
+:theme => 'bootstrap'
+:minimumResultsForSearch => 6
 :tokenSeparators => [',', ' ']
+:width => 'style'
+:placeholder => 'Please choose'
+:allowClear => !(options[:multiple])  # Only display the Clear 'x' on a single selection box
 ```
 
 ### Interesting Available Options
@@ -250,7 +253,7 @@ To limit the number of items that can be selected in a multiple select box:
 :maximumSelectionLength => 2
 ```
 
-To hide the search box:
+To hide the search box entirely:
 
 ```ruby
 :minimumResultsForSearch => 'Infinity'
@@ -268,20 +271,20 @@ There is currently no support for using AJAX to load remote data.  This feature 
 
 ## Passing Options to JavaScript
 
-All appropriate options passed to any effective_form_input will be used to initialize the Javascript library
+All `:input_js => options` passed to any effective_form_input will be used to initialize the Javascript library
 
 For example:
 
 ```ruby
 = form_for @user do |f|
-  = f.effective_date_time_picker :updated_at, :format => 'dddd, MMMM Do YYYY', :showTodayButton => true
+  = f.effective_date_time_picker :updated_at, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
 ```
 
 or
 
 ```ruby
 = simple_form_for @user do |f|
-  = f.input :updated_at, :as => :effective_date_time_picker, :format => 'dddd, MMMM Do YYYY', :showTodayButton => true
+  = f.input :updated_at, :as => :effective_date_time_picker, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
 ```
 
 will result in the following call to the Javascript library:
