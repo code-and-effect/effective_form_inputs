@@ -12,7 +12,7 @@ module Inputs
       end
 
       def default_input_html
-        {class: :effective_select, placeholder: 'Please choose'}
+        {class: 'effective_select', placeholder: 'Please choose'}
       end
 
       def to_html

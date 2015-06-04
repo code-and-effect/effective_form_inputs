@@ -8,7 +8,7 @@ module Inputs
       end
 
       def default_input_html
-        {class: [:effective_date_picker, :date]}
+        {class: 'effective_date_picker date'}
       end
 
       def to_html
