@@ -16,5 +16,9 @@ module Effective
       options[:collection] = options_tag
       Inputs::EffectiveSelect::Input.new(@object, @object_name, @template, method, options, html_options).to_html
     end
+
+    def effective_tel(method, options_tag = nil, options = {}, html_options = {})
+      Inputs::EffectiveTel::Input.new(@object, @object_name, @template, method, options, html_options).to_html
+    end
   end
 end
