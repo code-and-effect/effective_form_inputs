@@ -283,6 +283,79 @@ https://select2.github.io/options.html
 There is currently no support for using AJAX to load remote data.  This feature is supported by the underlying select2 library and will be implemented here at a future point.
 
 
+## Effective Tel(ephone)
+
+This custom form input uses a jQuery maskedInput plugin from the following awesome project:
+
+http://digitalbush.com/projects/masked-input-plugin/
+
+https://github.com/digitalBush/jquery.maskedinput
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_tel/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_tel/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_tel :phone
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :phone, :as => :effective_tel
+```
+
+As a SimpleForm input without the input group (phone glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :phone, :as => :effective_tel, :input_group => false
+```
+
+### Options
+
+By default, this form input uses the `glyphicon-earphone` glyphicon and accepts a telephone number with optional 5-digit extension.
+
+It will set up a mask as follows:
+
+```ruby
+:input_js => {:mask => '(999) 999-9999? x99999'}
+```
+
+Calling the form input with `:cellphone => true` will use the `glyphicon-phone` glyphicon and accept only a telephone number.
+
+It will set up a mask as follows:
+
+```ruby
+:input_js => {:mask => '(999) 999-9999'}
+```
+
+The only available javascript options are `mask` and `placeholder`:
+
+```ruby
+:input_js => {:mask => '...', :placeholder => '_'}
+```
+
+
 ## Passing Options to JavaScript
 
 All `:input_js => options` passed to any effective_form_input will be used to initialize the Javascript library
