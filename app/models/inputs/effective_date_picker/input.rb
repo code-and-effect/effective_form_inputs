@@ -24,6 +24,11 @@ module Inputs
         end
       end
 
+      def value
+        val = super
+        val.kind_of?(Time) ? val.to_date : val
+      end
+
       def html_options
         super.tap do |html_options|
           if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
