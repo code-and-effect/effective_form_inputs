@@ -10,6 +10,8 @@ module Effective
       # Initialize 3 options Hashes:  @opts, @html_opts, and @js_opts
       @js_opts = opts.delete(:input_js).presence || {}
       @html_opts = html_opts.presence || opts.delete(:input_html) || {}
+      @html_opts.delete(:placeholder) if @html_opts[:placeholder] == nil # SimpleForm oddity
+
       @opts = opts.presence || {}
 
       # Copy the following keys from options to html_options
@@ -60,6 +62,7 @@ module Effective
       html_options().tap do |html_options|
         html_options['data-input-js-options'] = (JSON.generate(js_options) rescue {})
         html_options[:class] = html_options[:class].join(' ')
+        html_options[:placeholder] = (html_options[:placeholder].presence || options[:placeholder])
       end
     end
 
