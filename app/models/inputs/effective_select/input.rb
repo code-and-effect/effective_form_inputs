@@ -16,7 +16,14 @@ module Inputs
       end
 
       def to_html
-        collection_select(@object_name, @method, options[:collection], options[:label_method], options[:value_method], options, tag_options)
+        collection_select(@object_name, @method, collection, options[:value_method], options[:label_method], options, tag_options)
+      end
+
+      def collection
+        @collection ||= begin
+          collection = options.delete(:collection)
+          collection.respond_to?(:call) ? collection.call : collection.to_a
+        end
       end
 
       def options
