@@ -1,7 +1,7 @@
 module Inputs
   module EffectiveTel
     class Input < Effective::FormInput
-      delegate :content_tag, :text_field_tag, :to => :@template
+      delegate :content_tag, :telephone_field_tag, :to => :@template
 
       DEFAULT_TEL_MASK = '(999) 999-9999? x99999'
       DEFAULT_CELL_MASK = '(999) 999-9999'
@@ -20,14 +20,14 @@ module Inputs
 
       def to_html
         if options[:input_group] == false
-          return text_field_tag(field_name, value, tag_options)
+          return telephone_field_tag(field_name, value, tag_options)
         end
 
         content_tag(:div, class: 'input-group') do
           content_tag(:span, class: 'input-group-addon') do
             content_tag(:i, '', class: "glyphicon glyphicon-#{glyphicon}").html_safe
           end +
-          text_field_tag(field_name, value, tag_options)
+          telephone_field_tag(field_name, value, tag_options)
         end
       end
 
