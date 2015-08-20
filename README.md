@@ -331,32 +331,60 @@ As a SimpleForm input without the input group (phone glyphicon)
   = f.input :phone, :as => :effective_tel, :input_group => false
 ```
 
+## Effective Price
+
+This custom form input uses no 3rd party jQuery plugins.
+
+It displays a currency formatted value `100.00` but posts the "price as integer" value of `10000` to the server.
+
+Think about this value as "the number of cents".
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_price/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @product do |f|
+  = f.effective_price :price
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @product do |f|
+  = f.input :price, :as => :effective_price
+```
+
+As a SimpleForm input without the input group (glyphicon-usd glyphicon)
+
+```ruby
+= simple_form_for @product do |f|
+  = f.input :price, :as => :effective_price, :input_group => false
+```
+
 ### Options
 
-By default, this form input uses the `glyphicon-earphone` glyphicon and accepts a telephone number with optional 5-digit extension.
-
-It will set up a mask as follows:
-
-```ruby
-:input_js => {:mask => '(999) 999-9999? x99999'}
-```
-
-Calling the form input with `:cellphone => true` will use the `glyphicon-phone` glyphicon and accept only a telephone number.
-
-It will set up a mask as follows:
-
-```ruby
-:input_js => {:mask => '(999) 999-9999'}
-```
-
-The only available javascript options are `mask` and `placeholder`:
-
-```ruby
-:input_js => {:mask => '...', :placeholder => '_'}
-```
+There are no javascript options for this input.
 
 
-## Passing Options to JavaScript
+### Rails Helper
+
+This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
+
+
+
+## Passing Options to JavaScript Behaviour
 
 All `:input_js => options` passed to any effective_form_input will be used to initialize the Javascript library
 
