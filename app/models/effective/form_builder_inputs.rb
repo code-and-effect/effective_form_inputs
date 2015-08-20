@@ -8,6 +8,10 @@ module Effective
       Inputs::EffectiveDatePicker::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
 
+    def effective_price(method, options = {})
+      Inputs::EffectivePrice::Input.new(@object, @object_name, @template, method, options, options).to_html
+    end
+
     def effective_static_control(method, options = {})
       Inputs::EffectiveStaticControl::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
