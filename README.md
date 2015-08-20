@@ -42,6 +42,34 @@ and add the following to your application.css:
 
 All of the included form inputs will now be available with no additional installation tasks.
 
+### Options Passing to JavaScript
+
+All `:input_js => options` passed to any effective_form_input will be used to initialize the Javascript library
+
+For example:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_date_time_picker :updated_at, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
+```
+
+or
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :updated_at, :as => :effective_date_time_picker, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
+```
+
+will result in the following call to the Javascript library:
+
+```coffee
+$('input.effective_date_time_picker').datetimepicker
+  format: 'dddd, MMMM Do YYYY',
+  showTodayButton: true
+```
+
+Any options passed in this way will be used to initialize the underlying javascript libraries.
+
 
 ## Effective Date Time Picker
 
@@ -382,33 +410,6 @@ There are no javascript options for this input.
 
 This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
 
-
-
-## Passing Options to JavaScript Behaviour
-
-All `:input_js => options` passed to any effective_form_input will be used to initialize the Javascript library
-
-For example:
-
-```ruby
-= form_for @user do |f|
-  = f.effective_date_time_picker :updated_at, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
-```
-
-or
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :updated_at, :as => :effective_date_time_picker, :input_js => {:format => 'dddd, MMMM Do YYYY', :showTodayButton => true}
-```
-
-will result in the following call to the Javascript library:
-
-```coffee
-$('input.effective_date_time_picker').datetimepicker
-  format: 'dddd, MMMM Do YYYY',
-  showTodayButton: true
-```
 
 ## License
 
