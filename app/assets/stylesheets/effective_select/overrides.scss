@@ -10,3 +10,12 @@
   right: 10px;
   margin-top: -1px;
 }
+
+.select2-container--focus:not(.select2-container--open) {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+  outline: 0 none;
+}
+
+.select2-container--focus > .selection > .select2-selection {
+  border: 1px solid #9cd5fe !important;
+}
