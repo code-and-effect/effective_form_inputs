@@ -1,14 +1,15 @@
 // These are overrides from the bootstrap-theme
 
 .select2-container .select2-selection--single .select2-selection__rendered {
-  margin-right: 5px;
+  margin: 0 0 0 5px;
 }
 
 .select2-container--bootstrap .select2-selection--single .select2-selection__clear {
   float: none;
   position: absolute;
-  right: 10px;
-  margin-top: -1px;
+  margin: 0;
+  left: 7px;
+  width: 10px;
 }
 
 .select2-container--focus:not(.select2-container--open) {
