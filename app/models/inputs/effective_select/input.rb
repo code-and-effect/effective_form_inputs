@@ -4,7 +4,7 @@ module Inputs
       delegate :collection_select, :grouped_collection_select, :to => :@template
 
       def default_options
-        {label_method: :to_s, value_method: :to_s, group_method: :second, group_label_method: :first, option_key_method: :second, option_value_method: :first}
+        {label_method: :to_s, value_method: :to_s, group_label_method: :first, group_method: :last, option_value_method: :first, option_key_method: :second }
       end
 
       def default_input_js
