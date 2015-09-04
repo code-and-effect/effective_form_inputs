@@ -1,10 +1,10 @@
 module Inputs
   module EffectiveSelect
     class Input < Effective::FormInput
-      delegate :collection_select, :to => :@template
+      delegate :collection_select, :grouped_collection_select, :to => :@template
 
       def default_options
-        {:label_method => :to_s, :value_method => :to_s}
+        {label_method: :to_s, value_method: :to_s, group_method: :second, group_label_method: :first, option_key_method: :second, option_value_method: :first}
       end
 
       def default_input_js
@@ -16,7 +16,11 @@ module Inputs
       end
 
       def to_html
-        collection_select(@object_name, @method, collection, options[:value_method], options[:label_method], options, tag_options)
+        if options[:grouped]
+          grouped_collection_select(@object_name, @method, collection, options[:group_method], options[:group_label_method], options[:option_key_method], options[:option_value_method], options, tag_options)
+        else
+          collection_select(@object_name, @method, collection, options[:value_method], options[:label_method], options, tag_options)
+        end
       end
 
       def collection
@@ -45,6 +49,7 @@ module Inputs
         super().tap do |js_options|
           js_options[:allowClear] = (options[:multiple] != true)
           js_options[:tags] = (options[:tags] == true)
+          js_options[:tokenSeparators] = nil if options[:tags] != true
         end
       end
     end

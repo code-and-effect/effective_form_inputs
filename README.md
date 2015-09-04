@@ -271,6 +271,11 @@ Passing `:multiple => true` will allow multiple selections to be made.
 
 Passing `:multiple => true, :tags => true` will allow multiple selections to be made, and new value options to be created.  This will allow you to both select existing tags and create new tags in the same form control.
 
+Passing `:grouped => true` will enable optgroup support.  When in this mode, the collection should be a Hash of Array of Arrays
+
+```ruby
+:collection => {'Active' => [['Post A', 1], ['Post B', 2]], 'Past' => [['Post C', 3], ['Post D', 4]]}
+```
 
 ### Options
 
