@@ -271,10 +271,33 @@ Passing `:multiple => true` will allow multiple selections to be made.
 
 Passing `:multiple => true, :tags => true` will allow multiple selections to be made, and new value options to be created.  This will allow you to both select existing tags and create new tags in the same form control.
 
-Passing `:grouped => true` will enable optgroup support.  When in this mode, the collection should be a Hash of Array of Arrays
+Passing `:grouped => true` will enable optgroup support.  When in this mode, the collection should be a Hash of ActiveRecord Relations or Array of Arrays
 
 ```ruby
+:collection => {'Active' => Post.active, 'Past' => Post.past}
 :collection => {'Active' => [['Post A', 1], ['Post B', 2]], 'Past' => [['Post C', 3], ['Post D', 4]]}
+```
+
+Passing `:polymorphic => true` will enable polymorphic support.  In this mode, an additional 2 hidden input fields are created alongside the select field.
+
+So calling
+
+```ruby
+= f.input :primary_contact, :polymorphic => true, :collection => User.all.to_a + Member.all.to_a
+```
+
+will internally translate the collection into:
+
+```ruby
+[['User 1', 'User_1'], ['User 2', 'User_2'], ['Member 100', 'Member_100']]
+```
+
+and instead of posting to the server with the parameter `:primary_contact`, it will intead post `{:primary_contact_id => 2, :primary_contact_type => 'User'}`.
+
+Using both `:polymorphic => true` and `:grouped => true` is recommended.  In this case the expected collection is as follows:
+
+```ruby
+= f.input :primary_contact, :polymorphic => true, :grouped => true, :collection => {'Users' => User.all, 'Members' => 'Member.all'}
 ```
 
 ### Options
