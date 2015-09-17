@@ -99,12 +99,30 @@ module Inputs
       end
 
       def options
-        super().tap do |options|
-          options[:selected] = value if value
-
+        @effective_select_options ||= super().tap do |options|
           options[:multiple] = true if (options[:tags] == true)
           options[:include_blank] = (options[:multiple] != true)
-          options[:selected] = polymorphic_value if options[:polymorphic]
+
+          # Fix the selected value, depending on our use case
+          if value.present?
+            case value
+            when Array
+              if options[:polymorphic]
+                raise 'polymorphic multiple is not supported'
+              elsif value.first.respond_to?(options[:value_method])  # This is probably a belongs_to ActiveRecord object
+                options[:selected] = value.map { |obj| (obj.public_send(options[:value_method]) rescue obj) }
+              end
+            else  # Value is not an Array
+              if options[:polymorphic]
+                options[:selected] = polymorphic_value
+              elsif value.respond_to?(options[:value_method])  # This is probably a belongs_to ActiveRecord object
+                options[:selected] = value.public_send(options[:value_method])
+              end
+            end
+
+            options[:selected] ||= value
+          end
+
         end
       end
 
