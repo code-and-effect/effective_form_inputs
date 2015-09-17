@@ -32,6 +32,7 @@ module Effective
 
       # Set the value to avoid options craziness
       @value = (@opts.delete(:value) || @html_opts.delete(:value) || (@object.send(@method) if @object.respond_to?(@method)))
+      @value = @value.to_a if @value.kind_of?(ActiveRecord::Relation)
     end
 
     def field_name

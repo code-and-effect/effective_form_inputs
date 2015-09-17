@@ -86,8 +86,8 @@ module Inputs
         @method.to_s.sub('_id', '') + '_id'
       end
 
-      def polymorphic_value
-        "#{value.model_name}_#{value.to_param}" if value.present?
+      def polymorphic_value(obj)
+        "#{obj.model_name}_#{obj.to_param}" if obj.present?
       end
 
       def polymorphic_type_value
@@ -108,13 +108,13 @@ module Inputs
             case value
             when Array
               if options[:polymorphic]
-                raise 'polymorphic multiple is not supported'
+                options[:selected] = value.map { |value| (polymorhpic_value(value) rescue value) }
               elsif value.first.respond_to?(options[:value_method])  # This is probably a belongs_to ActiveRecord object
-                options[:selected] = value.map { |obj| (obj.public_send(options[:value_method]) rescue obj) }
+                options[:selected] = value.map { |value| (value.public_send(options[:value_method]) rescue value) }
               end
             else  # Value is not an Array
               if options[:polymorphic]
-                options[:selected] = polymorphic_value
+                options[:selected] = polymorphic_value(value)
               elsif value.respond_to?(options[:value_method])  # This is probably a belongs_to ActiveRecord object
                 options[:selected] = value.public_send(options[:value_method])
               end
