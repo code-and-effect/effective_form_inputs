@@ -5,7 +5,13 @@ initialize = ->
     element = $(element)
     options = element.data('input-js-options') || {}
 
-    element.addClass('initialized').select2(options)
+    $select = element.addClass('initialized').select2(options)
+
+    # effective_select custom class functionality
+    # select2 doesn't provide an initializer to add css classes to its input, so we manually support this feature
+    # js_options[:containerClass] and js_options[:dropdownClass]
+    $select.data('select2').$container.addClass(options['containerClass']) if options['containerClass']
+    $select.data('select2').$dropdown.addClass(options['dropdownClass']) if options['dropdownClass']
 
 $ -> initialize()
 $(document).on 'page:change', -> initialize()

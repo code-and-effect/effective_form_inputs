@@ -329,10 +329,44 @@ To hide the search box entirely:
 :minimumResultsForSearch => 'Infinity'
 ```
 
-For a full list of options, please refer to:
+For a full list of options, please refer to: https://select2.github.io/options.html
 
-https://select2.github.io/options.html
 
+The following `:input_js => options` are not part of the standard select2 API, and are custom `effective_select` functionality only:
+
+To add a css class to the select2 container or dropdown:
+
+```ruby
+:containerClass => 'custom-container-class'
+:dropdownClass => 'custom-dropdown-class'
+```
+
+### Working with dynamic options
+
+The following information applies to `effective_select` only, and is not part of the standard select2 API.
+
+To totally hide (instead of just grey out) any disabled options from the select2 dropdown, initialize the input with:
+
+```ruby
+= f.input :category, :as => :effective_select, :collection => ..., :hide_disabled => true
+```
+
+If you want to dynamically add/remove options from the select field after page load, you must use the `select2:reinitialize` event:
+
+```coffeescript
+# When something on my page changes
+$(document).on 'change', '.something', (event) ->
+  $select = $(event.target).closest('form').find('select.i-want-to-change')  # Find the select2 input to be updated
+
+  # Go through its options, and modify some of them.
+  # Using the above 'hide_disabled true' functionality, the following code hides the options from being displayed,
+  # but you could actually remove the options, add new ones, or update the values/texts. whatever.
+  $select.find('option').each (index, option) ->
+    $(option).prop('disabled', true) if index > 10
+
+  # Whenever the underlying options change, you need to manually trigger the following event:
+  $select.select2().trigger('select2:reinitialize')
+```
 
 ### AJAX Support
 

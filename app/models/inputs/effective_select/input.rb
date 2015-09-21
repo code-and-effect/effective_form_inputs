@@ -8,7 +8,7 @@ module Inputs
       end
 
       def default_input_js
-        {theme: 'bootstrap', minimumResultsForSearch: 6, tokenSeparators: [',', ' '], width: 'style', placeholder: 'Please choose'}
+        { theme: 'bootstrap', minimumResultsForSearch: 6, tokenSeparators: [',', ' '], width: 'style', placeholder: 'Please choose' }
       end
 
       def default_input_html
@@ -131,14 +131,27 @@ module Inputs
           html_options[:multiple] = options[:multiple]
           html_options[:class] << 'polymorphic' if options[:polymorphic]
           html_options[:class] << 'grouped' if options[:grouped]
+          html_options[:class] << 'hide-disabled' if options[:hide_disabled]
         end
       end
 
       def js_options
-        super().tap do |js_options|
+        @effective_select_js_options ||= super().tap do |js_options|
           js_options[:allowClear] = (options[:multiple] != true)
           js_options[:tags] = (options[:tags] == true)
           js_options[:tokenSeparators] = nil if options[:tags] != true
+
+          # select2 doesn't support adding css classes to its input, so we support it through the
+          # js_options[:containerClass] and js_options[:dropdownClass] methods
+          # When we use options[:hide_disabled], we add the 'hide-disabled' class to both the container and the dropdown
+          if options[:hide_disabled]
+            js_options[:containerClass] = (arrayize_html_class_key(js_options[:containerClass]) + ['hide-disabled']).join(' ')
+          end
+
+          if options[:hide_disabled]
+            js_options[:dropdownClass] = (arrayize_html_class_key(js_options[:dropdownClass]) + ['hide-disabled']).join(' ')
+          end
+
         end
       end
     end
