@@ -146,12 +146,8 @@ module Inputs
           # When we use options[:hide_disabled], we add the 'hide-disabled' class to both the container and the dropdown
           if options[:hide_disabled]
             js_options[:containerClass] = (arrayize_html_class_key(js_options[:containerClass]) + ['hide-disabled']).join(' ')
-          end
-
-          if options[:hide_disabled]
             js_options[:dropdownClass] = (arrayize_html_class_key(js_options[:dropdownClass]) + ['hide-disabled']).join(' ')
           end
-
         end
       end
     end
