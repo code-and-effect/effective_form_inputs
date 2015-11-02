@@ -377,9 +377,7 @@ There is currently no support for using AJAX to load remote data.  This feature 
 
 This custom form input uses a jQuery maskedInput plugin from the following awesome project:
 
-http://digitalbush.com/projects/masked-input-plugin/
-
-https://github.com/digitalBush/jquery.maskedinput
+jQuery Masked Input Plugin (https://github.com/digitalBush/jquery.maskedinput)
 
 
 ### Installation
@@ -472,6 +470,71 @@ There are no javascript options for this input.
 
 This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
 
+
+## Effective CKEditor Text Area
+
+This custom form input replaces a standard textarea with a CKEditor html rich text area.
+
+It is based on the widely used:
+
+CKEditor (http://ckeditor.com/)
+
+and built ontop of
+
+effective_ckeditor (https://github.com/code-and-effect/effective_ckeditor/)
+
+### Installation
+
+You must first install [effective_ckeditor](https://github.com/code-and-effect/effective_ckeditor/)
+
+```ruby
+gem 'effective_ckeditor'
+```
+
+Depending on how often you're going to display this form input, you now have two options:
+
+- You can do nothing, and when this form input is displayed it will use javascript to load the ckeditor .js and .css file on $(ready).  It will make 2 additional requests, slowing down your page load by a moment.
+
+- Or, when you intend to use the input quite a bit, it's faster to add the effective_ckeditor resources to the asset pipeline.  However, it will increase the asset payload by around 200kb.
+
+To add it to the asset pipeline, put the following to your application.js:
+
+```ruby
+//= require effective_ckeditor
+```
+
+and in your application.css, add:
+
+```ruby
+*= require effective_ckeditor
+```
+
+There are no additional effective_ckeditor installation steps.
+
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_ckeditor_text_area/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @post do |f|
+  = f.effective_ckeditor_text_area :body
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @post do |f|
+  = f.input :body, :as => :effective_ckeditor_text_area
+```
 
 ## License
 

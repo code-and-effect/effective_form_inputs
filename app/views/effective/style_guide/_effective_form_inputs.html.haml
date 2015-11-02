@@ -1,6 +1,14 @@
 / this gives me a mechanism to test the inputs easily on a site with effective style_guide installed
 
 = form_for Effective::StyleGuide.new(:category => 'Category 2'), :url => '/' do |f|
+  = f.effective_ckeditor_text_area :content
+
+  / = f.input :updated_at, as: :effective_date_picker
+  / = f.input :updated_at, as: :effective_date_time_picker
+  / = f.input :price, as: :effective_price
+  / = f.input :category, as: :effective_select, collection: 10.times.map { |x| "Category #{x}"}
+  / = f.input :number, as: :effective_tel
+
   / = f.date_field :updated_at, :class => 'my-class'
   / = f.effective_date_picker :updated_at, :class => 'my-class'
   / %hr

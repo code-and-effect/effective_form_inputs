@@ -1,5 +1,9 @@
 module Effective
   module FormBuilderInputs
+    def effective_ckeditor_text_area(method, options_tag = nil, options = {}, html_options = {})
+      Inputs::EffectiveCkeditorTextArea::Input.new(@object, @object_name, @template, method, options, html_options).to_html
+    end
+
     def effective_date_time_picker(method, options = {})
       Inputs::EffectiveDateTimePicker::Input.new(@object, @object_name, @template, method, options, options).to_html
     end

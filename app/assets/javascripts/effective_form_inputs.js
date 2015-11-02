@@ -1,3 +1,4 @@
+//= require ./effective_ckeditor_text_area/input
 //= require ./effective_date_time_picker/input
 //= require ./effective_date_picker/input
 //= require ./effective_price/input
