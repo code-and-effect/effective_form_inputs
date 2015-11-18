@@ -57,18 +57,12 @@ initCkeditor = (textarea) ->
     filebrowserWindowWidth: 800
     filebrowserBrowseUrl: '/effective/assets?only=images'
     toolbar_full: [
-      { name: 'save', items: ['NewPage'] },
-      { name: 'html', items: ['Sourcedialog', '-', 'ShowBlocks'] },
-      { name: 'editing', items: ['Undo', 'Redo'] },
-      { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'] },
-      { name: 'justify', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']}
-      { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-      '/',
       { name: 'definedstyles', items: ['Format'] },
-      { name: 'links', items: ['Link', 'Unlink', '-', 'Anchor'] },
-      { name: 'insert', items: ['Image', 'oembed', 'EffectiveAssets'] },
+      { name: 'html', items: ['ShowBlocks'] },
+      { name: 'justify', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']}
+      { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+      { name: 'insert', items: ['Link', 'Table', '-', 'Image', 'oembed', 'EffectiveAssets'] },
       { name: 'lists', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
-      { name: 'insert2', items: ['Table', 'EffectiveReferences', 'Blockquote', 'HorizontalRule', 'PageBreak'] }
     ]
   )
 
