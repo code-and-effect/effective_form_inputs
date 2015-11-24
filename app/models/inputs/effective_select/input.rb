@@ -73,7 +73,7 @@ module Inputs
 
         collection.each_with_index do |obj, index|
           if obj.kind_of?(ActiveRecord::Base)
-            collection[index] = [obj.public_send(options[:label_method]), "#{obj.model_name}_#{obj.to_param}"]
+            collection[index] = [obj.public_send(options[:label_method]), "#{obj.class.model_name}_#{obj.to_param}"]
           end
         end
       end
