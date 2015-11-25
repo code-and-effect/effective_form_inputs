@@ -87,11 +87,11 @@ module Inputs
       end
 
       def polymorphic_value(obj)
-        "#{obj.model_name}_#{obj.to_param}" if obj.present?
+        "#{obj.class.model_name}_#{obj.to_param}" if obj.present?
       end
 
       def polymorphic_type_value
-        value.try(:model_name)
+        value.try(:class).try(:model_name)
       end
 
       def polymorphic_id_value
