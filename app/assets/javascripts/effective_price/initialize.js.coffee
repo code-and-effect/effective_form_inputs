@@ -25,9 +25,11 @@ $(document).on 'change keyup', "input[type='text'].effective_price", (event) ->
 
 # Format the value for display as currency (USD)
 $(document).on 'change', "input[type='text'].effective_price", (event) ->
-  value = parseFloat($(event.target).val().replace(/,/g, ''))
+  value = parseInt($(event.target).siblings("input[type='hidden']").first().val() || 0)
 
   if isNaN(value) == false
+    value = (value / 100.0) if value > 0
+
     value = value.toFixed(2).toString()
     value = value.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') while (/(\d+)(\d{3})/.test(value))
   else
