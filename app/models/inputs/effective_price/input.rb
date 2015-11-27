@@ -4,7 +4,7 @@ module Inputs
       delegate :content_tag, :number_to_currency, :text_field_tag, :hidden_field_tag, :to => :@template
 
       def default_input_html
-        {class: 'effective_price numeric', maxlength: 14}
+        {class: 'effective_price numeric', maxlength: 14, autocomplete: 'off'}
       end
 
       def to_html
