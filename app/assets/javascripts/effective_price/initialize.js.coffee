@@ -20,12 +20,12 @@ $(document).on 'keydown', "input[type='text'].effective_price", (event) ->
 
 # Assign the hidden input a value of 100x value
 $(document).on 'change keyup', "input[type='text'].effective_price", (event) ->
-  value = (parseFloat($(event.target).val().replace(',', '')) || 0.00) * 100.00
+  value = parseFloat($(event.target).val().replace(/,/g, '') || 0.00) * 100.00
   $(event.target).siblings("input[type='hidden']").first().val(value.toFixed(0))
 
 # Format the value for display as currency (USD)
 $(document).on 'change', "input[type='text'].effective_price", (event) ->
-  value = parseFloat($(event.target).val().replace(',', ''))
+  value = parseFloat($(event.target).val().replace(/,/g, ''))
 
   if isNaN(value) == false
     value = value.toFixed(2).toString()
