@@ -18,6 +18,10 @@ $(document).on 'keydown', "input[type='text'].effective_price", (event) ->
   if event.key && event.key.length == 1 && event.metaKey == false && allowed.indexOf(event.key) == -1
     event.preventDefault()
 
+# Assign the hidden input a value of 100x value
+$(document).on 'change keyup', "input[type='text'].effective_price", (event) ->
+  value = (parseFloat($(event.target).val().replace(',', '')) || 0.00) * 100.00
+  $(event.target).siblings("input[type='hidden']").first().val(value.toFixed(0))
 
 # Format the value for display as currency (USD)
 $(document).on 'change', "input[type='text'].effective_price", (event) ->
@@ -30,8 +34,3 @@ $(document).on 'change', "input[type='text'].effective_price", (event) ->
     value = ''
 
   $(event.target).val(value)
-
-# Assign the hidden input a value of 100x value
-$(document).on 'change keyup', "input[type='text'].effective_price", (event) ->
-  value = (parseFloat($(event.target).val().replace(',', '')) || 0.00) * 100.00
-  $(event.target).siblings("input[type='hidden']").first().val(value.toFixed(0))
