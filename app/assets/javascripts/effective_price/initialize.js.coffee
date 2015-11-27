@@ -28,7 +28,7 @@ $(document).on 'change', "input[type='text'].effective_price", (event) ->
   value = parseInt($(event.target).siblings("input[type='hidden']").first().val() || 0)
 
   if isNaN(value) == false
-    value = (value / 100.0) if value > 0
+    value = (value / 100.0) if value != 0
 
     value = value.toFixed(2).toString()
     value = value.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2') while (/(\d+)(\d{3})/.test(value))
