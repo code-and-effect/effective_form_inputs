@@ -22,6 +22,9 @@ module Effective
         end
       end
 
+      @js_opts = @js_opts.with_indifferent_access
+      @html_opts = @html_opts.with_indifferent_access
+
       # Reverse merge in the defaults, so the current values take precedence over defaults
       @js_opts.reverse_merge!((default_input_js || {}))
       @html_opts.reverse_merge!((default_input_html || {}).except(:class))
