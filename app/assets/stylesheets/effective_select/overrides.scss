@@ -12,6 +12,10 @@
   width: 10px;
 }
 
+.select2-container .select2-search--inline .select2-search__field {
+  width: 100% !important;
+}
+
 .select2-container--focus:not(.select2-container--open) {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
   outline: 0 none;
