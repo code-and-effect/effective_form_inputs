@@ -11,29 +11,33 @@ initialize = ->
 setupCkeditor = ($inputs) ->
   return unless $inputs.length > 0
 
+  input_js_options = $inputs.first().data('input-js-options') || {}
+
   ckeditor_present = ((try CKEDITOR.version) || '').length > 0
-  use_effective_assets = ($inputs.first().data('input-js-options') || {})['effective_assets'] == true
+  use_effective_assets = input_js_options['effective_assets'] == true
   $head = $('head')
 
   unless ckeditor_present
-    $head.append("<script src='/assets/effective_ckeditor.js' />")
-    $head.append("<link href='/assets/effective_ckeditor.css' type='text/css', media='screen' rel='stylesheet' />")
+    $head.append("<link href='#{input_js_options['effective_ckeditor_css_path']}' type='text/css', media='screen' rel='stylesheet' />")
+    jQuery.ajax({url: input_js_options['effective_ckeditor_js_path'], dataType: 'script', cache: true, async: false})
 
   if use_effective_assets
     $head.append("
       <script>
-      CKEDITOR.config['effective_regions'] = {
-        'snippets': {
-          'effective_asset': {
-            'dialog_url':'/assets/effective/snippets/effective_asset.js',
-            'label':'Effective asset',
-            'description':'Insert Effective asset',
-            'inline':true,
-            'editables':false,
-            'tag':'span'
-          }
-        }
-      };
+        try {
+          CKEDITOR.config['effective_regions'] = {
+            'snippets': {
+              'effective_asset': {
+                'dialog_url':'/assets/effective/snippets/effective_asset.js',
+                'label':'Effective asset',
+                'description':'Insert Effective asset',
+                'inline':true,
+                'editables':false,
+                'tag':'span'
+              }
+            }
+          };
+        } catch(e) {};
       </script>
     ");
 

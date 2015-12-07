@@ -1,10 +1,14 @@
 module Inputs
   module EffectiveCkeditorTextArea
     class Input < Effective::FormInput
-      delegate :content_tag, :text_area_tag, :to => :@template
+      delegate :content_tag, :text_area_tag, :asset_path, :to => :@template
 
       def default_input_js
-        {effective_assets: defined?(EffectiveAssets).present? }
+        {
+          effective_assets: defined?(EffectiveAssets).present?,
+          effective_ckeditor_js_path: asset_path('effective_ckeditor.js'),
+          effective_ckeditor_css_path: asset_path('effective_ckeditor.css')
+        }
       end
 
       def default_input_html
