@@ -51,6 +51,7 @@ initCkeditor = (textarea) ->
     startupOutlineBlocks: false
     startupShowBorders: true
     disableNativeTableHandles: true
+    disableNativeSpellChecker: false
     extraPlugins: 'effective_regions,effective_assets'
     removePlugins: 'elementspath'
     format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;div'
