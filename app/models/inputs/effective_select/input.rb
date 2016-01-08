@@ -41,7 +41,7 @@ module Inputs
           collection = options.delete(:collection) || []
           grouped = collection[0].kind_of?(Array) && collection[0][0].kind_of?(String) && collection[0][1].respond_to?(:to_a) && (collection[0][1] != nil) # Array or ActiveRecord_Relation
 
-          if options[:grouped] && !grouped
+          if options[:grouped] && !grouped && collection.present?
             raise "Grouped collection expecting a Hash {'Posts' => Post.all, 'Events' => Event.all} or a Hash {'Posts' => [['Post A', 1], ['Post B', 2]], 'Events' => [['Event A', 1], ['Event B', 2]]}"
           end
 
