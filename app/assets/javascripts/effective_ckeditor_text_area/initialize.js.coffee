@@ -42,8 +42,12 @@ setupCkeditor = ($inputs) ->
     ");
 
 initCkeditor = (textarea) ->
+  console.log textarea
+  console.log textarea.data('input-js-options')
+  console.log textarea.data('input-js-options')['toolbar']
+
   CKEDITOR.replace(textarea.attr('id'),
-    toolbar: 'full'
+    toolbar: ((textarea.data('input-js-options') || {})['toolbar'] || 'full')
     effectiveRegionType: 'full'
     customConfig: ''
     enterMode: CKEDITOR.ENTER_P
@@ -67,6 +71,14 @@ initCkeditor = (textarea) ->
       { name: 'justify', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']}
       { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
       { name: 'insert', items: ['Link', 'Table', '-', 'Image', 'oembed', 'EffectiveAssets'] },
+      { name: 'lists', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
+    ],
+    toolbar_simple: [
+      { name: 'definedstyles', items: ['Format'] },
+      { name: 'html', items: ['ShowBlocks'] },
+      { name: 'justify', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']}
+      { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+      { name: 'insert', items: ['Link', 'Table'] },
       { name: 'lists', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
     ]
   )

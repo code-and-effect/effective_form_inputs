@@ -536,6 +536,17 @@ As a SimpleForm input:
   = f.input :body, :as => :effective_ckeditor_text_area
 ```
 
+### Options
+
+You can specify the `toolbar` as `'full'` or `'simple'`.
+
+The full toolbar includes Image, oEmbed and Assets, wheras simple does not.
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'full'
+= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'simple'
+```
+
 ## License
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
