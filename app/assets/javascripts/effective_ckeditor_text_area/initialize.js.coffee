@@ -42,12 +42,8 @@ setupCkeditor = ($inputs) ->
     ");
 
 initCkeditor = (textarea) ->
-  console.log textarea
-  console.log textarea.data('input-js-options')
-  console.log textarea.data('input-js-options')['toolbar']
-
-  CKEDITOR.replace(textarea.attr('id'),
-    toolbar: ((textarea.data('input-js-options') || {})['toolbar'] || 'full')
+  options =
+    toolbar: 'full'
     effectiveRegionType: 'full'
     customConfig: ''
     enterMode: CKEDITOR.ENTER_P
@@ -81,7 +77,10 @@ initCkeditor = (textarea) ->
       { name: 'insert', items: ['Link', 'Table'] },
       { name: 'lists', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
     ]
-  )
+
+  options[k] = v for k, v of (textarea.data('input-js-options') || {})
+
+  CKEDITOR.replace(textarea.attr('id'), options)
 
 $ -> initialize()
 $(document).on 'page:change', -> initialize()

@@ -8,8 +8,10 @@ module Inputs
           effective_assets: defined?(EffectiveAssets).present?,
           effective_ckeditor_js_path: asset_path('effective_ckeditor.js'),
           effective_ckeditor_css_path: asset_path('effective_ckeditor.css'),
-          toolbar: (options[:toolbar] || 'full')
-        }
+          toolbar: options[:toolbar],
+          height: options[:height],
+          width: options[:width]
+        }.compact
       end
 
       def default_input_html
