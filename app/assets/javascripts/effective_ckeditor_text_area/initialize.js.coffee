@@ -80,7 +80,12 @@ initCkeditor = (textarea) ->
 
   options[k] = v for k, v of (textarea.data('input-js-options') || {})
 
-  CKEDITOR.replace(textarea.attr('id'), options)
+  ckeditor = CKEDITOR.replace(textarea.attr('id'), options)
+
+  ckeditor.on 'insertElement', (event) ->
+    element = $(event.data.$)
+    if element.is('table')
+      element.removeAttr('style').addClass('table')
 
 $ -> initialize()
 $(document).on 'page:change', -> initialize()
