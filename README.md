@@ -538,7 +538,7 @@ As a SimpleForm input:
 
 ### Options
 
-You can specify the `toolbar` as `'full'` or `'simple'`.
+You can specify the `toolbar` as `'full'` or `'simple'`:
 
 The full toolbar includes Image, oEmbed and Assets, wheras simple does not.
 
@@ -546,6 +546,21 @@ The full toolbar includes Image, oEmbed and Assets, wheras simple does not.
 = f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'full'
 = f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'simple'
 ```
+
+You can specify the `height` and `width`:
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :height => '400px;', :width => '200px;'
+```
+
+And you can specify a `contentsCss` stylesheet:
+
+By default, this loads a CDN hosted bootstrap 3.3.6 stylesheet. This value can be an array of urls.
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :contentsCss => asset_path('application.css')
+```
+
 
 ## License
 
