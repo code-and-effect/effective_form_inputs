@@ -48,7 +48,7 @@ initCkeditor = (textarea) ->
     customConfig: ''
     enterMode: CKEDITOR.ENTER_P
     shiftEnterMode: CKEDITOR.ENTER_BR
-    startupOutlineBlocks: false
+    startupOutlineBlocks: true
     startupShowBorders: true
     disableNativeTableHandles: true
     disableNativeSpellChecker: false
