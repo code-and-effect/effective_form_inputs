@@ -188,6 +188,13 @@ For a full list of options, please refer to:
 
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
+### Set Date
+
+Use the following JavaScript to programatically set the date:
+
+```javascript
+$('#start_at').data('DateTimePicker').date('2016-05-08')
+```
 
 ## Effective Static Control
 
@@ -417,6 +424,12 @@ As a SimpleForm input without the input group (phone glyphicon)
 ```ruby
 = simple_form_for @user do |f|
   = f.input :phone, :as => :effective_tel, :input_group => false
+```
+
+You can add a server side validation to enforce the default "(123) 555-1234" with optional "x123" extension format:
+
+```ruby
+validates :phone, format: { with: /\A\(\d{3}\) \d{3}-\d{4}( x\d+)?\Z/ }
 ```
 
 ## Effective Price
