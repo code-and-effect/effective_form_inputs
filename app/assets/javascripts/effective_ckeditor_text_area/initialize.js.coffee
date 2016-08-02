@@ -60,7 +60,8 @@ initCkeditor = (textarea) ->
     templates_replaceContent: false
     filebrowserWindowHeight: 600
     filebrowserWindowWidth: 800
-    filebrowserBrowseUrl: '/effective/assets?only=images'
+    filebrowserBrowseUrl: '/effective/assets'
+    filebrowserImageBrowseUrl: '/effective/assets?only=images'
     toolbar_full: [
       { name: 'definedstyles', items: ['Format'] },
       { name: 'html', items: ['ShowBlocks'] },
