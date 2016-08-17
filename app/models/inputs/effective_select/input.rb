@@ -104,7 +104,7 @@ module Inputs
           options[:include_blank] = (options[:multiple] != true)
 
           # Fix the selected value, depending on our use case
-          if value.present?
+          unless value.nil?
             case value
             when Array
               if options[:polymorphic]
