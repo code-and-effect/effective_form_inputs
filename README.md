@@ -476,6 +476,12 @@ As a SimpleForm input without the input group (glyphicon-usd glyphicon)
 
 ### Options
 
+You can pass `include_blank: true` to allow `nil`.  By default `nil`s are convereted, displayed and submitted as `$0.00`.
+
+```ruby
+= f.input :price, :as => :effective_price, :include_blank => true
+```
+
 There are no javascript options for this input.
 
 

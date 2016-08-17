@@ -20,14 +20,23 @@ $(document).on 'keydown', "input[type='text'].effective_price", (event) ->
 
 # Assign the hidden input a value of 100x value
 $(document).on 'change keyup', "input[type='text'].effective_price", (event) ->
-  value = parseFloat($(event.target).val().replace(/,/g, '') || 0.00) * 100.00
-  $(event.target).siblings("input[type='hidden']").first().val(value.toFixed(0))
+  $input = $(event.target)
+  value = $input.val().replace(/,/g, '')
+
+  unless $input.data('include-blank') && value == ''
+    value = (parseFloat(value || 0.00) * 100.00).toFixed(0)
+
+  $input.siblings("input[type='hidden']").first().val(value)
 
 # Format the value for display as currency (USD)
 $(document).on 'change', "input[type='text'].effective_price", (event) ->
-  value = parseInt($(event.target).siblings("input[type='hidden']").first().val() || 0)
+  $input = $(event.target)
+  value = $input.siblings("input[type='hidden']").first().val()
 
-  if isNaN(value) == false
+  unless $input.data('include-blank') && value == ''
+    value = parseInt(value || 0)
+
+  if isNaN(value) == false && value != ''
     value = (value / 100.0) if value != 0
 
     value = value.toFixed(2).toString()
@@ -35,4 +44,4 @@ $(document).on 'change', "input[type='text'].effective_price", (event) ->
   else
     value = ''
 
-  $(event.target).val(value)
+  $input.val(value)
