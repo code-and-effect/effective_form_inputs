@@ -32,7 +32,7 @@ module Inputs
       def html_options
         super.tap do |html_options|
           if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
-            html_options[:pattern] = '\d{4}-\d{2}-\d{2}' # Match default pattern defined above
+            html_options[:pattern] = '\d{4}(-\d{2})?(-\d{2})?' # Match default pattern defined above
           end
         end
       end
