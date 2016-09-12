@@ -5,7 +5,7 @@ if defined?(SimpleForm)
 
   class EffectiveSelectInput < SimpleForm::Inputs::CollectionSelectInput
     def input(wrapper_options = nil)
-      label_method, value_method = detect_collection_methods
+      label_method, value_method = (detect_collection_methods rescue [:to_s, :to_s])
 
       options[:collection] = collection
       options[:label_method] = label_method unless options[:polymorphic]
