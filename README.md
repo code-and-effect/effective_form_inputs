@@ -573,7 +573,7 @@ As a SimpleForm input without the input group (globe glyphicon)
 You should add a server side validation to enforce the url starts with http(s?)://
 
 ```ruby
-validates :phone, format: { with: /\Ahttps?:\/\/\w+.+\Z/ }
+validates :website, format: { with: /\Ahttps?:\/\/\w+.+\Z/ }
 validates :website, effective_url: true   # Enforced same format as above
 ```
 
