@@ -1,5 +1,7 @@
 # = simple_form_for @thing do |f|
 #   = f.input :website, :as => :effective_url
+#   = f.input :website, :as => :effective_url, :glyphicon => false
+#   = f.input :website, :as => :effective_url, :fontawesome => false
 
 if defined?(SimpleForm)
 

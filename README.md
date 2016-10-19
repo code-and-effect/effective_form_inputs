@@ -196,6 +196,54 @@ Use the following JavaScript to programatically set the date:
 $('#start_at').data('DateTimePicker').date('2016-05-08')
 ```
 
+## Effective Email
+
+This custom form input makes sure the input is an email address.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_email/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_email :email
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :email, :as => :effective_email
+```
+
+As a SimpleForm input without the input group (envelope glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :email, :as => :effective_email, :input_group => false
+```
+
+You should add a server side validation to enforce the format:
+
+```ruby
+validates :email, format: { with: /\A.+@.+\..+\Z/ }
+validates :email, effective_email: true   # Enforces same format as above
+```
+
+### Options
+
+There are no javascript options for this input.
+
 ## Effective Static Control
 
 A bootstrap3 Static control input
@@ -397,12 +445,6 @@ To install this form input individually, add the following to your application.j
 //= require effective_tel/input
 ```
 
-and add the following to your application.css:
-
-```ruby
-*= require effective_tel/input
-```
-
 ### Usage
 
 As a Rails Form Helper input:
@@ -426,10 +468,11 @@ As a SimpleForm input without the input group (phone glyphicon)
   = f.input :phone, :as => :effective_tel, :input_group => false
 ```
 
-You can add a server side validation to enforce the default "(123) 555-1234" with optional "x123" extension format:
+You should add a server side validation to enforce the default "(123) 555-1234" with optional "x123" extension format:
 
 ```ruby
 validates :phone, format: { with: /\A\(\d{3}\) \d{3}-\d{4}( x\d+)?\Z/ }
+validates :phone, effective_tel: true   # Enforces same format as above
 ```
 
 ## Effective Price
@@ -482,12 +525,61 @@ You can pass `include_blank: true` to allow `nil`.  By default `nil`s are conver
 = f.input :price, :as => :effective_price, :include_blank => true
 ```
 
-There are no javascript options for this input.
-
 
 ### Rails Helper
 
 This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
+
+
+## Effective URL
+
+This custom form input enforces the url starts with http:// or https://
+
+If font-awesome-rails gem is installed, a font-awesome icon for facebook, google, linkedin, twitter, vimeo and youtube will be inserted based on the field name.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_url/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_url :website
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :website, :as => :effective_url
+```
+
+As a SimpleForm input without the input group (globe glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :website, :as => :effective_url, :input_group => false
+```
+
+You should add a server side validation to enforce the url starts with http(s?)://
+
+```ruby
+validates :phone, format: { with: /\Ahttps?:\/\/\w+.+\Z/ }
+validates :website, effective_url: true   # Enforced same format as above
+```
+
+### Options
+
+You can pass `fontawesome: false` and `glyphicon: false` to tweak the automatic social icon display behaviour.
 
 
 ## Effective CKEditor Text Area

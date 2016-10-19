@@ -11,7 +11,7 @@ module Inputs
       end
 
       def default_input_html
-        {class: 'effective_tel tel'}
+        {class: 'effective_tel tel', placeholder: '(555) 555-5555'}
       end
 
       def default_input_js
