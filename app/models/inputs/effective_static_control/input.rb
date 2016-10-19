@@ -8,7 +8,12 @@ module Inputs
       end
 
       def to_html
-        content_tag(:p, value, tag_options)
+        if value.kind_of?(String) && value.start_with?('<p>') && value.end_with?('</p>')
+          content_tag(:p, value[3...-4].html_safe, tag_options)
+        else
+          content_tag(:p, (value.html_safe? ? value : value.to_s.html_safe), tag_options)
+        end
+
       end
 
       def html_options
