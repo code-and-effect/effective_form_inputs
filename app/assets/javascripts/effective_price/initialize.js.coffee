@@ -3,7 +3,7 @@ initialize = ->
     element = $(element)
     options = element.data('input-js-options') || {}
 
-    # We don't actually do anything
+    # We don't actually do anything with options
     element.addClass('initialized')
 
 $ -> initialize()
