@@ -1,3 +1,3 @@
 module EffectiveFormInputs
-  VERSION = '0.9.4'.freeze
+  VERSION = '0.9.5'.freeze
 end
