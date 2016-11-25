@@ -666,10 +666,12 @@ You can specify the `height` and `width`:
 
 And you can specify a `contentsCss` stylesheet:
 
-By default, this loads a CDN hosted bootstrap 3.3.6 stylesheet. This value can be an array of urls.
+By default, this loads the `asset_path('application.css')` file, you can also specify `:bootstrap`, `false`, a string url, or an array of urls.
+
+When `:bootstrap`, this loads a CDN hosted bootstrap 3.3.7 stylesheet.
 
 ```ruby
-= f.input :body, :as => :effective_ckeditor_text_area, :contentsCss => asset_path('application.css')
+= f.input :body, :as => :effective_ckeditor_text_area, :contentsCss => :bootstrap
 ```
 
 

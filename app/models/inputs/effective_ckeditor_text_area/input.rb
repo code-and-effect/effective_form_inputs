@@ -8,7 +8,16 @@ module Inputs
           effective_assets: defined?(EffectiveAssets).present?,
           effective_ckeditor_js_path: asset_path('effective_ckeditor.js'),
           effective_ckeditor_css_path: asset_path('effective_ckeditor.css'),
-          contentsCss: (options[:contentCss] || asset_path('application.css')),
+          contentsCss: (
+            case options[:contentsCss]
+            when :bootstrap
+              'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+            when false
+              nil
+            else
+              options[:contentsCss] || asset_path('application.css')
+            end
+          ),
           toolbar: options[:toolbar],
           height: options[:height],
           width: options[:width]
