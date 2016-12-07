@@ -679,9 +679,6 @@ When `:bootstrap`, this loads a CDN hosted bootstrap 3.3.7 stylesheet.
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
 
-Code and Effect is the product arm of [AgileStyle](http://www.agilestyle.com/), an Edmonton-based shop that specializes in building custom web applications with Ruby on Rails.
-
-
 ## Credits
 
 The authors of this gem are not associated with any of the awesome projects used by this gem.
