@@ -675,6 +675,39 @@ When `:bootstrap`, this loads a CDN hosted bootstrap 3.3.7 stylesheet.
 ```
 
 
+## Effective Radio Buttons
+
+This custom form input adds image support to the SimpleForm radio buttons. It doesn't really work as a regular rails form helper.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.css:
+
+```ruby
+*= require effective_radio_buttons/input
+```
+
+There is no javascript.
+
+### Usage
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :images => [asset_path('eggs.png'), asset_path('toast.png'), asset_path('bacon.png')]
+```
+
+### Options
+
+The only additional option is `images: []`, which must be an array of strings the same length as the collection.
+
+
 ## License
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)

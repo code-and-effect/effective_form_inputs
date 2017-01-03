@@ -1,0 +1,25 @@
+div.effective_radio_buttons.image_radio_buttons {
+  input { display: none; }
+
+  .radio label { padding-left: 0px; }
+
+  // Nested style
+  label > input + img {
+    cursor: pointer;
+    border: 3px solid transparent;
+  }
+
+  label > input:checked + img {
+    border: 3px solid #009bc9;
+  }
+
+  // Non-nested style
+  input + label > img {
+    cursor: pointer;
+    border: 3px solid transparent;
+  }
+
+  input:checked + label > img {
+    border: 3px solid #009bc9;
+  }
+}
