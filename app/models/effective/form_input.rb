@@ -63,7 +63,7 @@ module Effective
     # It serializes any js_options into JSON format
     # And turns html_options[:class] back into a string
     def tag_options
-      html_options().tap do |html_options|
+      @tag_options ||= html_options().tap do |html_options|
         html_options['data-input-js-options'] = (JSON.generate(js_options) rescue {})
         html_options[:class] = html_options[:class].join(' ')
         html_options[:placeholder] = (html_options[:placeholder].presence || options[:placeholder])

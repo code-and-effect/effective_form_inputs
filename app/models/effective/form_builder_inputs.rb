@@ -16,6 +16,10 @@ module Effective
       Inputs::EffectivePrice::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
 
+    def effective_radio_buttons(method, options = {})
+      Inputs::EffectiveRadioButtons::Input.new(@object, @object_name, @template, method, options, options).to_html
+    end
+
     def effective_static_control(method, options = {})
       Inputs::EffectiveStaticControl::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
