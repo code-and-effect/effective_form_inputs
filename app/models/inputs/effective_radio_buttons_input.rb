@@ -1,5 +1,5 @@
 # = simple_form_for @thing do |f|
-#   = f.input :breakfast, :as => :effective_radio_buttons, :collection => ['Eggs', 'Bacon']
+#   = f.input :breakfast, :as => :effective_radio_buttons, :collection => ['Eggs', 'Bacon'], images => [asset_path('eggs.png'), asset_path('bacon.png')]
 
 if defined?(SimpleForm)
 
