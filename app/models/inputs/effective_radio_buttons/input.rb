@@ -19,7 +19,7 @@ module Inputs
 
       def to_html
         initialize_and_validate_images!
-        collection_radio_buttons(@object_name, @method, collection, options[:value_method], options[:label_method], {}, item_html_options, &proc { |builder| render_item(builder) })
+        collection_radio_buttons(@object_name, @method, collection, options[:value_method], options[:label_method], options.slice(:checked), item_html_options, &proc { |builder| render_item(builder) })
       end
 
       def render_item(builder)
