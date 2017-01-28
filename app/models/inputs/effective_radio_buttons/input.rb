@@ -23,14 +23,18 @@ module Inputs
       end
 
       def render_item(builder)
-        if options[:nested_boolean_style] == :nested
+        if options[:nested_boolean_style] == :nested || options[:buttons]
           item = builder.label { builder.radio_button + item_image_or_text(builder) }
         else
           item = builder.radio_button + builder.label { item_image_or_text(builder) }
         end
 
         if options[:item_wrapper_tag]
-          content_tag(options[:item_wrapper_tag], item, class: options[:item_wrapper_class])
+          active = (builder.object.send(options[:value_method]).to_s == value.to_s)
+
+          content_tag(options[:item_wrapper_tag], item,
+            class: ['btn', 'btn-default', options[:item_wrapper_class], ('active' if active)].flatten.uniq.join(' ')
+          )
         else
           item
         end
@@ -61,6 +65,10 @@ module Inputs
           collection = options.delete(:collection) || BOOLEAN_COLLECTION
           collection.respond_to?(:call) ? collection.call : collection.to_a
         end
+      end
+
+      def value
+        options[:checked] || super
       end
 
       private

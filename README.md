@@ -691,7 +691,9 @@ To install this form input individually, add the following to your application.c
 
 There is no javascript.
 
-### Usage
+### Bootstrap button group
+
+Pass `buttons: true` to the input options to render as a bootstrap button group.
 
 As a SimpleForm input:
 
@@ -700,13 +702,20 @@ As a SimpleForm input:
   = f.input :breakfast,
     :as => :effective_radio_buttons,
     :collection => ['eggs', 'toast', 'bacon'],
-    :images => [asset_path('eggs.png'), asset_path('toast.png'), asset_path('bacon.png')]
+    :buttons => true
 ```
 
-### Options
+### Images
 
-The only additional option is `images: []`, which must be an array of strings the same length as the collection.
+Pass `images: []` as an array of strings with the same length as the collection to render image buttons.
 
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :images => [asset_path('eggs.png'), asset_path('toast.png'), asset_path('bacon.png')]
+```
 
 ## License
 

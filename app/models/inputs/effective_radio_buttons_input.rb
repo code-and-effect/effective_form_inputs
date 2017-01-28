@@ -15,6 +15,10 @@ if defined?(SimpleForm)
       if options[:images]
         options[:wrapper_html] ||= {}
         options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} image_radio_buttons".strip
+      elsif options[:buttons]
+        options[:wrapper_html] ||= {}
+        options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} button_radio_buttons btn-group".strip
+        options[:wrapper_html][:data] = { toggle: 'buttons' }
       end
 
       Inputs::EffectiveRadioButtons::Input.new(object, object_name, template, attribute_name, input_options, (merge_wrapper_options(input_html_options, wrapper_options) || {})).to_html
