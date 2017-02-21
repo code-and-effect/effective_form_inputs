@@ -51,7 +51,7 @@ module Inputs
       end
 
       def item_html_options
-        @item_html_options ||= { class: tag_options[:class] }
+        @item_html_options ||= { class: tag_options[:class], name: tag_options[:name] }.delete_if { |k, v| v.blank? }
       end
 
       def html_options

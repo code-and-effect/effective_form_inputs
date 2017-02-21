@@ -4,7 +4,7 @@ module Inputs
       delegate :content_tag, :text_field_tag, :to => :@template
 
       def default_input_js
-        {format: 'YYYY-MM-DD HH:mm', sideBySide: true}
+        {format: 'YYYY-MM-DD HH:mm', sideBySide: true, showTodayButton: true, showClear: true}
       end
 
       def default_input_html
