@@ -8,7 +8,7 @@ module Inputs
       end
 
       def default_input_js
-        { theme: 'bootstrap', minimumResultsForSearch: 6, tokenSeparators: [',', ' '], width: 'style', placeholder: 'Please choose' }
+        { theme: 'bootstrap', minimumResultsForSearch: 6, tokenSeparators: [',', ';', '\n', '\t'], width: 'style', placeholder: 'Please choose' }
       end
 
       def default_input_html
