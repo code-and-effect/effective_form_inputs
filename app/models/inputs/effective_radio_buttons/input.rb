@@ -23,7 +23,9 @@ module Inputs
       end
 
       def render_item(builder)
-        if options[:nested_boolean_style] == :nested || options[:buttons]
+        if options[:inline]
+          item = builder.radio_button + item_image_or_text(builder)
+        elsif (options[:nested_boolean_style] == :nested || options[:buttons])
           item = builder.label { builder.radio_button + item_image_or_text(builder) }
         else
           item = builder.radio_button + builder.label { item_image_or_text(builder) }
@@ -69,6 +71,18 @@ module Inputs
 
       def value
         options[:checked] || super
+      end
+
+      def options
+        @effective_radio_buttons_options ||= super().tap do |options|
+          options[:item_wrapper_class] = Array(options[:item_wrapper_class]).flatten.uniq
+
+          if options[:inline]
+            options[:item_wrapper_tag] = :label
+            options[:item_wrapper_class] = 'radio-inline'
+          end
+
+        end
       end
 
       private
