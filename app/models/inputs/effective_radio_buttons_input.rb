@@ -21,6 +21,11 @@ if defined?(SimpleForm)
         options[:wrapper_html][:data] = { toggle: 'buttons' }
       end
 
+      if options[:inline]
+        options[:wrapper_html] ||= {}
+        options[:wrapper_html][:class] = options[:wrapper_html][:class].to_s + ' inline'
+      end
+
       Inputs::EffectiveRadioButtons::Input.new(object, object_name, template, attribute_name, input_options, (merge_wrapper_options(input_html_options, wrapper_options) || {})).to_html
     end
 

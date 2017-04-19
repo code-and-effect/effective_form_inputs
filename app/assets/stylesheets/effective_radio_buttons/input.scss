@@ -23,3 +23,7 @@ div.effective_radio_buttons.image_radio_buttons {
     border: 3px solid #009bc9;
   }
 }
+
+div.effective_radio_buttons.inline {
+  label.control-label { display: block; }
+}

@@ -711,6 +711,20 @@ As a SimpleForm input:
     :buttons => true
 ```
 
+### Inline
+
+Pass `inline: true` to the input options to render the radio buttons inline.
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :inline => true
+```
+
 ### Images
 
 Pass `images: []` as an array of strings with the same length as the collection to render image buttons.
