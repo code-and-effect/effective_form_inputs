@@ -12,19 +12,24 @@ if defined?(SimpleForm)
       options[:value_method] = value_method
       options[:nested_boolean_style] = :nested if nested_boolean_style?
 
+      # Wrapper
+      options[:wrapper_html] ||= {}
+      options[:wrapper_html][:class] = Array(options[:wrapper_html][:class])
+
       if options[:images]
-        options[:wrapper_html] ||= {}
-        options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} image_radio_buttons".strip
-      elsif options[:buttons]
-        options[:wrapper_html] ||= {}
-        options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} button_radio_buttons btn-group".strip
+        options[:wrapper_html][:class] << 'image_radio_buttons'
+      end
+
+      if options[:buttons]
+        options[:wrapper_html][:class] << 'button_radio_buttons btn-group'
         options[:wrapper_html][:data] = { toggle: 'buttons' }
       end
 
       if options[:inline]
-        options[:wrapper_html] ||= {}
-        options[:wrapper_html][:class] = options[:wrapper_html][:class].to_s + ' inline'
+        options[:wrapper_html][:class] << 'inline_radio_buttons'
       end
+
+      options[:wrapper_html][:class] = options[:wrapper_html][:class].join(' ')
 
       Inputs::EffectiveRadioButtons::Input.new(object, object_name, template, attribute_name, input_options, (merge_wrapper_options(input_html_options, wrapper_options) || {})).to_html
     end
