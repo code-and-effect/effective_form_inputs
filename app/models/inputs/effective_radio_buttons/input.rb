@@ -33,7 +33,7 @@ module Inputs
           active = (builder.object.send(options[:value_method]).to_s == value.to_s)
 
           content_tag(options[:item_wrapper_tag], item,
-            class: ['btn', 'btn-default', options[:item_wrapper_class], ('active' if active)].flatten.uniq.join(' ')
+            class: [('btn btn-default' if options[:buttons]), options[:item_wrapper_class], ('active' if active)].flatten.compact.uniq.join(' ')
           )
         else
           item
