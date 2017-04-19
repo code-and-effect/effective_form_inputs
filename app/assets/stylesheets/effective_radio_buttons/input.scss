@@ -28,7 +28,17 @@ div.effective_radio_buttons.inline_radio_buttons {
   label.control-label { display: block; }
 }
 
+div.effective_radio_buttons.button_radio_buttons {
+  input { display: none; }
+}
+
 .btn-group.effective_radio_buttons > .btn.radio-first:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
+}
+
+form.form-horizontal {
+  .btn-group.effective_radio_buttons {
+    display: block;
+  }
 }
