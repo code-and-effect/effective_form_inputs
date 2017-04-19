@@ -26,6 +26,11 @@ div.effective_radio_buttons.image_radio_buttons {
 
 div.effective_radio_buttons.inline_radio_buttons {
   label.control-label { display: block; }
+
+  label.radio-inline {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
 }
 
 div.effective_radio_buttons.button_radio_buttons {
