@@ -23,19 +23,28 @@ module Inputs
       end
 
       def render_item(builder)
-        if options[:inline]
+        if options[:inline] || options[:buttons]
           item = builder.radio_button + item_image_or_text(builder)
-        elsif (options[:nested_boolean_style] == :nested || options[:buttons])
+        elsif options[:nested_boolean_style] == :nested
           item = builder.label { builder.radio_button + item_image_or_text(builder) }
         else
           item = builder.radio_button + builder.label { item_image_or_text(builder) }
+        end
+
+        if options[:buttons]
+          @button_index ||= -1; @button_index += 1
         end
 
         if options[:item_wrapper_tag]
           active = (builder.object.send(options[:value_method]).to_s == value.to_s)
 
           content_tag(options[:item_wrapper_tag], item,
-            class: [('btn btn-default' if options[:buttons]), options[:item_wrapper_class], ('active' if active)].flatten.compact.uniq.join(' ')
+            class: [
+              options[:item_wrapper_class],
+              ('btn btn-default' if options[:buttons]),
+              ('radio-first' if options[:buttons] && @button_index == 0),
+              ('active' if active)
+            ].flatten.compact.uniq.join(' ')
           )
         else
           item
@@ -77,8 +86,8 @@ module Inputs
         @effective_radio_buttons_options ||= super().tap do |options|
           options[:item_wrapper_class] = Array(options[:item_wrapper_class]).flatten.uniq
 
-          if options[:inline]
-            options[:item_wrapper_tag] = :label
+          if options[:inline] || options[:buttons]
+            options[:item_wrapper_tag] = :label unless options[:buttons]
             options[:item_wrapper_class] = 'radio-inline'
           end
 

@@ -21,11 +21,11 @@ if defined?(SimpleForm)
       end
 
       if options[:buttons]
-        options[:wrapper_html][:class] << 'button_radio_buttons btn-group'
+        options[:wrapper_html][:class] << 'button_radio_buttons btn-group inline_radio_buttons'
         options[:wrapper_html][:data] = { toggle: 'buttons' }
       end
 
-      if options[:inline]
+      if options[:inline] && !options[:buttons]
         options[:wrapper_html][:class] << 'inline_radio_buttons'
       end
 
