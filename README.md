@@ -396,6 +396,12 @@ To add a css class to the select2 container or dropdown:
 :dropdownClass => 'custom-dropdown-class'
 ```
 
+### Additional
+
+Call with `single_selected: true` to ensure only the first selected option tag will be `<option selected="selected">`.
+
+This can be useful when displaying multiple options with an identical value.
+
 ### Working with dynamic options
 
 The following information applies to `effective_select` only, and is not part of the standard select2 API.

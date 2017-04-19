@@ -31,6 +31,12 @@ module Inputs
           html += hidden_field(@object_name, polymorphic_id_method, value: polymorphic_id_value)
         end
 
+        if options[:single_selected]
+          if html.sub!('selected="selected"', "selected='selected'")
+            html.gsub!('selected="selected"', '')
+          end
+        end
+
         html
       end
 
@@ -112,6 +118,8 @@ module Inputs
               elsif value.first.respond_to?(options[:value_method])  # This is probably a belongs_to ActiveRecord object
                 options[:selected] = value.map { |value| (value.public_send(options[:value_method]) rescue value) }
               end
+            when Integer
+              options[:selected] = value
             else  # Value is not an Array
               if options[:polymorphic]
                 options[:selected] = polymorphic_value(value)
