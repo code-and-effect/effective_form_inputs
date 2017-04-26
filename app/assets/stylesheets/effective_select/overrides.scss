@@ -12,6 +12,12 @@
   width: 10px;
 }
 
+.select2-dropdown .select2-dropdown--below,
+.select2-container--open .select2-dropdown--below,
+.select2-container--bootstrap .select2-dropdown {
+  min-width: 200px;
+}
+
 .select2-container .select2-search--inline .select2-search__field {
   width: 100% !important;
 }
