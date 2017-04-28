@@ -24,11 +24,11 @@ module Inputs
 
       def render_item(builder)
         if options[:inline] || options[:buttons]
-          item = builder.radio_button + item_image_or_text(builder)
+          item = builder.radio_button(item_html_options) + item_image_or_text(builder)
         elsif options[:nested_boolean_style] == :nested
-          item = builder.label { builder.radio_button + item_image_or_text(builder) }
+          item = builder.label { builder.radio_button(item_html_options) + item_image_or_text(builder) }
         else
-          item = builder.radio_button + builder.label { item_image_or_text(builder) }
+          item = builder.radio_button(item_html_options) + builder.label { item_image_or_text(builder) }
         end
 
         if options[:buttons]
@@ -62,7 +62,7 @@ module Inputs
       end
 
       def item_html_options
-        @item_html_options ||= { class: tag_options[:class], name: tag_options[:name] }.delete_if { |k, v| v.blank? }
+        @item_html_options ||= tag_options
       end
 
       def html_options
