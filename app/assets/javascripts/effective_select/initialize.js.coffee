@@ -16,7 +16,9 @@ initialize = ->
 $ -> initialize()
 $(document).on 'page:change', -> initialize()
 $(document).on 'turbolinks:load', -> initialize()
+$(document).on 'turbolinks:render', -> initialize()
 $(document).on 'cocoon:after-insert', -> initialize()
+$(document).on 'turbolinks:before-cache', -> $('select.effective_select.initialized').select2('destroy')
 
 # If we're working with a polymorphic select, split out the ID and assign the hidden _type and _id fields
 $(document).on 'change', "select.effective_select.polymorphic", (event) ->

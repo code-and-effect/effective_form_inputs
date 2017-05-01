@@ -13,4 +13,5 @@ initialize = ->
 $ -> initialize()
 $(document).on 'page:change', -> initialize()
 $(document).on 'turbolinks:load', -> initialize()
+$(document).on 'turbolinks:render', -> initialize()
 $(document).on 'cocoon:after-insert', -> initialize()
