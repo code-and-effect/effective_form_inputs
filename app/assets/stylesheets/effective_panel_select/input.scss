@@ -1,0 +1,43 @@
+.effective_panel_select {
+  .tabs-left {
+    float: left;
+    width: 50%;
+
+    > .nav-tabs {
+      margin-right: 18px;
+      border-right: 1px solid #ddd;
+      border-bottom: none;
+    }
+
+    > .nav-tabs > li {
+      float: none;
+    }
+
+    > .nav-tabs > li > a {
+      margin-right: -1px;
+
+      -webkit-border-radius: 4px 0 0 4px;
+         -moz-border-radius: 4px 0 0 4px;
+              border-radius: 4px 0 0 4px;
+    }
+
+    > .nav-tabs .active > a,
+    > .nav-tabs .active > a:hover
+    > .nav-tabs .active > a:focus {
+      border-color: #ddd transparent #ddd #ddd;
+    }
+
+  }
+
+  .tab-content {
+    float: left;
+    width: 50%;
+
+    ul.options {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+  }
+}
