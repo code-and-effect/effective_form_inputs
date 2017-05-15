@@ -11,18 +11,19 @@
 
     .tab-content
       - input.collection.each_with_index do |(group, items), index|
+        - group_label = group.send(input.options[:group_label_method]).to_s.downcase
         - group_value = group.send(input.options[:group_method])
 
         .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
           %h2= group
-          %p Select #{input.method_name}:
+          %p Select #{group_label} #{input.method_name}:
 
           %ul.options
             - Array(items).each do |item|
               - item_value = item.send(input.options[:option_key_method])
 
               %li{class: ('active' if item_value == input.value)}
-                %a{href: '#', 'data-effective-panel-select-option-id' => item_value}
+                %a{href: '#', 'data-effective-panel-select-id' => item_value}
                   = item.send(input.options[:option_value_method])
 
 
