@@ -12,6 +12,11 @@ module Effective
       Inputs::EffectiveDatePicker::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
 
+    def effective_panel_select(method, options_tag = nil, options = {}, html_options = {})
+      options[:collection] = options_tag
+      Inputs::EffectivePanelSelect::Input.new(@object, @object_name, @template, method, options, html_options).to_html
+    end
+
     def effective_price(method, options = {})
       Inputs::EffectivePrice::Input.new(@object, @object_name, @template, method, options, options).to_html
     end
