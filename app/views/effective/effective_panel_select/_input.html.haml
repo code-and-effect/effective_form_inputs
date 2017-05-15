@@ -1,38 +1,39 @@
 .panel.panel-default
   .panel-body
-    %span.selection
+
+    .selection{'data-effective-panel-select-toggle' => true}
       %span.selected
-        %span.selection-clear x
+        %span.selection-clear{'data-effective-panel-select-clear' => true} x
         #{input.option_label} and another thing that should be really long
       %span.selection-arrow
         %b
 
-  / .panel-body
-  /   .tabbable.tabs-left{role: 'tabpanel'}
-  /     %ul.nav.nav-tabs{role: 'tablist'}
-  /       - input.collection.each_with_index do |(group, _), index|
-  /         - group_value = group.send(input.options[:group_method])
+    .selector
+      .tabbable.tabs-left{role: 'tabpanel'}
+        %ul.nav.nav-tabs{role: 'tablist'}
+          - input.collection.each_with_index do |(group, _), index|
+            - group_value = group.send(input.options[:group_method])
 
-  /         %li{class: ('active' if group_value == input.group_value)}
-  /           %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
-  /             = group
+            %li{class: ('active' if group_value == input.group_value)}
+              %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
+                = group
 
-  /   .tab-content
-  /     - input.collection.each_with_index do |(group, items), index|
-  /       - group_label = group.send(input.options[:group_label_method]).to_s.downcase
-  /       - group_value = group.send(input.options[:group_method])
+      .tab-content
+        - input.collection.each_with_index do |(group, items), index|
+          - group_label = group.send(input.options[:group_label_method]).to_s.downcase
+          - group_value = group.send(input.options[:group_method])
 
-  /       .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
-  /         %h2= group
-  /         %p Select #{group_label} #{input.method_name}:
+          .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
+            %h2= group
+            %p Select #{group_label} #{input.method_name}:
 
-  /         %ul.options
-  /           - Array(items).each do |item|
-  /             - item_value = item.send(input.options[:option_key_method])
+            %ul.options
+              - Array(items).each do |item|
+                - item_value = item.send(input.options[:option_key_method])
 
-  /             %li{class: ('active' if item_value == input.value)}
-  /               %a{href: '#', 'data-effective-panel-select-id' => item_value}
-  /                 = item.send(input.options[:option_value_method])
+                %li{class: ('active' if item_value == input.value)}
+                  %a{href: '#', 'data-effective-panel-select-id' => item_value}
+                    = item.send(input.options[:option_value_method])
 
 
 
