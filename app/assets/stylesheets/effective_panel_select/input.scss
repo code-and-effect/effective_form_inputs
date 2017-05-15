@@ -1,4 +1,8 @@
 .effective_panel_select {
+  .panel-body {
+    padding: 6px;
+  }
+
   .tabs-left {
     float: left;
     width: 50%;
@@ -37,6 +41,48 @@
       margin: 0;
       padding: 0;
     }
-
   }
+
+  .selection {
+    width: 100%;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+
+    .selection-clear {
+      color: #999;
+      font-weight: bold;
+
+      &:hover { color: #333; }
+    }
+
+    .selection-placeholder {
+      color: #999;
+      white-space: nowrap;
+    }
+
+    .selection-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .selection-arrow {
+      float: right;
+
+      width: 4px;
+      height: 4px;
+      margin-top: -8px;
+      margin-right: 10px;
+
+      b {
+        border-color: #999 transparent transparent transparent;
+        border-style: solid;
+        border-width: 4px 4px 0 4px;
+        margin-left: 4px;
+        margin-top: -2px;
+      }
+    }
+  }
+
 }
