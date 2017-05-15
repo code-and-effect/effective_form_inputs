@@ -1,6 +1,6 @@
 .effective_panel_select {
   .panel-body {
-    padding: 6px;
+    padding: 0px;
   }
 
   .tabs-left {
@@ -49,31 +49,34 @@
     font-size: 14px;
     cursor: pointer;
 
-    .selection-clear {
-      color: #999;
-      font-weight: bold;
-
-      &:hover { color: #333; }
-    }
-
-    .selection-placeholder {
-      color: #999;
-      white-space: nowrap;
-    }
-
-    .selection-label {
+    .selected {
+      display: block;
+      height: 32px;
+      padding: 6px 24px 6px 12px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    .selection-clear {
+      width: 10px;
+      color: #999;
+      font-weight: bold;
+      &:hover { color: #333; }
+    }
+
+    // .selection-placeholder {
+    //   color: #999;
+    //   white-space: nowrap;
+    // }
 
     .selection-arrow {
       float: right;
 
       width: 4px;
       height: 4px;
-      margin-top: -8px;
-      margin-right: 10px;
+      margin-top: -14px;
+      margin-right: 18px;
 
       b {
         border-color: #999 transparent transparent transparent;
