@@ -6,6 +6,7 @@
       placeholder: 'Please choose'
       invade: '.row'
       collapseOnSelect: false
+      resetOnCollapse: true
       ajax:
         url: ''
 
@@ -33,7 +34,7 @@
       @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
       @panel.on 'click', '[data-fetch-item]', (event) => @fetch($(event.currentTarget).closest('[data-item-value]').data('item-value')) and false
-      @panel.on 'click', '.fetched-clear', (event) => @setVal(@val(), true) and false
+      @panel.on 'click', '.fetched-clear', (event) => @reset() and false
       @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
 
     initInvade: ->
@@ -57,6 +58,7 @@
 
     collapse: ->
       @panel.removeClass('expanded')
+      @reset() if @options.resetOnCollapse
       @retreat() if @options.invade
 
     invade: ->
@@ -87,33 +89,38 @@
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
 
-    setVal: (value, skipCollapse) ->
+    setVal: (value) ->
       @input.val(value)
+
+      if value == null || value == undefined || value == ''
+        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @reset()
+      else
+        $item = @selector.find("li[data-item-value='#{value}']")
+        label = $item.find('a').clone().children().remove().end().text()
+
+        @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
+        if @options.collapseOnSelect then @collapse() else @reset()
+
+      @panel.trigger 'change'
+      true
+
+    reset: ->
+      value = @val()
 
       @selector.find("li.selected").removeClass('selected')
       @selector.find('.active').removeClass('active')
 
-      if value == null || value == undefined || value == ''
-        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
-      else
+      if (value == null || value == undefined || value == '') == false
         $item = @selector.find("li[data-item-value='#{value}']")
         $item.addClass('selected').addClass('active')
 
-        label = $item.find('a').clone().children().remove().end().text()
-
-        # Make sure the tabs are correct
         $tab_pane = $item.closest('.tab-pane')
 
         if $tab_pane.length
           $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
           $tab.addClass('selected').addClass('active')
           $tab_pane.addClass('active')
-
-        @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
-        @collapse() if @options.collapseOnSelect && !skipCollapse
-
-      @panel.trigger 'change'
-      true
 
     clear: -> @val(null)
 
