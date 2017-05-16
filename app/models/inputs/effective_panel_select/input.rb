@@ -14,7 +14,7 @@ module Inputs
       end
 
       def default_input_js
-        { placeholder: 'Please choose' }
+        { placeholder: 'Please choose', collapseOnSelect: false, invade: '.row' }
       end
 
       def default_input_html
@@ -27,6 +27,10 @@ module Inputs
 
       def method_name
         @method_name ||= @method.to_s.titleize.downcase
+      end
+
+      def ajax?
+        return true if js_options[:ajax]
       end
 
       # option_value           163

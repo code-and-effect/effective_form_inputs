@@ -41,6 +41,8 @@
 
                   %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
                     %a{href: '#'}= item.send(input.options[:option_value_method])
+                    - if input.ajax?
+                      %a.btn.btn-default{href: '#'} View
 
 
 

@@ -5,18 +5,21 @@
     defaults:
       placeholder: 'Please choose'
       invade: '.row'
-      collapseOnSelect: true
+      collapseOnSelect: false
+      ajax:
+        url: ''
+        cache: true
 
     panel: null       # Our root node. the .panel element
     input: null       # The input[type=hidden] field where we keep the selected value
-    selected: null    # Contains either a %span.selection-placeholder, or a %span.selection-clear and %span.selection-label
+    label: null       # Contains either a %span.selection-placeholder, or a %span.selection-clear and %span.selection-label
     selector: null    # Root node of the container
     invading: false   # If we're currently invading the closest @options.invade selector
 
     constructor: (el, options) ->
       @panel = $(el)
       @input = @panel.find("input[type='hidden']")
-      @selected = @panel.find('span.selected')
+      @label = @panel.find('span.selected')
       @selector = @panel.children('.panel-body').children('.selector')
 
       @options = $.extend({}, @defaults, options)
@@ -84,7 +87,7 @@
       @selector.find('.active').removeClass('active')
 
       if value == null || value == undefined || value == ''
-        @selected.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
       else
         $item = @selector.find("li[data-item-value='#{value}']")
         $item.addClass('selected')
@@ -99,7 +102,7 @@
           $tab.addClass('selected').addClass('active')
           $tab_pane.addClass('active')
 
-        @selected.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
+        @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
         @collapse() if @options.collapseOnSelect
 
       @panel.trigger 'change'
