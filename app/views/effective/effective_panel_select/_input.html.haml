@@ -5,9 +5,9 @@
 
     .selection
       %span.selected
-        %span.selection-clear x
         - if input.option_label.present?
-          = input.option_label
+          %span.selection-clear x
+          %span.selection-label= input.option_label
         - else
           %span.selection-placeholder Please Choose
       %span.selection-arrow
@@ -28,7 +28,7 @@
           - group_label = group.send(input.options[:group_label_method]).to_s.downcase
           - group_value = group.send(input.options[:group_method])
 
-          .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
+          .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value), 'data-group-value' => group_value }
             %h2= group
             %p Select #{group_label} #{input.method_name}:
 
@@ -36,9 +36,8 @@
               - Array(items).each do |item|
                 - item_value = item.send(input.options[:option_key_method])
 
-                %li{class: ('active' if item_value == input.value)}
-                  %a{href: '#', 'data-effective-panel-select-id' => item_value}
-                    = item.send(input.options[:option_value_method])
+                %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
+                  %a{href: '#'}= item.send(input.options[:option_value_method])
 
 
 

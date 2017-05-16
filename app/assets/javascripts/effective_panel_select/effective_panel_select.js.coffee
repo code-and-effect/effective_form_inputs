@@ -4,12 +4,17 @@
   class EffectivePanelSelect
     defaults:
       expandClass: 'expanded'
+      selectedClass: 'selected'
+      placeholder: 'Please choose'
 
     panel: null  # Our root node. the .panel element
 
     constructor: (el, options) ->
       @panel = $(el)
       @input = @panel.find("input[type='hidden']")
+      @selected = @panel.find('span.selected')
+      @selector = @panel.children('.panel-body').children('.selector')
+
       @options = $.extend({}, @defaults, options)
 
       @initEvents()
@@ -18,6 +23,7 @@
     initEvents: ->
       @panel.on 'click', '.selection', (event) => @toggle()
       @panel.on 'click', '.selection-clear', (event) => @clear()
+      @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
 
     # Rest of these are commands
 
@@ -37,10 +43,34 @@
 
     setVal: (value) ->
       @input.val(value)
-      @panel.trigger 'change'
 
-    clear: ->
-      @val(123)
+      @selector.find("li.#{@options.selectedClass}").removeClass(@options.selectedClass)
+
+      if value == null || value == undefined || value == ''
+        @selected.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+      else
+        $item = @selector.find("li[data-item-value='#{value}']")
+        $item.addClass(@options.selectedClass)
+
+        label = $item.find('a').html()
+
+        # Make sure the tabs are correct
+        $tab_pane = $item.closest('.tab-pane')
+
+        if $tab_pane.length
+          $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']")
+
+          unless ($tab.length && $tab.hasClass('active'))
+            @selector.find('.active').removeClass('.active')
+            $tab.addClass('active')
+            $tab_pane.addClass('active')
+
+        @selected.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
+
+      @panel.trigger 'change'
+      true
+
+    clear: -> @val(null) and false
 
   $.fn.extend effectivePanelSelect: (option, args...) ->
     retval = @each
