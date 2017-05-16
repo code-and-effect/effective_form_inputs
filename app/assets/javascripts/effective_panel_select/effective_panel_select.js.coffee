@@ -3,9 +3,8 @@
 (($, window) ->
   class EffectivePanelSelect
     defaults:
-      expandClass: 'expanded'
-      selectedClass: 'selected'
       placeholder: 'Please choose'
+      invade: '.row'
 
     panel: null     # Our root node. the .panel element
     input: null     # The input[type=hidden] field where we keep the selected value
@@ -32,13 +31,20 @@
 
     # Expand / Collapse
     toggle: ->
-      if @panel.hasClass(@options.expandClass) then @collapse() else @expand()
+      if @panel.hasClass('expanded') then @collapse() else @expand()
 
     expand: ->
-      @panel.addClass(@options.expandClass)
+      @panel.addClass('expanded')
+      return if @options.invade == false
+
+      # target = @panel.closest(@options.invade)
+      # if target.length
+      #   @panel.detach
+      #   target.children().hide()
+      #   target.append(@panel)
 
     collapse: ->
-      @panel.removeClass(@options.expandClass)
+      @panel.removeClass('expanded')
 
     # Get / Set / Clear selection
     val: (args...) ->
