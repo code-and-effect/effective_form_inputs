@@ -22,10 +22,7 @@ module Inputs
       end
 
       def to_html
-        hidden_field_tag(field_name, value) + render('effective/effective_panel_select/input', input: self)
-
-        #text_field_tag(field_name, value_label, tag_options)
-        #grouped_collection_select(@object_name, @method, collection, options[:group_method], options[:group_label_method], options[:option_key_method], options[:option_value_method], options, tag_options)
+        render('effective/effective_panel_select/input', input: self)
       end
 
       def method_name

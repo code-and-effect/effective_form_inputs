@@ -481,6 +481,16 @@ validates :phone, format: { with: /\A\(\d{3}\) \d{3}-\d{4}( x\d+)?\Z/ }
 validates :phone, effective_tel: true   # Enforces same format as above
 ```
 
+## Effective Panel Select
+
+A new way to do grouped collection selects.
+
+```javascript
+$(document).on 'change', '.effective-panel-select', (event) ->
+  console.log $(event.currentTarget).effectivePanelSelect('val')
+```
+
+
 ## Effective Price
 
 This custom form input uses no 3rd party jQuery plugins.
