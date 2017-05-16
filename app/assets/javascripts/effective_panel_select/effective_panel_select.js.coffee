@@ -7,7 +7,10 @@
       selectedClass: 'selected'
       placeholder: 'Please choose'
 
-    panel: null  # Our root node. the .panel element
+    panel: null     # Our root node. the .panel element
+    input: null     # The input[type=hidden] field where we keep the selected value
+    selected: null  # Contains either a %span.selection-placeholder, or a %span.selection-clear and %span.selection-label
+    selector: null  # Root node of the expanded container
 
     constructor: (el, options) ->
       @panel = $(el)
