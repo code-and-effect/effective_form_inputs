@@ -25,7 +25,7 @@
 
     initEvents: ->
       @panel.on 'click', '.selection', (event) => @toggle()
-      @panel.on 'click', '.selection-clear', (event) => @clear()
+      @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
 
     # Rest of these are commands
@@ -51,6 +51,7 @@
 
       if value == null || value == undefined || value == ''
         @selected.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @selector.find('.active').removeClass('active')
       else
         $item = @selector.find("li[data-item-value='#{value}']")
         $item.addClass(@options.selectedClass)
@@ -64,7 +65,7 @@
           $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']")
 
           unless ($tab.length && $tab.hasClass('active'))
-            @selector.find('.active').removeClass('.active')
+            @selector.find('.active').removeClass('active')
             $tab.addClass('active')
             $tab_pane.addClass('active')
 
@@ -73,7 +74,7 @@
       @panel.trigger 'change'
       true
 
-    clear: -> @val(null) and false
+    clear: -> @val(null)
 
   $.fn.extend effectivePanelSelect: (option, args...) ->
     retval = @each
