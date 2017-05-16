@@ -8,7 +8,6 @@
       collapseOnSelect: false
       ajax:
         url: ''
-        cache: true
 
     panel: null       # Our root node. the .panel element
     input: null       # The input[type=hidden] field where we keep the selected value
@@ -122,7 +121,6 @@
     fetch: (value) ->
       return unless @options.ajax && @options.ajax.url
       url = @options.ajax.url.replace(':id', value)
-      console.log "fetching #{url}"
 
       fetched = @fetched.children("div[data-fetch='#{url}']")
 
@@ -136,8 +134,7 @@
         @fetched.append(fetched)
 
       @fetched.parent().find('.active').removeClass('active')
-      @fetched.children(':not(.top)').hide()
-      @fetched.addClass('active')
+      @fetched.addClass('active').children(':not(.top)').hide()
       fetched.show()
       @fetched.children('.top').find('.fetched-select').data('item-value', value)
 

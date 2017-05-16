@@ -30,7 +30,7 @@
             - group_value = group.send(input.options[:group_method])
 
             .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
-              %p #{group_label} #{input.method_name.pluralize}:
+              %p #{group_label}:
 
               %ul.nav.nav-pills.nav-stacked
                 - Array(items).each do |item|
