@@ -13,31 +13,33 @@
       %span.selection-arrow
         %b
 
-    .selector
-      .tabbable.tabs-left{role: 'tabpanel'}
-        %ul.nav.nav-tabs{role: 'tablist'}
-          - input.collection.each do |group, _|
+    .selector.row
+      .col-sm-4
+        .tabbable.tabs-left{role: 'tabpanel'}
+          %ul.nav.nav-tabs{role: 'tablist'}
+            - input.collection.each do |group, _|
+              - group_value = group.send(input.options[:group_method])
+
+              %li{class: ('selected active' if group_value == input.group_value) }
+                %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
+                  = group
+
+      .col-sm-8
+        .tab-content
+          - input.collection.each do |group, items|
+            - group_label = group.send(input.options[:group_label_method]).to_s.downcase
             - group_value = group.send(input.options[:group_method])
 
-            %li{class: ('selected active' if group_value == input.group_value) }
-              %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
-                = group
+            .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
+              %h2= group
+              %p Select #{group_label} #{input.method_name}:
 
-      .tab-content
-        - input.collection.each do |group, items|
-          - group_label = group.send(input.options[:group_label_method]).to_s.downcase
-          - group_value = group.send(input.options[:group_method])
+              %ul.options
+                - Array(items).each do |item|
+                  - item_value = item.send(input.options[:option_key_method])
 
-          .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
-            %h2= group
-            %p Select #{group_label} #{input.method_name}:
-
-            %ul.options
-              - Array(items).each do |item|
-                - item_value = item.send(input.options[:option_key_method])
-
-                %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
-                  %a{href: '#'}= item.send(input.options[:option_value_method])
+                  %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
+                    %a{href: '#'}= item.send(input.options[:option_value_method])
 
 
 

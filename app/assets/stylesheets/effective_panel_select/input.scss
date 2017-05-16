@@ -12,11 +12,8 @@
   }
 
   .tabs-left {
-    float: left;
-    width: 50%;
-
     > .nav-tabs {
-      margin: 0 18px 4px 2px;
+      margin: 0 0 4px 2px;
       border-right: 1px solid #ddd;
       border-bottom: none;
     }
@@ -41,8 +38,7 @@
   }
 
   .tab-content {
-    float: left;
-    width: 50%;
+    padding: 0 15px 0 0;
 
     ul.options {
       list-style-type: none;

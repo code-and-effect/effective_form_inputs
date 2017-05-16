@@ -5,6 +5,7 @@
     defaults:
       placeholder: 'Please choose'
       invade: '.row'
+      collapseOnSelect: true
 
     panel: null       # Our root node. the .panel element
     input: null       # The input[type=hidden] field where we keep the selected value
@@ -44,6 +45,10 @@
       @panel.addClass('expanded')
       @invade() if @options.invade
 
+    collapse: ->
+      @panel.removeClass('expanded')
+      @retreat() if @options.invade
+
     invade: ->
       target = @home.closest(@options.invade)
       return unless target.length && !@invading
@@ -67,10 +72,6 @@
       if hint.length then @panel.insertBefore(hint) else @home.append(@panel)
 
       @invading = false
-
-    collapse: ->
-      @panel.removeClass('expanded')
-      @retreat() if @options.invade
 
     # Get / Set / Clear selection
     val: (args...) ->
@@ -99,6 +100,7 @@
           $tab_pane.addClass('active')
 
         @selected.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
+        @collapse() if @options.collapseOnSelect
 
       @panel.trigger 'change'
       true
