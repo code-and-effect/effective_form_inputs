@@ -20,7 +20,7 @@
       @panel = $(el)
       @input = @panel.find("input[type='hidden']")
       @label = @panel.find('span.selected')
-      @selector = @panel.children('.panel-body').children('.selector')
+      @selector = @panel.children('.selector')
 
       @options = $.extend({}, @defaults, options)
 
@@ -90,9 +90,9 @@
         @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
       else
         $item = @selector.find("li[data-item-value='#{value}']")
-        $item.addClass('selected')
+        $item.addClass('selected').addClass('active')
 
-        label = $item.find('a').html()
+        label = $item.find('a').clone().children().remove().end().text()
 
         # Make sure the tabs are correct
         $tab_pane = $item.closest('.tab-pane')

@@ -5,48 +5,8 @@
 .effective-panel-select { // This will also have the classes panel and .panel-default
   margin-bottom: 0px;
 
-  .panel-body { padding: 0px; }
-
   li.selected {
     font-weight: bold;
-  }
-
-  .tabs-left {
-    > .nav-tabs {
-      margin: 0 0 4px 2px;
-      border-right: 1px solid #ddd;
-      border-bottom: none;
-    }
-
-    > .nav-tabs > li {
-      float: none;
-    }
-
-    > .nav-tabs > li > a {
-      margin-right: -1px;
-
-      -webkit-border-radius: 4px 0 0 4px;
-         -moz-border-radius: 4px 0 0 4px;
-              border-radius: 4px 0 0 4px;
-    }
-
-    > .nav-tabs .active > a,
-    > .nav-tabs .active > a:hover
-    > .nav-tabs .active > a:focus {
-      border-color: #ddd transparent #ddd #ddd;
-    }
-  }
-
-  .tab-content {
-    padding: 0 15px 0 0;
-
-    ul.options {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-
-      li { padding: 4px; }
-    }
   }
 
   .selector { display: none; }

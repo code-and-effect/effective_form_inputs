@@ -1,30 +1,28 @@
 .panel.panel-default.effective-panel-select{'data-input-js-options' => input.js_options.to_json }
   = hidden_field_tag(input.field_name, input.value)
 
-  .panel-body
+  .selection
+    %span.selected
+      - if input.option_label.present?
+        %span.selection-clear x
+        %span.selection-label= input.option_label
+      - else
+        %span.selection-placeholder Please Choose
+    %span.selection-arrow
+      %b
 
-    .selection
-      %span.selected
-        - if input.option_label.present?
-          %span.selection-clear x
-          %span.selection-label= input.option_label
-        - else
-          %span.selection-placeholder Please Choose
-      %span.selection-arrow
-        %b
-
-    .selector.row
+  .selector
+    .row
       .col-sm-4
-        .tabbable.tabs-left{role: 'tabpanel'}
-          %ul.nav.nav-tabs{role: 'tablist'}
-            - input.collection.each do |group, _|
-              - group_label = group.send(input.options[:group_label_method])
-              - group_value = group.send(input.options[:group_method])
+        %ul.nav.nav-pills.nav-stacked{role: 'tablist'}
+          - input.collection.each do |group, items|
+            - group_label = group.send(input.options[:group_label_method])
+            - group_value = group.send(input.options[:group_method])
 
-              %li{class: ('selected active' if group_value == input.group_value) }
-                %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
-                  = group_label
-
+            %li{class: ('active selected' if group_value == input.group_value) }
+              %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
+                = group_label
+                %span.badge= items.length
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
@@ -32,17 +30,17 @@
             - group_value = group.send(input.options[:group_method])
 
             .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
-              %h2= group
-              %p Select #{group_label.to_s.downcase} #{input.method_name}:
+              %p #{group_label} #{input.method_name.pluralize}:
 
-              %ul.options
+              %ul.nav.nav-pills.nav-stacked
                 - Array(items).each do |item|
                   - item_value = item.send(input.options[:option_key_method])
 
-                  %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
-                    %a{href: '#'}= item.send(input.options[:option_value_method])
-                    - if input.ajax?
-                      %a.btn.btn-default{href: '#'} View
+                  %li{class: ('active selected' if item_value == input.value), 'data-item-value' => item_value}
+                    %a{href: '#'}
+                      = item.send(input.options[:option_value_method])
+                      - if input.ajax?
+                        %span.badge.pull-right View
 
 
 
