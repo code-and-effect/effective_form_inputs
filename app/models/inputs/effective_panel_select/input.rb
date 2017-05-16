@@ -14,7 +14,7 @@ module Inputs
       end
 
       def default_input_js
-        { }
+        { placeholder: 'Please choose' }
       end
 
       def default_input_html
