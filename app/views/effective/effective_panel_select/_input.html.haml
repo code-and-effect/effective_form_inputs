@@ -16,7 +16,7 @@
     .selector
       .tabbable.tabs-left{role: 'tabpanel'}
         %ul.nav.nav-tabs{role: 'tablist'}
-          - input.collection.each_with_index do |(group, _), index|
+          - input.collection.each do |group, _|
             - group_value = group.send(input.options[:group_method])
 
             %li{class: ('selected active' if group_value == input.group_value) }
@@ -24,7 +24,7 @@
                 = group
 
       .tab-content
-        - input.collection.each_with_index do |(group, items), index|
+        - input.collection.each do |group, items|
           - group_label = group.send(input.options[:group_label_method]).to_s.downcase
           - group_value = group.send(input.options[:group_method])
 
@@ -38,6 +38,7 @@
 
                 %li{class: ('selected' if item_value == input.value), 'data-item-value' => item_value}
                   %a{href: '#'}= item.send(input.options[:option_value_method])
+
 
 
 
