@@ -26,17 +26,25 @@
 
       @initEvents()
       @initInvade()
+      @initAjax()
       true
 
     initEvents: ->
       @panel.on 'click', '.selection', (event) => @toggle()
       @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
+      @panel.on 'click', '[data-fetch-item]', (event) => @fetch($(event.currentTarget).closest('[data-item-value]').data('item-value')) and false
+      @panel.on 'click', '.fetched-clear', (event) => @setVal(@val(), true) and false
+      @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
 
     initInvade: ->
       return if @options.invade == false || @options.invade == 'false'
       @home = @panel.parent()
       @away = $("<div class='col-xs-12 effective_panel_select'></div>")
+
+    initAjax: ->
+      return unless @options.ajax && @options.ajax.url
+      @fetched = @selector.find('.fetched')
 
     # Rest of these are commands
 
@@ -80,7 +88,7 @@
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
 
-    setVal: (value) ->
+    setVal: (value, skipCollapse) ->
       @input.val(value)
 
       @selector.find("li.selected").removeClass('selected')
@@ -103,12 +111,35 @@
           $tab_pane.addClass('active')
 
         @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
-        @collapse() if @options.collapseOnSelect
+        @collapse() if @options.collapseOnSelect && !skipCollapse
 
       @panel.trigger 'change'
       true
 
     clear: -> @val(null)
+
+    # Ajax Stuff
+    fetch: (value) ->
+      return unless @options.ajax && @options.ajax.url
+      url = @options.ajax.url.replace(':id', value)
+      console.log "fetching #{url}"
+
+      fetched = @fetched.children("div[data-fetch='#{url}']")
+
+      if fetched.length == 0
+        fetched = $("<div data-fetch='#{url}'></div>")
+
+        fetched = fetched.load(url, (response, status, xhr) =>
+          fetched.append('<p>This item is unavailable (ajax error)</p>') if status == 'error'
+        )
+
+        @fetched.append(fetched)
+
+      @fetched.parent().find('.active').removeClass('active')
+      @fetched.children(':not(.top)').hide()
+      @fetched.addClass('active')
+      fetched.show()
+      @fetched.children('.top').find('.fetched-select').data('item-value', value)
 
   $.fn.extend effectivePanelSelect: (option, args...) ->
     retval = @each

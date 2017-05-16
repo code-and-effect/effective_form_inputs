@@ -9,7 +9,13 @@
     font-weight: bold;
   }
 
-  .selector { display: none; }
+  .selector {
+    display: none;
+
+    .tab-content { padding-top: 0px; }
+  }
+
+  .tab-pane.fetched { padding-right: 15px; }
 
   .selection {
     width: 100%;

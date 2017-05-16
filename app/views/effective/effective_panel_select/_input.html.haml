@@ -40,7 +40,15 @@
                     %a{href: '#'}
                       = item.send(input.options[:option_value_method])
                       - if input.ajax?
-                        %span.badge.pull-right View
+                        %span.badge.pull-right{'data-fetch-item' => true} View
+
+          - if input.ajax?
+            .tab-pane.fetched
+              .top.row
+                .col-xs-6
+                  .btn.btn-default.fetched-clear Back
+                .col-xs-6.text-right
+                  .btn.btn-primary.fetched-select Select
 
 
 
