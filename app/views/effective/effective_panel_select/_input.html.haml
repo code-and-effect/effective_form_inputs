@@ -18,21 +18,22 @@
         .tabbable.tabs-left{role: 'tabpanel'}
           %ul.nav.nav-tabs{role: 'tablist'}
             - input.collection.each do |group, _|
+              - group_label = group.send(input.options[:group_label_method])
               - group_value = group.send(input.options[:group_method])
 
               %li{class: ('selected active' if group_value == input.group_value) }
                 %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
-                  = group
+                  = group_label
 
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
-            - group_label = group.send(input.options[:group_label_method]).to_s.downcase
+            - group_label = group.send(input.options[:group_label_method])
             - group_value = group.send(input.options[:group_method])
 
             .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
               %h2= group
-              %p Select #{group_label} #{input.method_name}:
+              %p Select #{group_label.to_s.downcase} #{input.method_name}:
 
               %ul.options
                 - Array(items).each do |item|
