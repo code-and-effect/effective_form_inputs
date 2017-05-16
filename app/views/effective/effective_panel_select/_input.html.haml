@@ -1,9 +1,9 @@
 .panel.panel-default.effective-panel-select
   .panel-body
 
-    .selection{'data-effective-panel-select-toggle' => true}
+    .selection
       %span.selected
-        %span.selection-clear{'data-effective-panel-select-clear' => true} x
+        %span.selection-clear x
         - if input.option_label.present?
           = input.option_label
         - else

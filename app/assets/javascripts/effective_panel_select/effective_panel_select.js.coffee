@@ -15,14 +15,21 @@
       true
 
     initEvents: ->
-      @panel.on 'click', '[data-effective-panel-select-toggle]', (event) => @toggle()
+      @panel.on 'click', '.selection', (event) => @toggle()
+      @panel.on 'click', '.selection-clear', (event) => @clear()
+
+    expand: ->
+      @panel.addClass(@options.expandClass)
+      false
+
+    collapse: ->
+      @panel.removeClass(@options.expandClass)
 
     toggle: ->
-      if @panel.hasClass(@options.expandClass)
-        @panel.removeClass(@options.expandClass)
-      else
-        @panel.addClass(@options.expandClass)
+      if @panel.hasClass(@options.expandClass) then @collapse() else @expand()
 
+    clear: ->
+      false
 
   $.fn.extend effectivePanelSelect: (option, args...) ->
     @each ->
@@ -35,48 +42,6 @@
 
 ) window.jQuery, window
 
-
-
-
-
-
-# $(document).on 'click', '[data-effective-panel-select-toggle]', (event) ->
-#   toggle($(event.currentTarget).closest('.panel'))
-
-# # Expand / Collapse
-# toggle = ($panel) ->
-#   if $panel.hasClass('expanded')
-#     $panel.removeClass('expanded')
-#   else
-#     $panel.addClass('expanded')
-#   false
-
-  # else
-  #   $panel.addClass('expanded')
-  #   $('body').one 'click', (event) ->
-  #     console.log 'body click'
-  #     console.log event
-  #     $('.effective_panel_select').find('.expanded').removeClass('expanded')
-
-# $(document).on 'click', '[data-effective-panel-select-toggle]', (event) -> toggle($(event.currentTarget).closest('.panel'))
-
-# $(document).on 'click', '.effective_panel_select', (event) ->
-#   console.log 'clicked panel select'
-#   event.preventDefault()
-#   event.stopPropagation()
-#   event.originalEvent.stopPropagation()
-#   false
-
-# # $(document).on 'focusout', '.effective_panel_select', (event) ->
-# #   if $(event.relatedTarget).closest('.effective_panel_select').length == 0
-# #     toggle($(event.currentTarget).find('.panel'))
-
-# $(document).on 'click', 'a[data-effective-panel-select-id]', (event) ->
-#   $obj = $(event.currentTarget)
-#   val = $obj.data('effective-panel-select-id')
-#   console.log "Clicked #{val}"
-#   false
-
-# $(document).on 'click', '[data-effective-panel-select-clear]', (event) ->
-#   console.log "CLEAR"
-#   false
+$(document).on 'click', (event) ->
+  if !$(event.target).closest('.effective-panel-select').length
+    $('.effective-panel-select.initialized').effectivePanelSelect('collapse')
