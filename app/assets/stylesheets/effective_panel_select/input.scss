@@ -8,6 +8,10 @@
   .panel { margin-bottom: 0px; }
   .panel-body { padding: 0px; }
 
+  li.selected {
+    font-weight: bold;
+  }
+
   .tabs-left {
     float: left;
     width: 50%;
@@ -46,9 +50,7 @@
       margin: 0;
       padding: 0;
 
-      > li.selected {
-        font-weight: bold;
-      }
+
     }
   }
 

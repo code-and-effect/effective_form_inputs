@@ -47,14 +47,14 @@
     setVal: (value) ->
       @input.val(value)
 
-      @selector.find("li.#{@options.selectedClass}").removeClass(@options.selectedClass)
+      @selector.find("li.selected").removeClass('selected')
+      @selector.find('.active').removeClass('active')
 
       if value == null || value == undefined || value == ''
         @selected.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
-        @selector.find('.active').removeClass('active')
       else
         $item = @selector.find("li[data-item-value='#{value}']")
-        $item.addClass(@options.selectedClass)
+        $item.addClass('selected')
 
         label = $item.find('a').html()
 
@@ -62,12 +62,9 @@
         $tab_pane = $item.closest('.tab-pane')
 
         if $tab_pane.length
-          $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']")
-
-          unless ($tab.length && $tab.hasClass('active'))
-            @selector.find('.active').removeClass('active')
-            $tab.addClass('active')
-            $tab_pane.addClass('active')
+          $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
+          $tab.addClass('selected').addClass('active')
+          $tab_pane.addClass('active')
 
         @selected.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
 

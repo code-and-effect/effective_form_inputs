@@ -19,7 +19,7 @@
           - input.collection.each_with_index do |(group, _), index|
             - group_value = group.send(input.options[:group_method])
 
-            %li{class: ('active' if group_value == input.group_value)}
+            %li{class: ('selected active' if group_value == input.group_value) }
               %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
                 = group
 
