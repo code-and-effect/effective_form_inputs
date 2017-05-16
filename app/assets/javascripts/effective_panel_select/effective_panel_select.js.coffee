@@ -6,10 +6,11 @@
       placeholder: 'Please choose'
       invade: '.row'
 
-    panel: null     # Our root node. the .panel element
-    input: null     # The input[type=hidden] field where we keep the selected value
-    selected: null  # Contains either a %span.selection-placeholder, or a %span.selection-clear and %span.selection-label
-    selector: null  # Root node of the expanded container
+    panel: null       # Our root node. the .panel element
+    input: null       # The input[type=hidden] field where we keep the selected value
+    selected: null    # Contains either a %span.selection-placeholder, or a %span.selection-clear and %span.selection-label
+    selector: null    # Root node of the container
+    invading: false   # If we're currently invading the closest @options.invade selector
 
     constructor: (el, options) ->
       @panel = $(el)
@@ -20,12 +21,18 @@
       @options = $.extend({}, @defaults, options)
 
       @initEvents()
+      @initInvade()
       true
 
     initEvents: ->
       @panel.on 'click', '.selection', (event) => @toggle()
       @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
+
+    initInvade: ->
+      return if @options.invade == false || @options.invade == 'false'
+      @home = @panel.parent()
+      @away = $("<div class='col-xs-12 effective_panel_select'></div>")
 
     # Rest of these are commands
 
@@ -35,16 +42,35 @@
 
     expand: ->
       @panel.addClass('expanded')
-      return if @options.invade == false
+      @invade() if @options.invade
 
-      # target = @panel.closest(@options.invade)
-      # if target.length
-      #   @panel.detach
-      #   target.children().hide()
-      #   target.append(@panel)
+    invade: ->
+      target = @home.closest(@options.invade)
+      return unless target.length && !@invading
+
+      @panel.detach()
+      target.children().hide()
+      @away.append(@panel).show()
+      target.append(@away)
+
+      @invading = true
+
+    retreat: ->
+      target = @away.closest(@options.invade)
+      return unless target.length && @invading
+
+      @panel.detach()
+      target.children().show()
+      @away.hide()
+
+      hint = @home.children('p')
+      if hint.length then @panel.insertBefore(hint) else @home.append(@panel)
+
+      @invading = false
 
     collapse: ->
       @panel.removeClass('expanded')
+      @retreat() if @options.invade
 
     # Get / Set / Clear selection
     val: (args...) ->
