@@ -1,10 +1,13 @@
-.panel.panel-default
+.panel.panel-default.effective-panel-select
   .panel-body
 
     .selection{'data-effective-panel-select-toggle' => true}
       %span.selected
         %span.selection-clear{'data-effective-panel-select-clear' => true} x
-        #{input.option_label} and another thing that should be really long
+        - if input.option_label.present?
+          = input.option_label
+        - else
+          %span.selection-placeholder Please Choose
       %span.selection-arrow
         %b
 
