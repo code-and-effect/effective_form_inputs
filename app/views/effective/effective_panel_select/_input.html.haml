@@ -20,7 +20,7 @@
             - group_value = group.send(input.options[:group_method])
 
             %li{class: ('active selected' if group_value == input.group_value) }
-              %a{'data-toggle': 'tab', role: 'tab', 'aria-controls': "#{group_value.parameterize}-#{input.object_id}", href: "##{group_value.parameterize}-#{input.object_id}"}
+              %a{'data-toggle': 'tab', role: 'tab', href: "##{group_value.parameterize}"}
                 = group_label
                 %span.badge= items.length
       .col-sm-8
@@ -29,7 +29,7 @@
             - group_label = group.send(input.options[:group_label_method])
             - group_value = group.send(input.options[:group_method])
 
-            .tab-pane{id: "#{group_value.parameterize}-#{input.object_id}", class: ('active' if group_value == input.group_value) }
+            .tab-pane{id: group_value.parameterize, class: ('active' if group_value == input.group_value) }
               %p #{group_label}:
 
               %ul.nav.nav-pills.nav-stacked

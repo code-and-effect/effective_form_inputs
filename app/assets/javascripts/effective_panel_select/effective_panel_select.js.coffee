@@ -23,13 +23,32 @@
       @input = @panel.find("input[type='hidden']")
       @label = @panel.find('span.selected')
       @selector = @panel.children('.selector')
+      @tabList = @selector.find('ul.nav').first()
+      @tabContent = @selector.find('.tab-content').first()
 
       @options = $.extend({}, @defaults, options)
 
+      @initTabs()
       @initEvents()
       @initInvade()
       @initAjax()
       true
+
+    # So we need to assign unique IDs to all the group tabs so we can have multiple selectors per page
+    # This should also handle cocoon gem
+
+    initTabs: ->
+      unique = new Date().getTime()
+
+      @tabList.find("a[data-toggle='tab']").each (index, item) =>
+        item = $(item)
+        href = item.attr('href')
+        tab = @tabContent.find(href)
+
+        href = href + '-' + unique + index
+
+        item.attr('href', href)
+        tab.attr('id', href.substring(1))
 
     initEvents: ->
       @panel.on 'click', '.selection', (event) => @toggle()
@@ -45,7 +64,7 @@
       @away = $("<div class='col-xs-12 effective_panel_select'></div>")
 
     initAjax: ->
-      return unless @options.ajax && @options.ajax.url
+      return unless @options.ajax && @options.ajax.url.length
       @fetched = @selector.find('.fetched')
 
     # Rest of these are commands
@@ -119,7 +138,7 @@
     reset: ->
       value = @val()
 
-      @fetched.children().remove() if @fetched && @fetched.length && !@options.keepFetched
+      @fetched.children(':not(.top)').remove() if @fetched && @fetched.length && !@options.keepFetched
 
       @selector.find("li.selected").removeClass('selected')
       @selector.find('.active').removeClass('active')
