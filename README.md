@@ -490,6 +490,44 @@ $(document).on 'change', '.effective-panel-select', (event) ->
   console.log $(event.currentTarget).effectivePanelSelect('val')
 ```
 
+Ajax
+
+```javascript
+      = f.input :exercise_id, as: :effective_panel_select, required: false, label: false,
+        collection: exercise_collection,
+        grouped: true,
+        single_selected: true,
+        input_js: { placeholder: 'Choose an exercise', ajax: { url: exercise_path(':id'), target: '.exercise' } },
+        wrapper_html: { class: 'program_workouts_routine'}
+```
+
+or better,
+
+```javascript
+      = f.input :exercise_id, as: :effective_panel_select, required: false, label: false,
+        collection: exercise_collection,
+        grouped: true,
+        single_selected: true,
+        input_js: { placeholder: 'Choose an exercise', ajax: { url: exercise_path(':id') } },
+        wrapper_html: { class: 'program_workouts_routine'}
+```
+
+but in your controller
+
+```ruby
+  def show
+    @exercise = Exercise.find(params[:id])
+    @page_title = @exercise.to_s
+
+    authorize! :show, @exercise
+
+    if params[:effective_panel_select]
+      render layout: false
+    end
+
+  end
+```
+
 
 ## Effective Price
 

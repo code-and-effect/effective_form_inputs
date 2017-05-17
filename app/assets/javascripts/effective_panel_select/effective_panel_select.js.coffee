@@ -8,7 +8,8 @@
       collapseOnSelect: false
       resetOnCollapse: true
       ajax:
-        url: ''
+        url: ''       # /exercises/:id   The string ':id' will be replaced with the viewed item value
+        target: ''    # #container       The string to pass to load
 
     panel: null       # Our root node. the .panel element
     input: null       # The input[type=hidden] field where we keep the selected value
@@ -49,6 +50,7 @@
     # Rest of these are commands
 
     # Expand / Collapse
+    # $('.effective-panel-select').effectivePanelSelect('toggle')
     toggle: ->
       if @panel.hasClass('expanded') then @collapse() else @expand()
 
@@ -61,6 +63,7 @@
       @reset() if @options.resetOnCollapse
       @retreat() if @options.invade
 
+    # Invade the nearest '.row'
     invade: ->
       target = @home.closest(@options.invade)
       return unless target.length && !@invading
@@ -68,10 +71,12 @@
       @panel.detach()
       target.children().hide()
       @away.append(@panel).show()
+
       target.append(@away)
 
       @invading = true
 
+    # Reset to default position
     retreat: ->
       target = @away.closest(@options.invade)
       return unless target.length && @invading
@@ -89,6 +94,10 @@
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
 
+    title: ->
+      @label.find('a').clone().children().remove().end().text()
+
+    # Sets the input value, and the selected value text
     setVal: (value) ->
       @input.val(value)
 
@@ -105,6 +114,7 @@
       @panel.trigger 'change'
       true
 
+    # Syncs the tabs to the current value
     reset: ->
       value = @val()
 
@@ -124,17 +134,16 @@
 
     clear: -> @val(null)
 
-    # Ajax Stuff
+    # Ajax fetch and view page
     fetch: (value) ->
       return unless @options.ajax && @options.ajax.url
-      url = @options.ajax.url.replace(':id', value)
 
-      fetched = @fetched.children("div[data-fetch='#{url}']")
+      fetched = @fetched.children("div[data-fetch='#{value}']")
 
       if fetched.length == 0
-        fetched = $("<div data-fetch='#{url}'></div>")
+        fetched = $("<div data-fetch='#{value}'></div>")
 
-        fetched = fetched.load(url, (response, status, xhr) =>
+        fetched = fetched.load(@url(value), (response, status, xhr) =>
           fetched.append('<p>This item is unavailable (ajax error)</p>') if status == 'error'
         )
 
@@ -144,6 +153,19 @@
       @fetched.addClass('active').children(':not(.top)').hide()
       fetched.show()
       @fetched.children('.top').find('.fetched-select').data('item-value', value)
+
+    url: (value) ->
+      return unless @options.ajax && @options.ajax.url
+
+      url = @options.ajax.url.replace(':id', value)
+
+      # Add a data param
+      url = url + (if url.indexOf('?') == -1 then '?' else '&') + $.param(effective_panel_select: true)
+
+      # Add target
+      url = url + " #{@options.ajax.target}" if @options.ajax.target  # jQuery .load('/things/13 #thing')
+
+      url
 
   $.fn.extend effectivePanelSelect: (option, args...) ->
     retval = @each
