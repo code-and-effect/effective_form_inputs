@@ -2,7 +2,7 @@
   = hidden_field_tag(input.field_name, input.value)
 
   .selection
-    %span.selected
+    %span.selection-title
       - if input.option_label.present?
         %span.selection-clear x
         %span.selection-label= input.option_label
