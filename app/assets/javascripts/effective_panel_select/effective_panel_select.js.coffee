@@ -21,7 +21,7 @@
     constructor: (el, options) ->
       @panel = $(el)
       @input = @panel.find("input[type='hidden']")
-      @label = @panel.find('span.selected')
+      @label = @panel.find('.selection-title')
       @selector = @panel.children('.selector')
       @tabList = @selector.find('ul.nav').first()
       @tabContent = @selector.find('.tab-content').first()
@@ -75,13 +75,14 @@
       if @panel.hasClass('expanded') then @collapse() else @expand()
 
     expand: ->
-      @panel.addClass('expanded')
       @invade() if @options.invade
+      @selector.slideDown 'fast', => @panel.addClass('expanded')
 
     collapse: ->
-      @panel.removeClass('expanded')
-      @reset() if @options.resetOnCollapse
-      @retreat() if @options.invade
+      @selector.slideUp 'fast', =>
+        @panel.removeClass('expanded')
+        @reset() if @options.resetOnCollapse
+        @retreat() if @options.invade
 
     # Invade the nearest '.row'
     invade: ->
