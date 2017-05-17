@@ -43,7 +43,7 @@
       @tabList.find("a[data-toggle='tab']").each (index, item) =>
         item = $(item)
         href = item.attr('href')
-        tab = @tabContent.find(href)
+        tab = @tabContent.children(href)
 
         href = href + '-' + unique + index
 

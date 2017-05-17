@@ -14,7 +14,7 @@ module Inputs
       end
 
       def default_input_js
-        { placeholder: 'Please choose', invade: '.row', collapseOnSelect: true, resetOnCollapse: true }
+        { placeholder: 'Please choose', invade: '.row', collapseOnSelect: true, resetOnCollapse: true, showCount: false }
       end
 
       def default_input_html
@@ -31,6 +31,10 @@ module Inputs
 
       def ajax?
         return true if js_options[:ajax]
+      end
+
+      def show_count?
+        return true if js_options[:showCount]
       end
 
       # option_value           163

@@ -22,7 +22,8 @@
             %li{class: ('active selected' if group_value == input.group_value) }
               %a{'data-toggle': 'tab', role: 'tab', href: "##{group_value.parameterize}"}
                 = group_label
-                %span.badge= items.length
+                - if input.show_count?
+                  %span.badge= items.length
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
