@@ -14,11 +14,11 @@ module Inputs
       end
 
       def default_input_js
-        { placeholder: 'Please choose', collapseOnSelect: false, invade: '.row' }
+        { placeholder: 'Please choose', invade: '.row', collapseOnSelect: true, resetOnCollapse: true }
       end
 
       def default_input_html
-        { class: 'effective_panel_select', placeholder: 'Please choose' }
+        { class: 'effective_panel_select' }
       end
 
       def to_html
@@ -45,14 +45,17 @@ module Inputs
 
       # Exercise Name
       def option_label
+        return nil unless value.present?
         @option_label || (_initialize_group_and_option; @option_label)
       end
 
       def group_label
+        return nil unless value.present?
         @group_label || (_initialize_group_and_option; @group_label)
       end
 
       def group_value
+        return nil unless value.present?
         @group_value || (_initialize_group_and_option; @group_value)
       end
 

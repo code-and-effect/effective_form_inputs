@@ -5,8 +5,9 @@
     defaults:
       placeholder: 'Please choose'
       invade: '.row'
-      collapseOnSelect: false
+      collapseOnSelect: true
       resetOnCollapse: true
+      keepFetched: false    # Keep any fetched ajax pages in the dom. Otherwise they're freed on reset()
       ajax:
         url: ''       # /exercises/:id   The string ':id' will be replaced with the viewed item value
         target: ''    # #container       The string to pass to load
@@ -85,7 +86,7 @@
       target.children().show()
       @away.hide()
 
-      hint = @home.children('p')
+      hint = @home.children(':not(label)')
       if hint.length then @panel.insertBefore(hint) else @home.append(@panel)
 
       @invading = false
@@ -94,8 +95,8 @@
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
 
-    title: ->
-      @label.find('a').clone().children().remove().end().text()
+    title: (item) ->
+      (item || @label).find('a').clone().children().remove().end().text()
 
     # Sets the input value, and the selected value text
     setVal: (value) ->
@@ -105,8 +106,8 @@
         @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
         @reset()
       else
-        $item = @selector.find("li[data-item-value='#{value}']")
-        label = $item.find('a').clone().children().remove().end().text()
+        $item = @selector.find("li[data-item-value='#{value}']").first()
+        label = @title($item)
 
         @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
         if @options.collapseOnSelect then @collapse() else @reset()
@@ -117,6 +118,8 @@
     # Syncs the tabs to the current value
     reset: ->
       value = @val()
+
+      @fetched.children().remove() if @fetched && @fetched.length && !@options.keepFetched
 
       @selector.find("li.selected").removeClass('selected')
       @selector.find('.active').removeClass('active')
@@ -136,7 +139,7 @@
 
     # Ajax fetch and view page
     fetch: (value) ->
-      return unless @options.ajax && @options.ajax.url
+      return unless @options.ajax && @options.ajax.url.length
 
       fetched = @fetched.children("div[data-fetch='#{value}']")
 
@@ -155,7 +158,7 @@
       @fetched.children('.top').find('.fetched-select').data('item-value', value)
 
     url: (value) ->
-      return unless @options.ajax && @options.ajax.url
+      return unless @options.ajax && @options.ajax.url.length
 
       url = @options.ajax.url.replace(':id', value)
 
