@@ -485,7 +485,7 @@ validates :phone, effective_tel: true   # Enforces same format as above
 
 A totally new way to do grouped collection selects.
 
-Looks like a select field, but when clicked, instead of a popup there is a slideout tabbed panel.
+Looks like a select field, but when expanded, the usual popup is replaced with a slidedown tabbed panel.
 
 ### Installation
 
@@ -509,7 +509,7 @@ As a Rails Form Helper input:
 
 ```ruby
 = form_for @user do |f|
-  = f.effective_panel_select :category, categories_collection()
+  = f.effective_panel_select :category, categories_collection
 ```
 
 and as a SimpleForm input:
