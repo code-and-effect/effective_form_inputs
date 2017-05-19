@@ -787,6 +787,33 @@ $(document).on 'change', '.something', (event) ->
 There is currently no support for using AJAX to load remote data.  This feature is supported by the underlying select2 library and will be implemented here at a future point.
 
 
+## Effective Static Control
+
+A bootstrap3 Static control input
+
+Renders `<p class='form-control-static'>value</p>` with the appropriate SimpleForm wrappings.
+
+### Installation
+
+There are no installation steps required for this form input
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_static_control :member_id
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :member_id, :as => :effective_static_control
+```
+
+
 ## Effective Tel(ephone)
 
 This custom form input uses a jQuery maskedInput plugin from the following awesome project:
