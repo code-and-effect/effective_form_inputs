@@ -483,51 +483,152 @@ validates :phone, effective_tel: true   # Enforces same format as above
 
 ## Effective Panel Select
 
-A new way to do grouped collection selects.
+A totally new way to do grouped collection selects.
 
-```javascript
+Looks like a select field, but when clicked, instead of a popup there is a slideout tabbed panel.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_panel_select/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_panel_select/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_panel_select :category, categories_collection()
+```
+
+and as a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :category, as: :effective_panel_select, collection: categories_collection
+```
+
+### Collection
+
+The collection is the same as a grouped select collection:
+
+```ruby
+collection: {'Active' => Post.active, 'Past' => Post.past}
+collection: {'Active' => [['Post A', 1], ['Post B', 2]], 'Past' => [['Post C', 3], ['Post D', 4]]}
+```
+
+Each group, 'Active' and 'Past', will have its own tab.  And its options selectable inside it.
+
+### Options
+
+The default `input_js: options` used to initialize this form input are as follows:
+
+```ruby
+{
+  placeholder: 'Please choose',
+  invade: '.row',
+  collapseOnSelect: true,  # Close the panel when an item is selected
+  resetOnCollapse: true,   # Reset the panel to its selected value when collapsed
+  keepFetched: false       # Keep fetched pages instead of clearing them from the DOM on reset
+  showCount: false         # Show number of categories in each group on the tab pane
+}
+```
+
+and there are also options that control the collection behaviour:
+
+```ruby
+{
+  label_method: :to_s,
+  value_method: :to_s,
+  group_label_method: :first,
+  group_method: :second,
+  option_value_method: :first,
+  option_key_method: :second
+}
+
+### AJAX
+
+Initialize the input with ajax options to display inline each resource's show page.
+
+HTML is fetched from the server using `$.load`.
+
+Initialize your input as follows:
+
+```ruby
+= f.input :category_id, as: :effective_panel_select,
+  collection: category_collection,
+  input_js: { ajax: { url: category_path(':id') } }
+```
+
+Here the url would be `/categories/:id`. The string `:id` (including the :) will be replaced by the selected value.
+
+A controller action to handle this ajax request looks like:
+
+```ruby
+def show
+  @category = Category.find(params[:id])
+
+  # The effective panel select request appends effective_panel_select: true to the url.
+  if params[:effective_panel_select]
+    render layout: false
+  end
+end
+```
+
+Or, you could just render the entire normal show page and use `$.load` target.
+
+```ruby
+= f.input :category_id, as: :effective_panel_select,
+  collection: category_collection,
+  input_js: { ajax: { url: category_path(':id'), target: '#category' } }
+```
+
+By default, the fetched pages are cleared from the DOM when the panel is reset.
+
+You can change this behaviour with `resetOnCollapse` and `keepFetched`.
+
+### Invade
+
+By default, when expanded, the panel will invade -- that is `detach()` and `attach()` itself -- to its closest `$('.row')`.
+
+The invaded parent DOM node has its children hidden, and just the panel is displayed.
+
+Disable this behaviour by passing `invade: false` or tweak it with a different selector `invade: '.container'`.
+
+### Programatic access
+
+An event is fired when the panel's value changes:
+
+```coffeescript
 $(document).on 'change', '.effective-panel-select', (event) ->
   console.log $(event.currentTarget).effectivePanelSelect('val')
 ```
 
-Ajax
+and you can manually do the following:
 
 ```javascript
-      = f.input :exercise_id, as: :effective_panel_select, required: false, label: false,
-        collection: exercise_collection,
-        grouped: true,
-        single_selected: true,
-        input_js: { placeholder: 'Choose an exercise', ajax: { url: exercise_path(':id'), target: '.exercise' } },
-        wrapper_html: { class: 'program_workouts_routine'}
+$('.effective-panel-select').effectivePanelSelect('toggle')
+$('.effective-panel-select').effectivePanelSelect('expand')
+$('.effective-panel-select').effectivePanelSelect('collapse')
 ```
-
-or better,
 
 ```javascript
-      = f.input :exercise_id, as: :effective_panel_select, required: false, label: false,
-        collection: exercise_collection,
-        grouped: true,
-        single_selected: true,
-        input_js: { placeholder: 'Choose an exercise', ajax: { url: exercise_path(':id') } },
-        wrapper_html: { class: 'program_workouts_routine'}
+$('.effective-panel-select').effectivePanelSelect('val')
+$('.effective-panel-select').effectivePanelSelect('val', 123)  # setVal
+$('.effective-panel-select').effectivePanelSelect('title')
+$('.effective-panel-select').effectivePanelSelect('clear')
 ```
-
-but in your controller
-
-```ruby
-  def show
-    @exercise = Exercise.find(params[:id])
-    @page_title = @exercise.to_s
-
-    authorize! :show, @exercise
-
-    if params[:effective_panel_select]
-      render layout: false
-    end
-
-  end
-```
-
 
 ## Effective Price
 
