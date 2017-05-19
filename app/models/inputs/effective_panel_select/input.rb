@@ -37,27 +37,28 @@ module Inputs
         return true if js_options[:showCount]
       end
 
-      # option_value           163
-      # option_label           Kneeling Forearm Plank
-      # group_label            Planks
-      # group_value            Planks
+      # option_value           1
+      # option_label           Post A
+      # group_label            Active
 
       # 163
       def option_value
         value
       end
 
-      # Exercise Name
+      # Post A
       def option_label
         return nil unless value.present?
         @option_label || (_initialize_group_and_option; @option_label)
       end
 
+      # Active
       def group_label
         return nil unless value.present?
         @group_label || (_initialize_group_and_option; @group_label)
       end
 
+      # Active
       def group_value
         return nil unless value.present?
         @group_value || (_initialize_group_and_option; @group_value)
@@ -78,7 +79,7 @@ module Inputs
       end
 
       # This is a grouped polymorphic collection
-      # [["Clinics", [["Clinc 50", "Clinic_50"], ["Clinic 43", "Clinic_43"]]], ["Contacts", [["Contact 544", "Contact_544"]]]]
+      # [['Active', [['Post A', 1], ['Post B', 2]]], ['Past', [['Post C', 3], ['Post D', 4]]]
       def collection
         @collection ||= begin
           collection = options.delete(:collection) || []
