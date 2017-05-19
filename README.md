@@ -353,14 +353,15 @@ As a Rails Form Helper input:
 
 ```ruby
 = form_for @user do |f|
-  = f.effective_static_control :member_id
+  = f.effective_static_control :category
 ```
 
 As a SimpleForm input:
 
 ```ruby
 = simple_form_for @user do |f|
-  = f.input :member_id, :as => :effective_static_control
+  = f.input :category, as: :effective_static_control
+  = f.input :category, as: :effective_static_control, value: 'New Category'
 ```
 
 ### Options
