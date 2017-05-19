@@ -566,12 +566,11 @@ HTML is fetched from the server using `$.load`.
 Initialize your input as follows:
 
 ```ruby
-= f.input :category_id, as: :effective_panel_select,
-  collection: category_collection,
+= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
   input_js: { ajax: { url: category_path(':id') } }
 ```
 
-Here the url would be `/categories/:id`. The string `:id` (including the :) will be replaced by the selected value.
+Here the url should be `/categories/:id`. The string `:id` (including the :) will be replaced by the selected value.
 
 A controller action to handle this ajax request looks like:
 
@@ -579,22 +578,21 @@ A controller action to handle this ajax request looks like:
 def show
   @category = Category.find(params[:id])
 
-  # The effective panel select request appends effective_panel_select: true to the url.
+  # An effective panel select GET request will have effective_panel_select: true
   if params[:effective_panel_select]
     render layout: false
   end
 end
 ```
 
-Or, you could just render the entire normal show page and use `$.load` target.
+Or, you can render the normal show page, with layout, and use `$.load` target.
 
 ```ruby
-= f.input :category_id, as: :effective_panel_select,
-  collection: category_collection,
+= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
   input_js: { ajax: { url: category_path(':id'), target: '#category' } }
 ```
 
-By default, the fetched pages are cleared from the DOM when the panel is reset.
+By default, any fetched pages are `remove()` from the DOM when the panel is reset (on collapse).
 
 You can change this behaviour with `resetOnCollapse` and `keepFetched`.
 
