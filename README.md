@@ -71,6 +71,99 @@ $('input.effective_date_time_picker').datetimepicker
 Any options passed in this way will be used to initialize the underlying javascript libraries.
 
 
+## Effective CKEditor Text Area
+
+This custom form input replaces a standard textarea with a CKEditor html rich text area.
+
+It is based on the widely used:
+
+CKEditor (http://ckeditor.com/)
+
+and built ontop of
+
+effective_ckeditor (https://github.com/code-and-effect/effective_ckeditor/)
+
+### Installation
+
+You must first install [effective_ckeditor](https://github.com/code-and-effect/effective_ckeditor/)
+
+```ruby
+gem 'effective_ckeditor'
+```
+
+Depending on how often you're going to display this form input, you now have two options:
+
+- You can do nothing, and when this form input is displayed it will use javascript to load the ckeditor .js and .css file on $(ready).  It will make 2 additional requests, slowing down your page load by a moment.
+
+- Or, when you intend to use the input quite a bit, it's faster to add the effective_ckeditor resources to the asset pipeline.  However, it will increase the asset payload by around 200kb.
+
+To add it to the asset pipeline, put the following to your application.js:
+
+```ruby
+//= require effective_ckeditor
+```
+
+and in your application.css, add:
+
+```ruby
+*= require effective_ckeditor
+```
+
+There are no additional effective_ckeditor installation steps.
+
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_ckeditor_text_area/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @post do |f|
+  = f.effective_ckeditor_text_area :body
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @post do |f|
+  = f.input :body, :as => :effective_ckeditor_text_area
+```
+
+### Options
+
+You can specify the `toolbar` as `'full'` or `'simple'`:
+
+The full toolbar includes Image, oEmbed and Assets, wheras simple does not.
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'full'
+= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'simple'
+```
+
+You can specify the `height` and `width`:
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :height => '400px;', :width => '200px;'
+```
+
+And you can specify a `contentsCss` stylesheet:
+
+By default, this loads the `asset_path('application.css')` file, you can also specify `:bootstrap`, `false`, a string url, or an array of urls.
+
+When `:bootstrap`, this loads a CDN hosted bootstrap 3.3.7 stylesheet.
+
+```ruby
+= f.input :body, :as => :effective_ckeditor_text_area, :contentsCss => :bootstrap
+```
+
+
 ## Effective Date Time Picker
 
 This custom form input is based on the following awesome project:
@@ -272,7 +365,267 @@ As a SimpleForm input:
 
 ### Options
 
-There are no default options for this form input
+There are no default options for this form input.
+
+## Effective Panel Select
+
+A totally new way to do grouped collection selects.
+
+Looks like a select field, but when expanded, the usual popup is replaced with a slidedown tabbed panel.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_panel_select/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_panel_select/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_panel_select :category, categories_collection
+```
+
+and as a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :category, as: :effective_panel_select, collection: categories_collection
+```
+
+### Collection
+
+The collection is the same as a grouped select collection:
+
+```ruby
+collection: {'Active' => Post.active, 'Past' => Post.past}
+collection: {'Active' => [['Post A', 1], ['Post B', 2]], 'Past' => [['Post C', 3], ['Post D', 4]]}
+```
+
+Each group, 'Active' and 'Past', will have its own tab.  And its options selectable inside it.
+
+### Options
+
+The default `input_js: options` used to initialize this form input are as follows:
+
+```ruby
+{
+  placeholder: 'Please choose',
+  invade: '.row',
+  collapseOnSelect: true,  # Close the panel when an item is selected
+  resetOnCollapse: true,   # Reset the panel to its selected value when collapsed
+  keepFetched: false       # Keep fetched pages instead of clearing them from the DOM on reset
+  showCount: false         # Show number of categories in each group on the tab pane
+}
+```
+
+and there are also options that control the collection behaviour:
+
+```ruby
+{
+  label_method: :to_s,
+  value_method: :to_s,
+  group_label_method: :first,
+  group_method: :second,
+  option_value_method: :first,
+  option_key_method: :second
+}
+```
+
+### AJAX
+
+Initialize the input with ajax options to display inline each resource's show page.
+
+HTML is fetched from the server using `$.load`.
+
+Initialize your input as follows:
+
+```ruby
+= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
+  input_js: { ajax: { url: category_path(':id') } }
+```
+
+Here the url should be `/categories/:id`. The string `:id` (including the :) will be replaced by the selected value.
+
+A controller action to handle this ajax request looks like:
+
+```ruby
+def show
+  @category = Category.find(params[:id])
+
+  # An effective panel select GET request will have effective_panel_select: true
+  if params[:effective_panel_select]
+    render layout: false
+  end
+end
+```
+
+Or, you can render the normal show page, with layout, and use `$.load` target.
+
+```ruby
+= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
+  input_js: { ajax: { url: category_path(':id'), target: '#category' } }
+```
+
+By default, any fetched pages are `remove()` from the DOM when the panel is reset (on collapse).
+
+You can change this behaviour with `resetOnCollapse` and `keepFetched`.
+
+### Invade
+
+By default, when expanded, the panel will invade -- that is `detach()` and `attach()` itself -- to its closest `$('.row')`.
+
+The invaded parent DOM node has its children hidden, and just the panel is displayed.
+
+Disable this behaviour by passing `invade: false` or tweak it with a different selector `invade: '.container'`.
+
+### Programatic access
+
+An event is fired when the panel's value changes:
+
+```coffeescript
+$(document).on 'change', '.effective-panel-select', (event) ->
+  console.log $(event.currentTarget).effectivePanelSelect('val')
+```
+
+and you can manually do the following:
+
+```javascript
+$('.effective-panel-select').effectivePanelSelect('toggle')
+$('.effective-panel-select').effectivePanelSelect('expand')
+$('.effective-panel-select').effectivePanelSelect('collapse')
+```
+
+```javascript
+$('.effective-panel-select').effectivePanelSelect('val')
+$('.effective-panel-select').effectivePanelSelect('val', 123)  # setVal
+$('.effective-panel-select').effectivePanelSelect('title')
+$('.effective-panel-select').effectivePanelSelect('clear')
+```
+
+
+## Effective Price
+
+This custom form input uses no 3rd party jQuery plugins.
+
+It displays a currency formatted value `100.00` but posts the "price as integer" value of `10000` to the server.
+
+Think about this value as "the number of cents".
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_price/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @product do |f|
+  = f.effective_price :price
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @product do |f|
+  = f.input :price, :as => :effective_price
+```
+
+As a SimpleForm input without the input group (glyphicon-usd glyphicon)
+
+```ruby
+= simple_form_for @product do |f|
+  = f.input :price, :as => :effective_price, :input_group => false
+```
+
+### Options
+
+You can pass `include_blank: true` to allow `nil`.  By default `nil`s are convereted, displayed and submitted as `$0.00`.
+
+```ruby
+= f.input :price, :as => :effective_price, :include_blank => true
+```
+
+### Rails Helper
+
+This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
+
+
+## Effective Radio Buttons
+
+This custom form input adds image support to the SimpleForm radio buttons. It doesn't really work as a regular rails form helper.
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.css:
+
+```ruby
+*= require effective_radio_buttons/input
+```
+
+There is no javascript.
+
+### Bootstrap button group
+
+Pass `buttons: true` to the input options to render as a bootstrap button group.
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :buttons => true
+```
+
+### Inline
+
+Pass `inline: true` to the input options to render the radio buttons inline.
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :inline => true
+```
+
+### Images
+
+Pass `images: []` as an array of strings with the same length as the collection to render image buttons.
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :breakfast,
+    :as => :effective_radio_buttons,
+    :collection => ['eggs', 'toast', 'bacon'],
+    :images => [asset_path('eggs.png'), asset_path('toast.png'), asset_path('bacon.png')]
+```
 
 
 ## Effective Select
@@ -481,209 +834,6 @@ validates :phone, format: { with: /\A\(\d{3}\) \d{3}-\d{4}( x\d+)?\Z/ }
 validates :phone, effective_tel: true   # Enforces same format as above
 ```
 
-## Effective Panel Select
-
-A totally new way to do grouped collection selects.
-
-Looks like a select field, but when expanded, the usual popup is replaced with a slidedown tabbed panel.
-
-### Installation
-
-If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
-
-To install this form input individually, add the following to your application.js:
-
-```ruby
-//= require effective_panel_select/input
-```
-
-and add the following to your application.css:
-
-```ruby
-*= require effective_panel_select/input
-```
-
-### Usage
-
-As a Rails Form Helper input:
-
-```ruby
-= form_for @user do |f|
-  = f.effective_panel_select :category, categories_collection
-```
-
-and as a SimpleForm input:
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :category, as: :effective_panel_select, collection: categories_collection
-```
-
-### Collection
-
-The collection is the same as a grouped select collection:
-
-```ruby
-collection: {'Active' => Post.active, 'Past' => Post.past}
-collection: {'Active' => [['Post A', 1], ['Post B', 2]], 'Past' => [['Post C', 3], ['Post D', 4]]}
-```
-
-Each group, 'Active' and 'Past', will have its own tab.  And its options selectable inside it.
-
-### Options
-
-The default `input_js: options` used to initialize this form input are as follows:
-
-```ruby
-{
-  placeholder: 'Please choose',
-  invade: '.row',
-  collapseOnSelect: true,  # Close the panel when an item is selected
-  resetOnCollapse: true,   # Reset the panel to its selected value when collapsed
-  keepFetched: false       # Keep fetched pages instead of clearing them from the DOM on reset
-  showCount: false         # Show number of categories in each group on the tab pane
-}
-```
-
-and there are also options that control the collection behaviour:
-
-```ruby
-{
-  label_method: :to_s,
-  value_method: :to_s,
-  group_label_method: :first,
-  group_method: :second,
-  option_value_method: :first,
-  option_key_method: :second
-}
-
-### AJAX
-
-Initialize the input with ajax options to display inline each resource's show page.
-
-HTML is fetched from the server using `$.load`.
-
-Initialize your input as follows:
-
-```ruby
-= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
-  input_js: { ajax: { url: category_path(':id') } }
-```
-
-Here the url should be `/categories/:id`. The string `:id` (including the :) will be replaced by the selected value.
-
-A controller action to handle this ajax request looks like:
-
-```ruby
-def show
-  @category = Category.find(params[:id])
-
-  # An effective panel select GET request will have effective_panel_select: true
-  if params[:effective_panel_select]
-    render layout: false
-  end
-end
-```
-
-Or, you can render the normal show page, with layout, and use `$.load` target.
-
-```ruby
-= f.input :category_id, as: :effective_panel_select, collection: categories_collection,
-  input_js: { ajax: { url: category_path(':id'), target: '#category' } }
-```
-
-By default, any fetched pages are `remove()` from the DOM when the panel is reset (on collapse).
-
-You can change this behaviour with `resetOnCollapse` and `keepFetched`.
-
-### Invade
-
-By default, when expanded, the panel will invade -- that is `detach()` and `attach()` itself -- to its closest `$('.row')`.
-
-The invaded parent DOM node has its children hidden, and just the panel is displayed.
-
-Disable this behaviour by passing `invade: false` or tweak it with a different selector `invade: '.container'`.
-
-### Programatic access
-
-An event is fired when the panel's value changes:
-
-```coffeescript
-$(document).on 'change', '.effective-panel-select', (event) ->
-  console.log $(event.currentTarget).effectivePanelSelect('val')
-```
-
-and you can manually do the following:
-
-```javascript
-$('.effective-panel-select').effectivePanelSelect('toggle')
-$('.effective-panel-select').effectivePanelSelect('expand')
-$('.effective-panel-select').effectivePanelSelect('collapse')
-```
-
-```javascript
-$('.effective-panel-select').effectivePanelSelect('val')
-$('.effective-panel-select').effectivePanelSelect('val', 123)  # setVal
-$('.effective-panel-select').effectivePanelSelect('title')
-$('.effective-panel-select').effectivePanelSelect('clear')
-```
-
-## Effective Price
-
-This custom form input uses no 3rd party jQuery plugins.
-
-It displays a currency formatted value `100.00` but posts the "price as integer" value of `10000` to the server.
-
-Think about this value as "the number of cents".
-
-
-### Installation
-
-If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
-
-To install this form input individually, add the following to your application.js:
-
-```ruby
-//= require effective_price/input
-```
-
-### Usage
-
-As a Rails Form Helper input:
-
-```ruby
-= form_for @product do |f|
-  = f.effective_price :price
-```
-
-As a SimpleForm input:
-
-```ruby
-= simple_form_for @product do |f|
-  = f.input :price, :as => :effective_price
-```
-
-As a SimpleForm input without the input group (glyphicon-usd glyphicon)
-
-```ruby
-= simple_form_for @product do |f|
-  = f.input :price, :as => :effective_price, :input_group => false
-```
-
-### Options
-
-You can pass `include_blank: true` to allow `nil`.  By default `nil`s are convereted, displayed and submitted as `$0.00`.
-
-```ruby
-= f.input :price, :as => :effective_price, :include_blank => true
-```
-
-
-### Rails Helper
-
-This input also installs a rails view helper `price_to_currency` that takes a value like `10000` and displays it as `$100.00`
-
-
 ## Effective URL
 
 This custom form input enforces the url starts with http:// or https://
@@ -734,156 +884,6 @@ validates :website, effective_url: true   # Enforced same format as above
 
 You can pass `fontawesome: false` and `glyphicon: false` to tweak the automatic social icon display behaviour.
 
-
-## Effective CKEditor Text Area
-
-This custom form input replaces a standard textarea with a CKEditor html rich text area.
-
-It is based on the widely used:
-
-CKEditor (http://ckeditor.com/)
-
-and built ontop of
-
-effective_ckeditor (https://github.com/code-and-effect/effective_ckeditor/)
-
-### Installation
-
-You must first install [effective_ckeditor](https://github.com/code-and-effect/effective_ckeditor/)
-
-```ruby
-gem 'effective_ckeditor'
-```
-
-Depending on how often you're going to display this form input, you now have two options:
-
-- You can do nothing, and when this form input is displayed it will use javascript to load the ckeditor .js and .css file on $(ready).  It will make 2 additional requests, slowing down your page load by a moment.
-
-- Or, when you intend to use the input quite a bit, it's faster to add the effective_ckeditor resources to the asset pipeline.  However, it will increase the asset payload by around 200kb.
-
-To add it to the asset pipeline, put the following to your application.js:
-
-```ruby
-//= require effective_ckeditor
-```
-
-and in your application.css, add:
-
-```ruby
-*= require effective_ckeditor
-```
-
-There are no additional effective_ckeditor installation steps.
-
-
-If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
-
-To install this form input individually, add the following to your application.js:
-
-```ruby
-//= require effective_ckeditor_text_area/input
-```
-
-### Usage
-
-As a Rails Form Helper input:
-
-```ruby
-= form_for @post do |f|
-  = f.effective_ckeditor_text_area :body
-```
-
-As a SimpleForm input:
-
-```ruby
-= simple_form_for @post do |f|
-  = f.input :body, :as => :effective_ckeditor_text_area
-```
-
-### Options
-
-You can specify the `toolbar` as `'full'` or `'simple'`:
-
-The full toolbar includes Image, oEmbed and Assets, wheras simple does not.
-
-```ruby
-= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'full'
-= f.input :body, :as => :effective_ckeditor_text_area, :toolbar => 'simple'
-```
-
-You can specify the `height` and `width`:
-
-```ruby
-= f.input :body, :as => :effective_ckeditor_text_area, :height => '400px;', :width => '200px;'
-```
-
-And you can specify a `contentsCss` stylesheet:
-
-By default, this loads the `asset_path('application.css')` file, you can also specify `:bootstrap`, `false`, a string url, or an array of urls.
-
-When `:bootstrap`, this loads a CDN hosted bootstrap 3.3.7 stylesheet.
-
-```ruby
-= f.input :body, :as => :effective_ckeditor_text_area, :contentsCss => :bootstrap
-```
-
-
-## Effective Radio Buttons
-
-This custom form input adds image support to the SimpleForm radio buttons. It doesn't really work as a regular rails form helper.
-
-### Installation
-
-If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
-
-To install this form input individually, add the following to your application.css:
-
-```ruby
-*= require effective_radio_buttons/input
-```
-
-There is no javascript.
-
-### Bootstrap button group
-
-Pass `buttons: true` to the input options to render as a bootstrap button group.
-
-As a SimpleForm input:
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :breakfast,
-    :as => :effective_radio_buttons,
-    :collection => ['eggs', 'toast', 'bacon'],
-    :buttons => true
-```
-
-### Inline
-
-Pass `inline: true` to the input options to render the radio buttons inline.
-
-As a SimpleForm input:
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :breakfast,
-    :as => :effective_radio_buttons,
-    :collection => ['eggs', 'toast', 'bacon'],
-    :inline => true
-```
-
-### Images
-
-Pass `images: []` as an array of strings with the same length as the collection to render image buttons.
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :breakfast,
-    :as => :effective_radio_buttons,
-    :collection => ['eggs', 'toast', 'bacon'],
-    :images => [asset_path('eggs.png'), asset_path('toast.png'), asset_path('bacon.png')]
-```
-
 ## License
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
@@ -893,7 +893,6 @@ MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
 The authors of this gem are not associated with any of the awesome projects used by this gem.
 
 We are just extending these existing community projects for ease of use with Rails Form Helper and SimpleForm.
-
 
 ## Contributing
 
