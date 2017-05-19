@@ -1,0 +1,52 @@
+.panel.panel-default.effective-panel-select{'data-input-js-options' => input.js_options.to_json }
+  = hidden_field_tag(input.field_name, input.value)
+
+  .selection
+    %span.selection-title
+      - if input.option_label.present?
+        %span.selection-clear x
+        %span.selection-label= input.option_label
+      - else
+        %span.selection-placeholder Please Choose
+    %span.selection-arrow
+      %b
+
+  .selector
+    .row
+      .col-sm-4
+        %ul.nav.nav-pills.nav-stacked{role: 'tablist'}
+          - input.collection.each do |group, items|
+            - group_label = group.send(input.options[:group_label_method])
+            - group_value = group.send(input.options[:group_method])
+
+            %li{class: ('active selected' if group_value == input.group_value) }
+              %a{'data-toggle': 'tab', role: 'tab', href: "##{group_value.parameterize}"}
+                = group_label
+                - if input.show_count?
+                  %span.badge= items.length
+      .col-sm-8
+        .tab-content
+          - input.collection.each do |group, items|
+            - group_label = group.send(input.options[:group_label_method])
+            - group_value = group.send(input.options[:group_method])
+
+            .tab-pane{id: group_value.parameterize, class: ('active' if group_value == input.group_value) }
+              %p #{group_label}:
+
+              %ul.nav.nav-pills.nav-stacked
+                - Array(items).each do |item|
+                  - item_value = item.send(input.options[:option_key_method])
+
+                  %li{class: ('active selected' if item_value == input.value), 'data-item-value' => item_value}
+                    %a{href: '#'}
+                      = item.send(input.options[:option_value_method])
+                      - if input.ajax?
+                        %span.badge.pull-right{'data-fetch-item' => true} View
+
+          - if input.ajax?
+            .tab-pane.fetched
+              .top.row
+                .col-xs-6
+                  .btn.btn-default.fetched-clear Back
+                .col-xs-6.text-right
+                  .btn.btn-primary.fetched-select Select
