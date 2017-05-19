@@ -337,36 +337,6 @@ validates :email, effective_email: true   # Enforces same format as above
 
 There are no javascript options for this input.
 
-## Effective Static Control
-
-A bootstrap3 Static control input
-
-Renders `<p class='form-control-static'>value</p>` with the appropriate SimpleForm wrappings.
-
-### Installation
-
-There are no installation steps required for this form input
-
-### Usage
-
-As a Rails Form Helper input:
-
-```ruby
-= form_for @user do |f|
-  = f.effective_static_control :category
-```
-
-As a SimpleForm input:
-
-```ruby
-= simple_form_for @user do |f|
-  = f.input :category, as: :effective_static_control
-  = f.input :category, as: :effective_static_control, value: 'New Category'
-```
-
-### Options
-
-There are no default options for this form input.
 
 ## Effective Panel Select
 
@@ -790,7 +760,7 @@ There is currently no support for using AJAX to load remote data.  This feature 
 
 ## Effective Static Control
 
-A bootstrap3 Static control input
+A bootstrap3 Static control input.
 
 Renders `<p class='form-control-static'>value</p>` with the appropriate SimpleForm wrappings.
 
@@ -804,16 +774,20 @@ As a Rails Form Helper input:
 
 ```ruby
 = form_for @user do |f|
-  = f.effective_static_control :member_id
+  = f.effective_static_control :category
 ```
 
 As a SimpleForm input:
 
 ```ruby
 = simple_form_for @user do |f|
-  = f.input :member_id, :as => :effective_static_control
+  = f.input :category, as: :effective_static_control
+  = f.input :category, as: :effective_static_control
 ```
 
+### Options
+
+There are no default options for this form input.
 
 ## Effective Tel(ephone)
 
