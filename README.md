@@ -223,6 +223,25 @@ For a full list of options, please refer to:
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
 
+### Set Date
+
+Use the following JavaScript to programatically set the date:
+
+```javascript
+$('#start_at').data('DateTimePicker').date('2016-05-08')
+```
+
+### Disabled Dates
+
+Provide a String, Date, or Range to set the disabled dates.
+
+```ruby
+:input_js => { disabledDates: '2020-01-01' }
+:input_js => { disabledDates: Time.zone.now }
+:input_js => { disabledDates: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month }
+:input_js => { disabledDates: [Time.zone.now, Time.zone.now + 1.day] }
+```
+
 ## Effective Date Picker
 
 This custom form input is based on the following awesome project:
@@ -281,13 +300,6 @@ For a full list of options, please refer to:
 
 http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
-### Set Date
-
-Use the following JavaScript to programatically set the date:
-
-```javascript
-$('#start_at').data('DateTimePicker').date('2016-05-08')
-```
 
 ## Effective Email
 

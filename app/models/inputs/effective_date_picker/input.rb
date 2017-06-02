@@ -29,6 +29,27 @@ module Inputs
         val.kind_of?(Time) ? val.to_date : val
       end
 
+      def js_options
+        opts = super
+        return opts unless opts[:disabledDates]
+
+        opts[:disabledDates] = Array(opts[:disabledDates]).map do |obj|
+          if obj.respond_to?(:strftime)
+            obj.strftime('%F')
+          elsif obj.kind_of?(Range) && obj.first.respond_to?(:strftime)
+            [obj.first].tap do |dates|
+              dates << (dates.last + 1.day) until (dates.last + 1.day) > obj.last
+            end
+          elsif obj.kind_of?(String)
+            obj
+          else
+            raise 'unexpected disabledDates data. Expected a DateTime, Range of DateTimes or String'
+          end
+        end.flatten.compact
+
+        opts
+      end
+
       def html_options
         super.tap do |html_options|
           if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
