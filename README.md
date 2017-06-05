@@ -242,6 +242,18 @@ Provide a String, Date, or Range to set the disabled dates.
 :input_js => { disabledDates: [Time.zone.now, Time.zone.now + 1.day] }
 ```
 
+### Linked Dates
+
+By default, when two matching effective date time picker inputs named `start_*` and `end_*` are present on the same form, they will become linked.
+
+The end date selector will have its date <= start_date disabled.
+
+To disable this behaviour, call with `date_linked: false`.
+
+```ruby
+  = f.input :end_at, :as => :effective_date_time_picker, :date_linked => false
+```
+
 ## Effective Date Picker
 
 This custom form input is based on the following awesome project:
@@ -296,9 +308,7 @@ The default `:input_js => options` used to initialize this form input are as fol
 :input_js => {:format => 'YYYY-MM-DD'}
 ```
 
-For a full list of options, please refer to:
-
-http://eonasdan.github.io/bootstrap-datetimepicker/Options/
+For more options, please see Effective Date Time Picker above
 
 
 ## Effective Email

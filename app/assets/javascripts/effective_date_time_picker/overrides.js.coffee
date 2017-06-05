@@ -4,7 +4,10 @@ $(document).on 'dp.hide', (event) -> $(event.target).trigger('keyup')
 $(document).on 'dp.change', (event) ->
   $obj = $(event.target)
 
+  return if $obj.hasClass('not-date-linked')
   return if $obj.attr('name').indexOf('[start_') == -1
 
   end_date = $obj.attr('name').replace('[start_', '[end_')
-  try $obj.closest('form').find("input[name='#{end_date}'].initialized").data('DateTimePicker').minDate(event.date)
+  $end_date = $obj.closest('form').find("input[name='#{end_date}'].initialized:not(.not-date-linked)")
+
+  try $end_date.data('DateTimePicker').minDate(event.date)

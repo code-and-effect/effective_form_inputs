@@ -50,6 +50,10 @@ module Inputs
           if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
             html_options[:pattern] = '\d{4}(-\d{2})?-(\d{2})?( \d+)?(:\d{2})?' # Match default pattern defined above
           end
+
+          if options[:date_linked] == false
+            html_options[:class] << 'not-date-linked'
+          end
         end
       end
     end
