@@ -37,14 +37,10 @@ module Inputs
             end
           elsif obj.kind_of?(String)
             obj
-          elsif obj.nil?
-            # Nothing
           else
             raise 'unexpected disabledDates data. Expected a DateTime, Range of DateTimes or String'
           end
         end.flatten.compact
-
-        opts.delete(:disabledDates) unless opts[:disabledDates].present?
 
         opts
       end

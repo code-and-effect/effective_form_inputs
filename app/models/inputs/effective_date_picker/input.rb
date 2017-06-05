@@ -47,8 +47,6 @@ module Inputs
           end
         end.flatten.compact
 
-        opts.delete(:disabledDates) unless opts[:disabledDates].present?
-
         opts
       end
 
