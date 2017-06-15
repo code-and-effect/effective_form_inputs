@@ -15,11 +15,10 @@
     .tab-content { padding-top: 0px; }
   }
 
-  .tab-pane.fetched { padding-right: 15px; }
+  .tab-pane.fetched { padding: 15px 15px 15px 0; }
 
   .selection {
     width: 100%;
-    font-family: "Open Sans", sans-serif;
     font-size: 14px;
     cursor: pointer;
   }
