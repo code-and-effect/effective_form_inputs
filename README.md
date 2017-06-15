@@ -384,7 +384,7 @@ and add the following to your application.css:
 
 ### Usage
 
-As a Rails Form Helper input:
+As a Rails form helper input:
 
 ```ruby
 = form_for @user do |f|
@@ -396,6 +396,12 @@ and as a SimpleForm input:
 ```ruby
 = simple_form_for @user do |f|
   = f.input :category, as: :effective_panel_select, collection: categories_collection
+```
+
+By default, the left sidebar uses the .nav-stacked class. You can customize this by passing the sidebar_class option to the helper input:
+
+```ruby
+= f.input :category, as: :effective_panel_select, collection: categories_collection, sidebar_class: 'your-custom-class'
 ```
 
 ### Collection
