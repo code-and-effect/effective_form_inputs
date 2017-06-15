@@ -10,7 +10,7 @@ module Inputs
       delegate :grouped_collection_select, :hidden_field_tag, :text_field_tag, :render, to: :@template
 
       def default_options
-        { label_method: :to_s, value_method: :to_s, group_label_method: :first, group_method: :second, option_value_method: :first, option_key_method: :second }
+        { label_method: :to_s, value_method: :to_s, group_label_method: :first, group_method: :second, option_value_method: :first, option_key_method: :second, sidebar_class: 'nav-stacked' }
       end
 
       def default_input_js
@@ -101,7 +101,6 @@ module Inputs
           collection.respond_to?(:call) ? collection.call : collection.to_a
         end
       end
-
     end
   end
 end

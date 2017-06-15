@@ -7,14 +7,15 @@
         %span.selection-clear x
         %span.selection-label= input.option_label
       - else
-        %span.selection-placeholder Please Choose
+        %span.selection-placeholder Please choose
+
     %span.selection-arrow
       %b
 
   .selector
     .row
       .col-sm-4
-        %ul.nav.nav-pills.nav-stacked{role: 'tablist'}
+        %ul.nav.nav-pills{role: 'tablist', class: input.options[:sidebar_class]}
           - input.collection.each do |group, items|
             - group_label = group.send(input.options[:group_label_method])
             - group_value = group.send(input.options[:group_method])
@@ -24,6 +25,7 @@
                 = group_label
                 - if input.show_count?
                   %span.badge= items.length
+
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
@@ -31,8 +33,6 @@
             - group_value = group.send(input.options[:group_method])
 
             .tab-pane{id: group_value.parameterize, class: ('active' if group_value == input.group_value) }
-              %p #{group_label}:
-
               %ul.nav.nav-pills.nav-stacked
                 - Array(items).each do |item|
                   - item_value = item.send(input.options[:option_key_method])
@@ -45,7 +45,7 @@
 
           - if input.ajax?
             .tab-pane.fetched
-              .top.row
+              .row.effective-panel-select-actions
                 .col-xs-6
                   .btn.btn-default.fetched-clear Back
                 .col-xs-6.text-right
