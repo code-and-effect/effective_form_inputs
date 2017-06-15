@@ -748,6 +748,14 @@ Call with `single_selected: true` to ensure only the first selected option tag w
 
 This can be useful when displaying multiple options with an identical value.
 
+### Clear value
+
+It's a bit tricky to clear the selected value
+
+```coffeescript
+$('select').val('').trigger('change.select2')
+```
+
 ### Working with dynamic options
 
 The following information applies to `effective_select` only, and is not part of the standard select2 API.
