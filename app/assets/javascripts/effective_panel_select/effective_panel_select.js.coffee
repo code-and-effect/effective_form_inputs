@@ -139,7 +139,7 @@
     reset: ->
       value = @val()
 
-      @fetched.children(':not(.top)').remove() if @fetched && @fetched.length && !@options.keepFetched
+      @fetched.children(':not(.effective-panel-select-actions)').remove() if @fetched && @fetched.length && !@options.keepFetched
 
       @selector.find("li.selected").removeClass('selected')
       @selector.find('.active').removeClass('active')
@@ -173,9 +173,9 @@
         @fetched.append(fetched)
 
       @fetched.parent().find('.active').removeClass('active')
-      @fetched.addClass('active').children(':not(.top)').hide()
+      @fetched.addClass('active').children(':not(.effective-panel-select-actions)').hide()
       fetched.show()
-      @fetched.children('.top').find('.fetched-select').data('item-value', value)
+      @fetched.children('.effective-panel-select-actions').find('.fetched-select').data('item-value', value)
 
     url: (value) ->
       return unless @options.ajax && @options.ajax.url.length
