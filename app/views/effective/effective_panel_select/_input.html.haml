@@ -39,7 +39,7 @@
 
                   %li{class: ('active selected' if item_value == input.value), 'data-item-value' => item_value}
                     %a{href: '#'}
-                      = item.send(input.options[:option_value_method])
+                      = item.send(input.options[:option_value_method]).html_safe
                       - if input.ajax?
                         %span.badge.pull-right{'data-fetch-item' => true} View
 
