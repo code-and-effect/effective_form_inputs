@@ -5,7 +5,7 @@
     %span.selection-title
       - if input.option_label.present?
         %span.selection-clear x
-        %span.selection-label= input.option_label
+        %span.selection-label= input.option_label.html_safe
       - else
         %span.selection-placeholder Please choose
 
