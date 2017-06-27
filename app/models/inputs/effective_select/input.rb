@@ -4,7 +4,7 @@ module Inputs
       delegate :collection_select, :grouped_collection_select, :hidden_field, :to => :@template
 
       def default_options
-        {label_method: :to_s, value_method: :to_s, group_label_method: :first, group_method: :last, option_value_method: :first, option_key_method: :second }
+        { label_method: :to_s, value_method: :to_s, group_label_method: :first, group_method: :last, option_value_method: :first, option_key_method: :second }
       end
 
       def default_input_js
@@ -51,6 +51,11 @@ module Inputs
             raise "Grouped collection expecting a Hash {'Posts' => Post.all, 'Events' => Event.all} or a Hash {'Posts' => [['Post A', 1], ['Post B', 2]], 'Events' => [['Event A', 1], ['Event B', 2]]}"
           end
 
+          if grouped && !options[:polymorphic] && collection[0][1].kind_of?(ActiveRecord::Relation)
+            options[:option_value_method] = :to_s if options[:option_value_method] == default_options[:option_value_method]
+            options[:option_key_method] = :id if options[:option_key_method] == default_options[:option_key_method]
+          end
+
           if grouped
             collection.each_with_index do |(name, group), index|
               collection[index][1] = group.respond_to?(:call) ? group.call : group.to_a
@@ -79,7 +84,7 @@ module Inputs
 
         collection.each_with_index do |obj, index|
           if obj.kind_of?(ActiveRecord::Base)
-            collection[index] = [obj.public_send(options[:label_method]), "#{obj.class.model_name}_#{obj.to_param}"]
+            collection[index] = [obj.public_send(options[:label_method]), "#{obj.class.model_name}_#{obj.id}"]
           end
         end
       end
@@ -93,7 +98,7 @@ module Inputs
       end
 
       def polymorphic_value(obj)
-        "#{obj.class.model_name}_#{obj.to_param}" if obj.present?
+        "#{obj.class.model_name}_#{obj.id}" if obj.present?
       end
 
       def polymorphic_type_value
@@ -101,7 +106,7 @@ module Inputs
       end
 
       def polymorphic_id_value
-        value.try(:to_param)
+        value.try(:id)
       end
 
       def options
