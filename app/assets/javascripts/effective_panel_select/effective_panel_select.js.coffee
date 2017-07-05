@@ -55,13 +55,13 @@
         tab.attr('id', href.substring(1))
 
     initEvents: ->
-      @panel.on 'click', '.selection', (event) => @toggle()
+      @panel.on 'click', '.selection', (event) => @toggle() and true
       @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
       @panel.on 'click', '[data-fetch-item]', (event) => @fetch($(event.currentTarget).closest('[data-item-value]').data('item-value')) and false
       @panel.on 'click', '.fetched-clear', (event) => @reset() and false
       @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
-      @panel.on 'keyup', '.search-value', (event) => @search($(event.currentTarget).val())
+      @panel.on 'keyup', '.search-value', (event) => @search($(event.currentTarget).val()) and true
       @panel.on 'keydown', (event) => @searchVal.focus() and true
 
     initInvade: ->
@@ -176,14 +176,11 @@
         if tabPaneExcluded
           @tabList.find("a[href='##{$tabPane.attr('id')}']").parent('li').addClass('excluded')
 
-      # Activate the first tab if there are results but we can't see them
-      if results.length > 0 && @tabList.find('li.active:not(.excluded)').length == 0
-        @activateTab(results[0])
-
-      if results.length == 0
-        @searchResults.html('')
-      else
+      if results.length > 0 && @options.showSearch
         @searchResults.html("#{results.length} result#{if results.length > 1 then 's' else ''} for '#{value}'")
+        @activateTab(results[0]) if @tabList.find('li.active:not(.excluded)').length == 0 # activate first tab if no tab is displayed
+      else
+        @searchResults.html('')
 
       results
 
