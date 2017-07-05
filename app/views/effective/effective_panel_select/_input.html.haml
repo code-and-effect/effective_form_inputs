@@ -17,19 +17,17 @@
       .col-sm-4
         %ul.nav.nav-pills{role: 'tablist', class: input.options[:sidebar_class]}
           - input.collection.each do |group, items|
-            - group_label = group.send(input.options[:group_label_method])
             - group_value = group.send(input.options[:group_method])
 
             %li{class: ('active selected' if group_value == input.group_value) }
               %a{'data-toggle': 'tab', role: 'tab', href: "##{group_value.parameterize}"}
-                = group_label
+                = group.send(input.options[:group_label_method]).html_safe
                 - if input.show_count?
                   %span.badge= items.length
 
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
-            - group_label = group.send(input.options[:group_label_method])
             - group_value = group.send(input.options[:group_method])
 
             .tab-pane{id: group_value.parameterize, class: ('active' if group_value == input.group_value) }

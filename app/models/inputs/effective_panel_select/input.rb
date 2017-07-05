@@ -75,7 +75,6 @@ module Inputs
             end
           end
         end
-
       end
 
       # This is a grouped polymorphic collection
