@@ -88,6 +88,7 @@
       @selector.slideUp 'fast', =>
         @panel.removeClass('expanded')
         @reset() if @options.resetOnCollapse
+        @search('') if @options.resetOnCollapse
         @retreat() if @options.invade
 
     # Invade the nearest '.row'
@@ -117,12 +118,12 @@
 
       @invading = false
 
+    title: (item) ->
+      (item || @label).find('a').clone().children().remove().end().text()
+
     # Get / Set / Clear selection
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
-
-    title: (item) ->
-      (item || @label).find('a').clone().children().remove().end().text()
 
     # Sets the input value, and the selected value text
     setVal: (value) ->
@@ -142,29 +143,52 @@
       true
 
     search: (value) ->
-      value = value.toLowerCase()
+      # Set html input value, incase this is called from api
+      @searchVal.val(value) unless @searchVal.val() == value
 
-      @selector.find('li.selected').removeClass('selected')
-      @selector.find('.active').removeClass('active')
+      # Reset existing search
       @selector.find('.excluded').removeClass('excluded')
+
+      value = "#{value}".toLowerCase()
+      results = []
+
+      return results if value == ''
 
       @tabContent.children(':not(.fetched)').each (_, tabPane) =>
         $tabPane = $(tabPane)
-        excluded = true
+        tabPaneExcluded = true
 
-        $tabPane.find('li').each (index, item) =>
+        $tabPane.find('li').each (_, item) =>
           $item = $(item)
 
           if $item.text().toLowerCase().indexOf(value) > -1
-            excluded = false
+            results.push($item.data('item-value'))
+            tabPaneExcluded = false
           else
             $item.addClass('excluded')
 
           true
 
-        if excluded
-          $tab = @selector.find("a[href='##{$tabPane.attr('id')}']").parent('li')
-          $tab.addClass('excluded')
+        if tabPaneExcluded
+          @tabList.find("a[href='##{$tabPane.attr('id')}']").parent('li').addClass('excluded')
+
+      # Activate the first tab if there are results but we can't see them
+      if results.length > 0 && @tabList.find('li.active:not(.excluded)').length == 0
+        @activateTab(results[0])
+
+      results
+
+    activateTab: (value) ->
+      $item = @tabContent.find("li[data-item-value='#{value}']")
+      return false unless $item.length > 0
+
+      @selector.find('.active').removeClass('active')
+
+      $tab_pane = $item.closest('.tab-pane')
+      $tab = @tabList.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
+
+      $tab_pane.addClass('active')
+      $tab.addClass('active')
 
     # Syncs the tabs to the current value
     reset: ->
@@ -175,11 +199,8 @@
       @selector.find('li.selected').removeClass('selected')
       @selector.find('.active').removeClass('active')
 
-      #@selector.find('.excluded').removeClass('excluded')
-      #@searchVal.val('')
-
       if (value == null || value == undefined || value == '') == false
-        $item = @selector.find("li[data-item-value='#{value}']")
+        $item = @tabContent.find("li[data-item-value='#{value}']")
         $item.addClass('selected').addClass('active')
 
         $tab_pane = $item.closest('.tab-pane')
@@ -189,7 +210,10 @@
           $tab.addClass('selected').addClass('active')
           $tab_pane.addClass('active')
 
-    clear: -> @val(null)
+    clear: ->
+        @val(null)
+        @search('')
+        false
 
     # Ajax fetch and view page
     fetch: (value) ->
