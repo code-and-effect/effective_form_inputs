@@ -62,6 +62,7 @@
       @panel.on 'click', '.fetched-clear', (event) => @reset() and false
       @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
       @panel.on 'keyup', '.search-value', (event) => @search($(event.currentTarget).val())
+      @panel.on 'keydown', (event) => @searchVal.focus() and true
 
     initInvade: ->
       return if @options.invade == false || @options.invade == 'false'
@@ -131,7 +132,7 @@
       @input.val(value)
 
       if value == null || value == undefined || value == ''
-        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @label.html("<span class='selection-clear'>x</span> <span class='selection-placeholder'>#{@options.placeholder}</span>")
         @reset()
       else
         $item = @tabContent.find("li[data-item-value='#{value}']").first()
@@ -221,6 +222,7 @@
     clear: ->
         @val(null)
         @search('')
+        @searchVal.focus()
         false
 
     # Ajax fetch and view page
