@@ -187,7 +187,7 @@
       results
 
     activateTab: (value) ->
-      $item = @tabContent.find("li[data-item-value='#{value}']")
+      $item = @tabContent.find("li[data-item-value='#{value}']").first()
       return false unless $item.length > 0
 
       @selector.find('.active').removeClass('active')
@@ -208,7 +208,7 @@
       @selector.find('.active').removeClass('active')
 
       if (value == null || value == undefined || value == '') == false
-        $item = @tabContent.find("li[data-item-value='#{value}']")
+        $item = @tabContent.find("li[data-item-value='#{value}']").first()
         $item.addClass('selected').addClass('active')
 
         $tab_pane = $item.closest('.tab-pane')
