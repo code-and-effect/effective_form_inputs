@@ -7,7 +7,8 @@
       invade: '.row'
       collapseOnSelect: true
       resetOnCollapse: true
-      keepFetched: false    # Keep any fetched ajax pages in the dom. Otherwise they're freed on reset()
+      keepFetched: false    # Keep any fetched ajax pages in the dom. Otherwise they're removed on reset()
+      showSearch: true
       ajax:
         url: ''       # /exercises/:id   The string ':id' will be replaced with the viewed item value
         target: ''    # #container       The string to pass to load
@@ -32,6 +33,7 @@
       @initEvents()
       @initInvade()
       @initAjax()
+      @reset()
       true
 
     # So we need to assign unique IDs to all the group tabs so we can have multiple selectors per page
@@ -141,7 +143,7 @@
 
       @fetched.children(':not(.effective-panel-select-actions)').remove() if @fetched && @fetched.length && !@options.keepFetched
 
-      @selector.find("li.selected").removeClass('selected')
+      @selector.find('li.selected').removeClass('selected')
       @selector.find('.active').removeClass('active')
 
       if (value == null || value == undefined || value == '') == false
@@ -208,4 +210,4 @@
 
 $(document).on 'click', (event) ->
   if !$(event.target).closest('.effective-panel-select').length
-    $('.effective-panel-select.initialized').effectivePanelSelect('collapse')
+    $('.effective-panel-select.initialized.expanded').effectivePanelSelect('collapse')

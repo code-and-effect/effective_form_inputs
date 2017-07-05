@@ -12,15 +12,20 @@
     %span.selection-arrow
       %b
 
+  - if input.show_search?
+    .search
+      .row
+        .col-sm-4
+          %input{type: 'search', tabindex: 0, autocomplete: :off, autocorrect: :off, autocapitalization: :off, spellcheck: false, role: 'textbox'}
+        .col-sm-8
+
   .selector
     .row
       .col-sm-4
         %ul.nav.nav-pills{role: 'tablist', class: input.options[:sidebar_class]}
           - input.collection.each do |group, items|
-            - group_value = group.send(input.options[:group_method])
-
-            %li{class: ('active selected' if group_value == input.group_value) }
-              %a{'data-toggle': 'tab', role: 'tab', href: "##{group_value.parameterize}"}
+            %li
+              %a{'data-toggle': 'tab', role: 'tab', href: "##{group.send(input.options[:group_method]).parameterize}"}
                 = group.send(input.options[:group_label_method]).html_safe
                 - if input.show_count?
                   %span.badge= items.length
@@ -28,14 +33,10 @@
       .col-sm-8
         .tab-content
           - input.collection.each do |group, items|
-            - group_value = group.send(input.options[:group_method])
-
-            .tab-pane{id: group_value.parameterize, class: ('active' if group_value == input.group_value) }
+            .tab-pane{id: group.send(input.options[:group_method]).parameterize}
               %ul.nav.nav-pills.nav-stacked
                 - Array(items).each do |item|
-                  - item_value = item.send(input.options[:option_key_method])
-
-                  %li{class: ('active selected' if item_value == input.value), 'data-item-value' => item_value}
+                  %li{'data-item-value' => item.send(input.options[:option_key_method])}
                     %a{href: '#'}
                       = item.send(input.options[:option_value_method]).html_safe
                       - if input.ajax?
