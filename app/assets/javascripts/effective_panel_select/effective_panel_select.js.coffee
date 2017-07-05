@@ -24,6 +24,7 @@
       @input = @panel.find("input[type='hidden']")
       @label = @panel.find('.selection-title')
       @selector = @panel.children('.selector')
+      @searchVal = @panel.children('.search').find('.search-value')
       @tabList = @selector.find('ul.nav').first()
       @tabContent = @selector.find('.tab-content').first()
 
@@ -59,6 +60,7 @@
       @panel.on 'click', '[data-fetch-item]', (event) => @fetch($(event.currentTarget).closest('[data-item-value]').data('item-value')) and false
       @panel.on 'click', '.fetched-clear', (event) => @reset() and false
       @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
+      @panel.on 'keyup', '.search-value', (event) => @search($(event.currentTarget).val())
 
     initInvade: ->
       return if @options.invade == false || @options.invade == 'false'
@@ -78,7 +80,9 @@
 
     expand: ->
       @invade() if @options.invade
-      @selector.slideDown 'fast', => @panel.addClass('expanded')
+      @selector.slideDown 'fast', =>
+        @panel.addClass('expanded')
+        @searchVal.focus()
 
     collapse: ->
       @selector.slideUp 'fast', =>
@@ -137,6 +141,31 @@
       @panel.trigger 'change'
       true
 
+    search: (value) ->
+      value = value.toLowerCase()
+
+      @selector.find('li.selected').removeClass('selected')
+      @selector.find('.active').removeClass('active')
+      @selector.find('.excluded').removeClass('excluded')
+
+      @tabContent.children(':not(.fetched)').each (_, tabPane) =>
+        $tabPane = $(tabPane)
+        excluded = true
+
+        $tabPane.find('li').each (index, item) =>
+          $item = $(item)
+
+          if $item.text().toLowerCase().indexOf(value) > -1
+            excluded = false
+          else
+            $item.addClass('excluded')
+
+          true
+
+        if excluded
+          $tab = @selector.find("a[href='##{$tabPane.attr('id')}']").parent('li')
+          $tab.addClass('excluded')
+
     # Syncs the tabs to the current value
     reset: ->
       value = @val()
@@ -145,6 +174,9 @@
 
       @selector.find('li.selected').removeClass('selected')
       @selector.find('.active').removeClass('active')
+
+      #@selector.find('.excluded').removeClass('excluded')
+      #@searchVal.val('')
 
       if (value == null || value == undefined || value == '') == false
         $item = @selector.find("li[data-item-value='#{value}']")
