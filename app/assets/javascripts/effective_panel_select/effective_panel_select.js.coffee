@@ -25,6 +25,7 @@
       @label = @panel.find('.selection-title')
       @selector = @panel.children('.selector')
       @searchVal = @panel.children('.search').find('.search-value')
+      @searchResults = @panel.children('.search').find('.search-results')
       @tabList = @selector.find('ul.nav').first()
       @tabContent = @selector.find('.tab-content').first()
 
@@ -133,7 +134,7 @@
         @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
         @reset()
       else
-        $item = @selector.find("li[data-item-value='#{value}']").first()
+        $item = @tabContent.find("li[data-item-value='#{value}']").first()
         label = @title($item)
 
         @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
@@ -152,7 +153,9 @@
       value = "#{value}".toLowerCase()
       results = []
 
-      return results if value == ''
+      if value == ''
+        @searchResults.html('')
+        return results
 
       @tabContent.children(':not(.fetched)').each (_, tabPane) =>
         $tabPane = $(tabPane)
@@ -175,6 +178,11 @@
       # Activate the first tab if there are results but we can't see them
       if results.length > 0 && @tabList.find('li.active:not(.excluded)').length == 0
         @activateTab(results[0])
+
+      if results.length == 0
+        @searchResults.html('')
+      else
+        @searchResults.html("#{results.length} result#{if results.length > 1 then 's' else ''} for '#{value}'")
 
       results
 
@@ -206,7 +214,7 @@
         $tab_pane = $item.closest('.tab-pane')
 
         if $tab_pane.length
-          $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
+          $tab = @tabList.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
           $tab.addClass('selected').addClass('active')
           $tab_pane.addClass('active')
 
