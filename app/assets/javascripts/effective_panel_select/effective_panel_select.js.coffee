@@ -7,7 +7,8 @@
       invade: '.row'
       collapseOnSelect: true
       resetOnCollapse: true
-      keepFetched: false    # Keep any fetched ajax pages in the dom. Otherwise they're freed on reset()
+      keepFetched: false    # Keep any fetched ajax pages in the dom. Otherwise they're removed on reset()
+      showSearch: true
       ajax:
         url: ''       # /exercises/:id   The string ':id' will be replaced with the viewed item value
         target: ''    # #container       The string to pass to load
@@ -23,6 +24,8 @@
       @input = @panel.find("input[type='hidden']")
       @label = @panel.find('.selection-title')
       @selector = @panel.children('.selector')
+      @searchVal = @panel.children('.search').find('.search-value')
+      @searchResults = @panel.children('.search').find('.search-results')
       @tabList = @selector.find('ul.nav').first()
       @tabContent = @selector.find('.tab-content').first()
 
@@ -32,6 +35,7 @@
       @initEvents()
       @initInvade()
       @initAjax()
+      @reset()
       true
 
     # So we need to assign unique IDs to all the group tabs so we can have multiple selectors per page
@@ -51,12 +55,14 @@
         tab.attr('id', href.substring(1))
 
     initEvents: ->
-      @panel.on 'click', '.selection', (event) => @toggle()
+      @panel.on 'click', '.selection', (event) => @toggle() and true
       @panel.on 'click', '.selection-clear', (event) => @clear() and false
       @panel.on 'click', '[data-item-value]', (event) => @val($(event.currentTarget).data('item-value')) and false
       @panel.on 'click', '[data-fetch-item]', (event) => @fetch($(event.currentTarget).closest('[data-item-value]').data('item-value')) and false
       @panel.on 'click', '.fetched-clear', (event) => @reset() and false
       @panel.on 'click', '.fetched-select', (event) => @setVal($(event.currentTarget).data('item-value')) and false
+      @panel.on 'keyup', '.search-value', (event) => @search($(event.currentTarget).val()) and true
+      @panel.on 'keydown', (event) => @searchVal.focus() and true
 
     initInvade: ->
       return if @options.invade == false || @options.invade == 'false'
@@ -76,12 +82,15 @@
 
     expand: ->
       @invade() if @options.invade
-      @selector.slideDown 'fast', => @panel.addClass('expanded')
+      @selector.slideDown 'fast', =>
+        @panel.addClass('expanded')
+        @searchVal.focus()
 
     collapse: ->
       @selector.slideUp 'fast', =>
         @panel.removeClass('expanded')
         @reset() if @options.resetOnCollapse
+        @search('') if @options.resetOnCollapse
         @retreat() if @options.invade
 
     # Invade the nearest '.row'
@@ -111,22 +120,22 @@
 
       @invading = false
 
+    title: (item) ->
+      (item || @label).find('a').clone().children().remove().end().text()
+
     # Get / Set / Clear selection
     val: (args...) ->
       if args.length == 0 then @input.val() else @setVal(args[0])
-
-    title: (item) ->
-      (item || @label).find('a').clone().children().remove().end().text()
 
     # Sets the input value, and the selected value text
     setVal: (value) ->
       @input.val(value)
 
       if value == null || value == undefined || value == ''
-        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @label.html("<span class='selection-clear'>x</span> <span class='selection-placeholder'>#{@options.placeholder}</span>")
         @reset()
       else
-        $item = @selector.find("li[data-item-value='#{value}']").first()
+        $item = @tabContent.find("li[data-item-value='#{value}']").first()
         label = @title($item)
 
         @label.html("<span class='selection-clear'>x</span> <span class='selection-label'>#{label}</span>")
@@ -135,27 +144,83 @@
       @panel.trigger 'change'
       true
 
+    search: (value) ->
+      # Set html input value, incase this is called from api
+      @searchVal.val(value) unless @searchVal.val() == value
+
+      # Reset existing search
+      @selector.find('.excluded').removeClass('excluded')
+
+      value = "#{value}".toLowerCase()
+      results = []
+
+      if value == ''
+        @searchResults.html('')
+        return results
+
+      @tabContent.children(':not(.fetched)').each (_, tabPane) =>
+        $tabPane = $(tabPane)
+        tabPaneExcluded = true
+
+        $tabPane.find('li').each (_, item) =>
+          $item = $(item)
+
+          if $item.text().toLowerCase().indexOf(value) > -1
+            results.push($item.data('item-value'))
+            tabPaneExcluded = false
+          else
+            $item.addClass('excluded')
+
+          true
+
+        if tabPaneExcluded
+          @tabList.find("a[href='##{$tabPane.attr('id')}']").parent('li').addClass('excluded')
+
+      if results.length > 0 && @options.showSearch
+        @searchResults.html("#{results.length} result#{if results.length > 1 then 's' else ''} for '#{value}'")
+        @activateTab(results[0]) if @tabList.find('li.active:not(.excluded)').length == 0 # activate first tab if no tab is displayed
+      else
+        @searchResults.html('')
+
+      results
+
+    activateTab: (value) ->
+      $item = @tabContent.find("li[data-item-value='#{value}']").first()
+      return false unless $item.length > 0
+
+      @selector.find('.active').removeClass('active')
+
+      $tab_pane = $item.closest('.tab-pane')
+      $tab = @tabList.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
+
+      $tab_pane.addClass('active')
+      $tab.addClass('active')
+
     # Syncs the tabs to the current value
     reset: ->
       value = @val()
 
       @fetched.children(':not(.effective-panel-select-actions)').remove() if @fetched && @fetched.length && !@options.keepFetched
 
-      @selector.find("li.selected").removeClass('selected')
+      @selector.find('li.selected').removeClass('selected')
       @selector.find('.active').removeClass('active')
 
       if (value == null || value == undefined || value == '') == false
-        $item = @selector.find("li[data-item-value='#{value}']")
+        $item = @tabContent.find("li[data-item-value='#{value}']").first()
         $item.addClass('selected').addClass('active')
 
         $tab_pane = $item.closest('.tab-pane')
 
         if $tab_pane.length
-          $tab = @selector.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
+          $tab = @tabList.find("a[href='##{$tab_pane.attr('id')}']").parent('li')
           $tab.addClass('selected').addClass('active')
           $tab_pane.addClass('active')
 
-    clear: -> @val(null)
+    clear: ->
+        @val(null)
+        @search('')
+        @searchVal.focus()
+        false
 
     # Ajax fetch and view page
     fetch: (value) ->
@@ -208,4 +273,4 @@
 
 $(document).on 'click', (event) ->
   if !$(event.target).closest('.effective-panel-select').length
-    $('.effective-panel-select.initialized').effectivePanelSelect('collapse')
+    $('.effective-panel-select.initialized.expanded').effectivePanelSelect('collapse')
