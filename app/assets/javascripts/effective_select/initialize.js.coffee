@@ -1,9 +1,20 @@
 # https://select2.github.io/examples.html
 
+formatWithGlyphicon = (data, container) ->
+  if data.element && data.element.className
+    $("<span><i class='glyphicon #{data.element.className}'></i> #{data.text}</span>")
+  else
+    data.text
+
 initialize = ->
   $('select.effective_select:not(.initialized)').each (i, element) ->
     element = $(element)
     options = element.data('input-js-options') || {}
+
+    switch options['template']
+      when 'glyphicon'
+        options['templateResult'] = formatWithGlyphicon
+        options['templateSelection'] = formatWithGlyphicon
 
     $select = element.addClass('initialized').select2(options)
 

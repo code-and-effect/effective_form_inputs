@@ -153,6 +153,7 @@ module Inputs
           js_options[:allowClear] = (options[:multiple] != true)
           js_options[:tags] = (options[:tags] == true)
           js_options[:tokenSeparators] = nil if options[:tags] != true
+          js_options[:template] = options[:template] if options[:template].present?
 
           # select2 doesn't support adding css classes to its input, so we support it through the
           # js_options[:containerClass] and js_options[:dropdownClass] methods

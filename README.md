@@ -748,6 +748,13 @@ To add a css class to the select2 container or dropdown:
 :dropdownClass => 'custom-dropdown-class'
 ```
 
+to display a glyphicon infront of each option value:
+
+```ruby
+:template => :glyphicon, :collection => User.all.map { |user| [user.to_s, user.to_param, { class: 'glyphicon-flag' }] }
+```
+
+
 ### Additional
 
 Call with `single_selected: true` to ensure only the first selected option tag will be `<option selected="selected">`.
