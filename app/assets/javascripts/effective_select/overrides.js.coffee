@@ -41,4 +41,7 @@ $(document).on 'select2:reinitialize', (event) ->
   $select.data('select2').$container.addClass(options['containerClass']) if options['containerClass']
   $select.data('select2').$dropdown.addClass(options['dropdownClass']) if options['dropdownClass']
 
+  $select.trigger('change')
+  true
+
 
