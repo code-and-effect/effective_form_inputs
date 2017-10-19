@@ -7,7 +7,7 @@
         %span.selection-clear x
         %span.selection-label= input.option_label.html_safe
       - else
-        %span.selection-placeholder Please choose
+        %span.selection-placeholder= input.js_options[:placeholder]
 
     %span.selection-arrow
       %b

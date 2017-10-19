@@ -132,7 +132,7 @@
       @input.val(value)
 
       if value == null || value == undefined || value == ''
-        @label.html("<span class='selection-clear'>x</span> <span class='selection-placeholder'>#{@options.placeholder}</span>")
+        @label.html("<span class='selection-placeholder'>#{@options.placeholder}</span>")
         @reset()
       else
         $item = @tabContent.find("li[data-item-value='#{value}']").first()
