@@ -254,6 +254,15 @@ To disable this behaviour, call with `date_linked: false`.
   = f.input :end_at, :as => :effective_date_time_picker, :date_linked => false
 ```
 
+### Events
+
+The date picker library doesn't trigger a regular `change`.  Instead you must watch for the `dp.change` event.
+
+More info is available here:
+
+http://eonasdan.github.io/bootstrap-datetimepicker/Events/
+
+
 ## Effective Date Picker
 
 This custom form input is based on the following awesome project:
@@ -878,6 +887,63 @@ You should add a server side validation to enforce the default "(123) 555-1234" 
 validates :phone, format: { with: /\A\(\d{3}\) \d{3}-\d{4}( x\d+)?\Z/ }
 validates :phone, effective_tel: true   # Enforces same format as above
 ```
+
+
+## Effective Time Picker
+
+This custom form input is based on the following awesome project:
+
+Bootstrap 3 Datepicker (https://github.com/Eonasdan/bootstrap-datetimepicker)
+
+
+### Installation
+
+If you've already installed the 'All Form Inputs' assets (see above), there are no additional installation steps.
+
+To install this form input individually, add the following to your application.js:
+
+```ruby
+//= require effective_time_picker/input
+```
+
+and add the following to your application.css:
+
+```ruby
+*= require effective_time_picker/input
+```
+
+### Usage
+
+As a Rails Form Helper input:
+
+```ruby
+= form_for @user do |f|
+  = f.effective_time_picker :started_at
+```
+
+As a SimpleForm input:
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :started_at, :as => :effective_time_picker
+```
+
+As a SimpleForm input without the input group (time glyphicon)
+
+```ruby
+= simple_form_for @user do |f|
+  = f.input :started_at, :as => :effective_time_picker, :input_group => false
+```
+
+### Options
+
+The default `:input_js => options` used to initialize this form input are as follows:
+
+```ruby
+:input_js => {:format => ''%H:%M''}
+```
+
+For more options, please see Effective Date Time Picker above
 
 ## Effective URL
 

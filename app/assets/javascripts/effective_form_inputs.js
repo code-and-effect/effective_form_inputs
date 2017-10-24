@@ -5,4 +5,5 @@
 //= require ./effective_price/input
 //= require ./effective_select/input
 //= require ./effective_tel/input
+//= require ./effective_time_picker/input
 //= require ./effective_url/input

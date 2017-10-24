@@ -73,16 +73,16 @@ module Effective
     private
 
     # I'm passed something...I don't know what it is, but it needs to be an Array
-    def arrayize_html_class_key(something)
-      case something
+    def arrayize_html_class_key(value)
+      case value
       when Hash
-        arrayize_html_class_key(something[:class])
+        arrayize_html_class_key(value[:class])
       when Array
-        something.compact.map(&:to_s)
+        value.compact.map(&:to_s)
       when String
-        something.split(' ')
+        value.split(' ')
       when Symbol
-        [something.to_s]
+        [value.to_s]
       else
         []
       end

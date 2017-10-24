@@ -37,5 +37,14 @@ module Effective
     def effective_tel(method, options_tag = nil, options = {}, html_options = {})
       Inputs::EffectiveTel::Input.new(@object, @object_name, @template, method, options, html_options).to_html
     end
+
+    def effective_time_picker(method, options = {})
+      Inputs::EffectiveTimePicker::Input.new(@object, @object_name, @template, method, options, options).to_html
+    end
+
+    def effective_url(method, options_tag = nil, options = {}, html_options = {})
+      Inputs::EffectiveUrl::Input.new(@object, @object_name, @template, method, options, html_options).to_html
+    end
+
   end
 end
