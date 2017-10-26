@@ -151,7 +151,7 @@ module Inputs
       def js_options
         @effective_select_js_options ||= super().tap do |js_options|
           js_options[:allowClear] = (options[:multiple] != true)
-          js_options[:tags] = (options[:tags] == true)
+          js_options[:tags] = (options[:tags] == true) unless js_options.key?(:tags)
           js_options[:tokenSeparators] = nil if options[:tags] != true
           js_options[:template] = options[:template] if options[:template].present?
 

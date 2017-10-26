@@ -35,6 +35,10 @@ module Inputs
             html_options[:pattern] = '\d{2}:\d{2}' # Match default pattern defined above
           end
 
+          if options[:date_linked] == false
+            html_options[:class] << 'not-date-linked'
+          end
+
         end
       end
     end

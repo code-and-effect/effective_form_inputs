@@ -6,6 +6,7 @@ initialize = ->
     options = element.data('input-js-options') || {}
 
     element.addClass('initialized').datetimepicker(options)
+    element.trigger('dp.end_date_initialized') if (element.attr('name') || '').indexOf('[end_') != -1
 
 $ -> initialize()
 $(document).on 'page:change', -> initialize()
