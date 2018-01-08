@@ -1,5 +1,5 @@
-initialize = ->
-  $inputs = $('textarea.effective_ckeditor_text_area:not(.initialized)')
+initialize = (target) ->
+  $inputs = $(target || document).find('textarea.effective_ckeditor_text_area:not(.initialized)')
   setupCkeditor($inputs)
 
   $inputs.each (i, element) ->
@@ -93,5 +93,7 @@ $(document).on 'page:change', -> initialize()
 $(document).on 'turbolinks:load', -> initialize()
 $(document).on 'turbolinks:render', -> initialize()
 $(document).on 'cocoon:after-insert', -> initialize()
+$(document).on 'effective-form-inputs:initialize', (event) -> initialize(event.currentTarget)
+
 $(document).on 'turbolinks:before-cache', ->
   CKEDITOR.instances[name].destroy() for name, _ of CKEDITOR.instances if CKEDITOR?

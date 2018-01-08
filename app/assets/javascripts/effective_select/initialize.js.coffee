@@ -6,8 +6,8 @@ formatWithGlyphicon = (data, container) ->
   else
     data.text
 
-initialize = ->
-  $('select.effective_select:not(.initialized)').each (i, element) ->
+initialize = (target) ->
+  $(target || document).find('select.effective_select:not(.initialized)').each (i, element) ->
     element = $(element)
     options = element.data('input-js-options') || {}
 
@@ -28,12 +28,13 @@ $ -> initialize()
 $(document).on 'page:change', -> initialize()
 $(document).on 'turbolinks:load', -> initialize()
 $(document).on 'turbolinks:render', -> initialize()
+$(document).on 'cocoon:after-insert', -> initialize()
+$(document).on 'effective-form-inputs:initialize', (event) -> initialize(event.currentTarget)
 
 $(document).on 'turbolinks:before-render', ->
-  $input = $('select.effective_select.initialized')
-  $input.select2('destroy') if $input.data('select2')
-
-$(document).on 'cocoon:after-insert', -> initialize()
+  $('select.effective_select.initialized').each (i, element) ->
+    $input = $(element)
+    $input.select2('destroy') if $input.data('select2')
 
 # If we're working with a polymorphic select, split out the ID and assign the hidden _type and _id fields
 $(document).on 'change', "select.effective_select.polymorphic", (event) ->

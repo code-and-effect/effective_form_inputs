@@ -1,7 +1,7 @@
 # http://eonasdan.github.io/bootstrap-datetimepicker/Options/
 
-initialize = ->
-  $('input.effective_date_time_picker:not(.initialized)').each (i, element) ->
+initialize = (target) ->
+  $(target || document).find('input.effective_date_time_picker:not(.initialized)').each (i, element) ->
     element = $(element)
     options = element.data('input-js-options') || {}
 
@@ -13,5 +13,9 @@ $(document).on 'page:change', -> initialize()
 $(document).on 'turbolinks:load', -> initialize()
 $(document).on 'turbolinks:render', -> initialize()
 $(document).on 'cocoon:after-insert', -> initialize()
+$(document).on 'effective-form-inputs:initialize', (event) -> initialize(event.currentTarget)
+
 $(document).on 'turbolinks:before-cache', ->
-  $('input.effective_date_time_picker.initialized').datetimepicker('destroy')
+  $('input.effective_date_time_picker.initialized').each (i, element) ->
+    $input = $(element)
+    $input.datetimepicker('destroy') if $input.data('datetimepicker')
