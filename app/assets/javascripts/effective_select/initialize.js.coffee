@@ -43,3 +43,9 @@ $(document).on 'change', "select.effective_select.polymorphic", (event) ->
 
   $select.siblings("input[type='hidden'][name$='_type]']").val(value.split('_')[0] || '')
   $select.siblings("input[type='hidden'][name$='_id]']").val(value.split('_')[1] || '')
+
+# Fixes https://github.com/select2/select2/issues/3106
+$(document).on 'select2:select', 'select', (event) ->
+  $el = $(event.params.data.element).detach()
+  $(this).append($el).trigger('change')
+
