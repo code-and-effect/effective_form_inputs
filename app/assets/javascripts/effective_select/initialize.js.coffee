@@ -46,6 +46,10 @@ $(document).on 'change', "select.effective_select.polymorphic", (event) ->
 
 # Fixes https://github.com/select2/select2/issues/3106
 $(document).on 'select2:select', 'select', (event) ->
-  $el = $(event.params.data.element).detach()
-  $(this).append($el).trigger('change')
+  $el = $(event.params.data.element)
+
+  if $el.closest('select').hasClass('tags-input')
+    $(this).append($el.detach()).trigger('change')
+
+  true
 

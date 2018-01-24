@@ -145,6 +145,7 @@ module Inputs
           html_options[:class] << 'polymorphic' if options[:polymorphic]
           html_options[:class] << 'grouped' if options[:grouped]
           html_options[:class] << 'hide-disabled' if options[:hide_disabled]
+          html_options[:class] << 'tags-input' if options[:tags]
         end
       end
 
