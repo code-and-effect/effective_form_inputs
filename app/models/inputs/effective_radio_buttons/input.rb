@@ -37,6 +37,7 @@ module Inputs
 
         if options[:item_wrapper_tag]
           active = (builder.object.send(options[:value_method]).to_s == value.to_s)
+          #active ||= (builder.object.send(options[:value_method]).to_s == Array(value).first.to_s)
 
           content_tag(options[:item_wrapper_tag], item,
             class: [
@@ -79,7 +80,7 @@ module Inputs
       end
 
       def value
-        options[:checked] || super
+        Array(options[:checked] || super).first
       end
 
       def options

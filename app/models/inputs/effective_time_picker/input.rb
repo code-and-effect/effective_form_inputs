@@ -4,7 +4,7 @@ module Inputs
       delegate :content_tag, :text_field_tag, :to => :@template
 
       def default_input_js
-        {format: 'HH:mm', showClear: true}
+        { format: 'HH:mm', showClear: true, useCurrent: 'hour' }
       end
 
       def default_input_html
