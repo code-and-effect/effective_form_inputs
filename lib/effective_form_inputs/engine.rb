@@ -12,16 +12,6 @@ module EffectiveFormInputs
       end
     end
 
-    # Include Helpers to base application
-    initializer 'effective_form_inputs.action_controller' do |app|
-      Rails.application.config.to_prepare do
-        ActiveSupport.on_load :action_controller do
-          helper EffectiveFormInputsHelper
-          helper EffectiveBootstrap3Helper
-        end
-      end
-    end
-
     initializer 'effective_form_inputs.check_for_effective_bootstrap' do |app|
       Rails.application.config.to_prepare do
         if defined?(EffectiveBootstrap)
