@@ -51,8 +51,8 @@ module EffectiveBootstrap3Helper
     end
   end
 
-  def tab(label, controls = nil, &block)
-    controls ||= label.to_s.parameterize.gsub('_', '-')
+  def tab(label, options = {}, &block)
+    controls = options.delete(:controls) || label.to_s.parameterize.gsub('_', '-')
     controls = controls[1..-1] if controls[0] == '#'
 
     active = (@_tab_active == :first || @_tab_active == label)
@@ -66,7 +66,8 @@ module EffectiveBootstrap3Helper
         end
       end
     else # Inserting the content into the tab itself
-      content_tag(:div, id: controls, class: "tab-pane#{' active' if active}", role: 'tabpanel') do
+      classes = ['tab-pane', ('active' if active), options[:class].presence].compact.join(' ')
+      content_tag(:div, id: controls, class: classes, role: 'tabpanel') do
         yield
       end
     end
