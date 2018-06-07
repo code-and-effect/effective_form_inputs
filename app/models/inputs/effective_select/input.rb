@@ -56,6 +56,18 @@ module Inputs
             options[:option_key_method] = :id if options[:option_key_method] == default_options[:option_key_method]
           end
 
+          if grouped && !options[:polymorphic]
+            if collection[0][1].kind_of?(ActiveRecord::Relation)
+              options[:option_value_method] = :to_s if options[:option_value_method] == default_options[:option_value_method]
+              options[:option_key_method] = :id if options[:option_key_method] == default_options[:option_key_method]
+            end
+
+            if collection[0][1].kind_of?(Array) && !collection[0][1][0].kind_of?(Array)
+              options[:option_value_method] = :to_s if options[:option_value_method] == default_options[:option_value_method]
+              options[:option_key_method] = :to_s if options[:option_key_method] == default_options[:option_key_method]
+            end
+          end
+
           if grouped
             collection.each_with_index do |(name, group), index|
               collection[index][1] = group.respond_to?(:call) ? group.call : group.to_a
