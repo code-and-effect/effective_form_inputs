@@ -4,7 +4,7 @@ module Inputs
       delegate :content_tag, :text_field_tag, :to => :@template
 
       def default_input_js
-        { format: 'HH:mm', showClear: true, useCurrent: 'hour' }
+        { format: 'LT', showClear: false, useCurrent: 'hour' }
       end
 
       def default_input_html
@@ -32,7 +32,7 @@ module Inputs
       def html_options
         super.tap do |html_options|
           if js_options[:format] == default_input_js[:format] # Unless someone changed from the default
-            html_options[:pattern] = '\d{2}:\d{2}' # Match default pattern defined above
+            html_options[:pattern] = '\d\d?:\d{2} \D{2}' # Match default pattern defined above
           end
 
           if options[:date_linked] == false
