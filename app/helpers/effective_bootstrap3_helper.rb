@@ -104,18 +104,25 @@ module EffectiveBootstrap3Helper
   end
 
   def glyphicon_tag(icon, options = {})
-    if icon.to_s.start_with?('glyphicon-')
-      content_tag(:span, '', {class: "glyphicon #{icon}"}.merge(options))
-    else
-      content_tag(:span, '', {class: "glyphicon glyphicon-#{icon}"}.merge(options))
+    icon = icon.to_s.sub('glyphicon-', '')
+
+    icon = case icon
+    when 'destroy' then 'trash'
+    when 'show' then 'eye-open'
+    when 'settings' then 'cog'
+    when 'approve' then 'ok'
+    when 'decline' then 'remove'
+    else icon
     end
+
+    content_tag(:span, '', {class: "glyphicon glyphicon-#{icon}"}.merge(options))
   end
 
+
   def glyphicon_to(icon, path, options = {})
-    content_tag(:a, options.merge(href: path)) do
-      glyphicon_tag(icon)
-    end
+    content_tag(:a, glyphicon_tag(icon), options.merge(href: path))
   end
+
   alias_method :bootstrap_icon_to, :glyphicon_to
   alias_method :glyph_icon_to, :glyphicon_to
 
