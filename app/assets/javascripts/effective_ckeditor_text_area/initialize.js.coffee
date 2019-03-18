@@ -63,12 +63,15 @@ initCkeditor = (textarea) ->
     filebrowserBrowseUrl: '/effective/assets'
     filebrowserImageBrowseUrl: '/effective/assets?only=images'
     toolbar_full: [
-      { name: 'definedstyles', items: ['Format'] },
       { name: 'html', items: ['ShowBlocks'] },
       { name: 'justify', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']}
-      { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+      { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
       { name: 'insert', items: ['Link', 'Table', '-', 'Image', 'oembed', 'EffectiveAssets'] },
       { name: 'lists', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
+      '/'
+      { name: 'definedstyles', items: ['Format'] },
+      { name: 'styles', items: ['Styles', 'RemoveFormat'] },
+      { name: 'colors', items: ['TextColor', 'BGColor'] }
     ],
     toolbar_simple: [
       { name: 'definedstyles', items: ['Format'] },
