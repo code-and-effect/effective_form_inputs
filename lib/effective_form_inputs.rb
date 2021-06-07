@@ -2,18 +2,5 @@ require 'effective_form_inputs/engine'
 require 'effective_form_inputs/version'
 require 'effective_form_inputs/form_builder_inputs'
 
-require 'effective_form_inputs/inputs/effective_ckeditor_text_area_input'
-require 'effective_form_inputs/inputs/effective_date_picker_input'
-require 'effective_form_inputs/inputs/effective_date_time_picker_input'
-require 'effective_form_inputs/inputs/effective_email_input'
-require 'effective_form_inputs/inputs/effective_panel_select_input'
-require 'effective_form_inputs/inputs/effective_price_input'
-require 'effective_form_inputs/inputs/effective_radio_buttons_input'
-require 'effective_form_inputs/inputs/effective_select_input'
-require 'effective_form_inputs/inputs/effective_static_control_input'
-require 'effective_form_inputs/inputs/effective_tel_input'
-require 'effective_form_inputs/inputs/effective_time_picker_input'
-require 'effective_form_inputs/inputs/effective_url_input'
-
 module EffectiveFormInputs
 end
